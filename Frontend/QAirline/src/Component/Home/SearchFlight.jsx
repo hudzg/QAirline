@@ -17,6 +17,7 @@ import Grid from "@mui/material/Grid2";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs/AdapterDayjs";
 import dayjs from "dayjs";
+import FlightIcon from "@mui/icons-material/Flight";
 
 const airports = [
   { label: "Hà Nội" },
@@ -29,11 +30,14 @@ const SearchFlight = () => {
     e.preventDefault();
   };
   return (
-    <Paper elevation={4} className="p-5 w-[50vw] m-auto mb-5">
-      <h1 className="text-2xl">Tìm chuyến bay</h1>
+    <Paper elevation={4} className="p-10 w-[60vw] m-auto mb-5">
+      <div className="text-2xl space-x-2 flex items-center">
+        <FlightIcon fontSize="large" />
+        <h1>Tìm kiếm chuyến bay</h1>
+      </div>
       <form onSubmit={handleSubmit} className="mt-5">
         <Grid container spacing={2} className="mb-5">
-          <Grid size={12}>
+          <Grid size={{ lg: 12, xs: 12 }}>
             <FormControl>
               <RadioGroup
                 row
@@ -54,7 +58,7 @@ const SearchFlight = () => {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid size={6}>
+          <Grid size={{ lg: 6, xs: 12 }}>
             <Autocomplete
               fullWidth
               disablePortal
@@ -65,7 +69,7 @@ const SearchFlight = () => {
               )}
             />
           </Grid>
-          <Grid size={6}>
+          <Grid size={{ lg: 6, xs: 12 }}>
             <Autocomplete
               fullWidth
               disablePortal
@@ -76,7 +80,7 @@ const SearchFlight = () => {
               )}
             />
           </Grid>
-          <Grid size={{ xs: 6 }}>
+          <Grid size={{ lg: 6, xs: 12 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
                 label="Ngày đi"
@@ -86,7 +90,7 @@ const SearchFlight = () => {
               />
             </LocalizationProvider>
           </Grid>
-          <Grid size={{ xs: 6 }}>
+          <Grid size={{ lg: 6, xs: 12 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
                 label="Ngày về"
@@ -96,7 +100,7 @@ const SearchFlight = () => {
               />
             </LocalizationProvider>
           </Grid>
-          <Grid size={6}>
+          <Grid size={{ lg: 6, xs: 12 }}>
             <FormControl fullWidth>
               <InputLabel id="passenger-select-label">Hành khách</InputLabel>
               <Select
@@ -112,7 +116,7 @@ const SearchFlight = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={6}>
+          <Grid size={{ lg: 6, xs: 12 }}>
             <FormControl fullWidth>
               <InputLabel id="class-select-label">Hạng</InputLabel>
               <Select

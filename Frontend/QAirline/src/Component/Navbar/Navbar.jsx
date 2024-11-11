@@ -11,7 +11,7 @@ const Navbar = () => {
         <div className="space-x-4">
           <Button onClick={() => navigate("/account/login")}>Đăng nhập</Button>
           <Button
-            className="bg-gradient-to-r from-cyan-500 to-blue-500"
+            // className="bg-gradient-to-r from-cyan-500 to-blue-500"
             variant="contained"
             onClick={() => navigate("/account/register")}
             sx={{
