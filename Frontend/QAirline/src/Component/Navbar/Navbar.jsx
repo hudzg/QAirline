@@ -7,9 +7,7 @@ const Navbar = () => {
   return (
     <div>
       <div className="sticky py-5 px-5 lg:px-20 flex justify-between">
-        <div className="cursor-pointer font-semibold text-2xl text-blue-500">
-          QAirline
-        </div>
+        <div className="cursor-pointer font-semibold text-2xl">QAirline</div>
         <div className="space-x-4">
           <Button onClick={() => navigate("/account/login")}>Đăng nhập</Button>
           <Button

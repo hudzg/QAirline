@@ -46,10 +46,13 @@ const LoginForm = () => {
         />
         <Button
           fullWidth
-          className="bg-gradient-to-r from-cyan-500 to-blue-500"
+          // className="bg-gradient-to-r from-cyan-500 to-blue-500"
           variant="contained"
           type="submit"
-          sx={{ p: "1rem" }}
+          sx={{
+            p: "1rem",
+            background: "linear-gradient(to right, #B993D6, #8CA6DB)",
+          }}
         >
           Đăng nhập
         </Button>
