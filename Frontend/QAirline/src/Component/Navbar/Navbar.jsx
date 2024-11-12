@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   return (
-    <div>
-      <div className="sticky py-5 px-5 lg:px-20 flex justify-between">
+    <div className="sticky top-0 bg-white z-50">
+      <div className="py-5 px-5 lg:px-20 flex justify-between">
         <div className="cursor-pointer font-semibold text-2xl">QAirline</div>
         <div className="space-x-4">
           <Button onClick={() => navigate("/account/login")}>Đăng nhập</Button>
