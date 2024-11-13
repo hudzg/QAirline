@@ -3,6 +3,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  Card,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -10,21 +11,34 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 import WorkIcon from "@mui/icons-material/Work";
 import LuggageIcon from "@mui/icons-material/Luggage";
+import FlightIcon from "@mui/icons-material/Flight";
 
 const BookingCard = () => {
   return (
     <div className="flex mb-5">
-      <div className="w-[40%] flex justify-between">
-        <div>
-          <Typography variant="h6">Hà Nội</Typography>
-          <Typography variant="h5">17:00</Typography>
-        </div>
-        <div>
-          <Typography variant="h6">TP. Hồ Chí Minh</Typography>
-          <Typography variant="h5">17:00</Typography>
-        </div>
+      <div className="w-[40%]">
+        <Card className="grid grid-cols-3 items-center justify-items-center h-32">
+          <div>
+            <Typography>HAN</Typography>
+            <Typography variant="h5">17:00</Typography>
+          </div>
+          <div className="flex-col flex items-center">
+            <FlightIcon fontSize="large" sx={{ transform: "rotate(90deg)" }} />
+            <Typography
+              align="center"
+              variant="body2"
+              sx={{ color: "text.secondary" }}
+            >
+              20 giờ 20 phút
+            </Typography>
+          </div>
+          <div>
+            <Typography>SGN</Typography>
+            <Typography variant="h5">17:00</Typography>
+          </div>
+        </Card>
       </div>
-      <div className="w-[60%] flex">
+      <div className="w-[60%] flex self-center">
         <div className="w-[100%]">
           <Typography
             sx={{
