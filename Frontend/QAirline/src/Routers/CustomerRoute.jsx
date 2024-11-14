@@ -7,6 +7,7 @@ import Home from "../Component/Home/Home";
 import Navbar from "../Component/Navbar/Navbar";
 import Feedback from "../Component/Feedback/Feedback";
 import PersonalInfo from "../Component/Infomation/PersonalInfo";
+import PrintTicket from "../Component/Ticket/PrintTicket";
 
 const CustomerRoute = () => {
   return (
@@ -16,7 +17,8 @@ const CustomerRoute = () => {
         <Route path="/" element={<Home />}></Route>
         <Route path="/feedback" element={<Feedback />}></Route>
         <Route path="/booking" element={<Booking />}></Route>
-        <Route path="/personalInfomation" element={<PersonalInfo />}></Route>
+        <Route path="/info" element={<PersonalInfo />}></Route>
+        <Route path="/ticket" element={<PrintTicket/>}></Route>
       </Routes>
       <Auth />
       <Footer />
