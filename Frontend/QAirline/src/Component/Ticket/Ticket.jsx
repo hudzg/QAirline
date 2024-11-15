@@ -9,6 +9,15 @@ import {
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 
+const InfoField = ({ label, value }) => (
+  <div>
+    <Typography variant="caption" color="textSecondary">
+      {label}
+    </Typography>
+    <Typography variant="body1">{value}</Typography>
+  </div>
+);
+
 const Ticket = () => {
   return (
     <div className="mb-5">
@@ -20,32 +29,28 @@ const Ticket = () => {
           <Divider />
           <div className="flex items-center justify-between">
             <div>
-              <Typography variant="caption" color="textSecondary">
-                Mã chuyến bay
-              </Typography>
-              <Typography variant="body1">ABC123</Typography>
+              <InfoField label={"Mã chuyến bay"} value={"ABC123"}/>
             </div>
             <div className="flex items-center space-x-2">
               <div className="text-center">
-                <Typography variant="caption" color="textSecondary">
-                  Khởi hành
-                </Typography>
-                <Typography variant="body1">HANOI</Typography>
+                <InfoField label={"Khởi hành"} value={"HANOI"}/>   
               </div>
               <DoubleArrowIcon />
               <div className="text-center">
-                <Typography variant="caption" color="textSecondary">
-                  Điểm đến
-                </Typography>
-                <Typography variant="body1">DANANG</Typography>
+                <InfoField label={"Điểm đến"} value={"DANANG"}/>
               </div>
             </div>
           </div>
           <div>
-            <Typography variant="caption" color="textSecondary">
-              Hành khách
-            </Typography>
-            <Typography variant="body1">Hoàng Công Hữu</Typography>
+            <div>
+              <InfoField label={"Giờ khởi hành"} value={"12:00"}/>
+            </div>
+            <div>
+              <InfoField label={"Giờ hạ cánh(dự kiến)"} value={"16:00"}/>
+            </div>
+          </div>
+          <div>
+          <InfoField label={"Hành khách"} value={"Hoàng Công Hữu"}/>
           </div>
         </div>
 
