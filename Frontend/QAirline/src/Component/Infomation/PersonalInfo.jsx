@@ -4,9 +4,9 @@ import InfoCard from "./InfoCard";
 
 const PersonalInfo = () => {
   return (
-    <div className="w-[60vw] m-auto">
-      <div className="mt-5">
-        <Typography variant="h3" textAlign={"Center"} gutterBottom>
+    <div className="w-[60vw] m-auto mb-5 mt-5 p-5 bg-indigo-50">
+      <div>
+        <Typography variant="h3" textAlign="Center" gutterBottom>
           Thông tin cá nhân
         </Typography>
       </div>
@@ -15,10 +15,9 @@ const PersonalInfo = () => {
           <InfoCard />
         ))}
       </div>
-      <div className="grid grid-cols-2 mb-5">
-        <div className="flex justify-center">
+      <div className="grid grid-cols-2">
+        <div className="flex justify-end pr-5">
           <Button 
-            className="w-1/3"
             variant="contained"
             sx={{
               background: "linear-gradient(to right, #B993D6, #8CA6DB)",
@@ -27,9 +26,8 @@ const PersonalInfo = () => {
             Quay lại
           </Button>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-start pl-5">
           <Button
-            className="w-1/3"
             variant="contained"
             sx={{
               background: "linear-gradient(to right, #B993D6, #8CA6DB)",

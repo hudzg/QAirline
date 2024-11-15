@@ -4,6 +4,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs/AdapterDayjs";
 import React, { useState } from "react";
 
 const InfoCard = () => {
+  const [title, setTitle] = useState("");
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  }
+
   const [gender, setGender] = useState("");
   const handleGenderChange = (e) => {
     setGender(e.target.value);
@@ -11,12 +16,26 @@ const InfoCard = () => {
 
   return (
     <div>
-      <Card className="m-5 p-5">
+      <Card className="mt-5 mb-5 p-5">
         <div>
           <Typography variant="h5" align="center">Hành khách 1</Typography>
         </div>
         <div className="grid grid-cols-3 grid-rows-2 gap-5">
-          <TextField label="Title" fullWidth variant="standard" />
+        <FormControl variant="standard" fullWidth>
+            <InputLabel>Danh xưng</InputLabel>
+            <Select
+              value={title}
+              onChange={handleTitleChange}
+              label="Danh xưng"
+              displayEmpty
+            >
+              <MenuItem value="Ông">Ông</MenuItem>
+              <MenuItem value="Bà">Bà</MenuItem>
+              <MenuItem value="Anh">Anh</MenuItem>
+              <MenuItem value="Chị">Chị</MenuItem>
+
+            </Select>
+          </FormControl>
           <TextField label="Tên" fullWidth variant="standard" />
           <TextField label="Họ đệm" fullWidth variant="standard" />
           <TextField label="Số điện thoại" fullWidth variant="standard" />
