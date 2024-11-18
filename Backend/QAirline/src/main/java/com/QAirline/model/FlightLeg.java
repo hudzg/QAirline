@@ -20,7 +20,9 @@ public class FlightLeg {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne
     private Airport departureAirport;
+    @ManyToOne
     private Airport arrivalAirport;
 
     private LocalTime departureTime;
@@ -30,7 +32,10 @@ public class FlightLeg {
     @JsonIgnore
     private Flight flight;
 
+    @ManyToOne
+    private Airplane airplane;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "flight_leg", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "flightLeg", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LegInstance> legInstances = new ArrayList<>();
 }

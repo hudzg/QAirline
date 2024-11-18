@@ -22,4 +22,8 @@ public class Flight {
     @JsonIgnore
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FlightLeg> flightLegs = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> tickets = new ArrayList<>();
 }

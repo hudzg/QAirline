@@ -22,4 +22,5 @@ public class Airport {
     private String country;
     private String IATA;
     private String email;
+
 }

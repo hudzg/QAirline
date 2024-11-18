@@ -22,15 +22,13 @@ public class LegInstance {
 
     private LocalDate date;
 
+    @ManyToOne
     private Airport departureAirport;
+    @ManyToOne
     private Airport arrivalAirport;
 
     private LocalTime departureTime;
     private LocalTime arrivalTime;
-
-    private Long firstClassAmount;
-    private Long businessAmount;
-    private Long economyAmount;
 
     @ManyToOne
     @JsonIgnore
@@ -40,6 +38,6 @@ public class LegInstance {
     private Airplane airplane;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "leg_instance", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "legInstance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seat> seats = new ArrayList<>();
 }
