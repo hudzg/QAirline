@@ -25,7 +25,7 @@ const Feedback = () => {
           background: "linear-gradient(to right, #B993D6, #8CA6DB)",
         }}
       >
-        Submit
+        Gửi 
       </Button>
     </div>
   );
