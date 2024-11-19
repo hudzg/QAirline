@@ -8,6 +8,7 @@ import Navbar from "../Component/Navbar/Navbar";
 import Feedback from "../Component/Feedback/Feedback";
 import PersonalInfo from "../Component/Infomation/PersonalInfo";
 import PrintTicket from "../Component/Ticket/PrintTicket";
+import Preview from "..//Component/Preview/Preview";
 
 const CustomerRoute = () => {
   return (
@@ -19,6 +20,7 @@ const CustomerRoute = () => {
         <Route path="/booking" element={<Booking />}></Route>
         <Route path="/info" element={<PersonalInfo />}></Route>
         <Route path="/ticket" element={<PrintTicket/>}></Route>
+        <Route path="/preview" element={<Preview/>}></Route>
       </Routes>
       <Auth />
       <Footer />
