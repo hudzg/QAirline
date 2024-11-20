@@ -4,7 +4,7 @@ import FlightIcon from "@mui/icons-material/Flight";
 
 const Preview = () => {
   return (
-    <div className="w-[50vw] mx-auto m-4 p-5 bg-indigo-50">
+    <div className="w-[50vw] mx-auto m-4 p-5 bg-indigo-100">
       <div className=" justify-items-center">
         <Typography variant="h4">Preview</Typography>
       </div>
@@ -45,12 +45,10 @@ const Preview = () => {
       </Card>
       <div className="grid grid-cols-2">
         <div className="flex justify-end mr-5">
-
           <Button
             variant="contained"
             sx={{
               background: "linear-gradient(to right, #B993D6, #8CA6DB)",
-
             }}
           >
             Quay lại
@@ -68,7 +66,7 @@ const Preview = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Preview
+export default Preview;
