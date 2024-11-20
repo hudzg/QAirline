@@ -5,6 +5,7 @@ import com.QAirline.repository.AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,11 @@ public class AirportServiceImp implements AirportService {
         createdAirport.setIATA(airport.getIATA());
         createdAirport.setEmail(airport.getEmail());
         return airportRepository.save(createdAirport);
+    }
+
+    @Override
+    public List<Airport> getAllAirport() {
+        return airportRepository.findAll();
     }
 
     @Override

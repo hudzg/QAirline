@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin/airport")
 public class AdminAirportController {
@@ -29,8 +31,18 @@ public class AdminAirportController {
         return new ResponseEntity<>(createdAirport, HttpStatus.CREATED);
     }
 
+    @GetMapping()
+    public ResponseEntity<List<Airport>> getAllAirport(
+            @RequestHeader("Authorization") String jwt
+    ) throws Exception {
+        User user = userService.findUserByJwtToken(jwt);
+        List<Airport> airportList =  airportService.getAllAirport();
+
+        return new ResponseEntity<>(airportList, HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Airport> createAirport(
+    public ResponseEntity<Airport> updateAirport(
             @RequestBody Airport airport,
             @RequestHeader("Authorization") String jwt,
             @PathVariable Long id
@@ -54,4 +66,5 @@ public class AdminAirportController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 }
