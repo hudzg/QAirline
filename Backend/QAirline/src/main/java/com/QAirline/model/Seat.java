@@ -18,7 +18,10 @@ public class Seat {
     private User user;
 
     @ManyToOne
-    private LegInstance legInstance;
+    private FlightInstance flightInstance;
+
+    @ManyToOne
+    private Ticket ticket;
 
     private Long seatNumber;
 }

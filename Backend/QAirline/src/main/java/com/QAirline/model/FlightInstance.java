@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LegInstance {
+public class FlightInstance {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -23,22 +23,14 @@ public class LegInstance {
     private LocalDate date;
 
     @ManyToOne
-    private Airport departureAirport;
-    @ManyToOne
-    private Airport arrivalAirport;
-
-    private LocalTime departureTime;
-    private LocalTime arrivalTime;
-
-    @ManyToOne
     @JsonIgnore
-    private FlightLeg flightLeg;
+    private Flight flight;
 
-    @ManyToOne
-    private Airplane airplane;
-
-    @ManyToOne
     @JsonIgnore
-    private FlightInstance flightInstance;
+    @OneToMany(mappedBy = "flightInstance", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LegInstance> legInstances = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "flightInstance", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Seat> seats = new ArrayList<>();
 }

@@ -47,17 +47,17 @@ public class AdminFlightController {
         return new ResponseEntity<>(flights, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Flight> updateFlight(
-            @RequestBody Flight flight,
-            @RequestHeader("Authorization") String jwt,
-            @PathVariable Long id
-    ) throws Exception {
-        User user = userService.findUserByJwtToken(jwt);
-        Flight updatedFlight = flightService.updateFlight(id, flight);
-
-        return new ResponseEntity<>(updatedFlight, HttpStatus.OK);
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Flight> updateFlight(
+//            @RequestBody Flight flight,
+//            @RequestHeader("Authorization") String jwt,
+//            @PathVariable Long id
+//    ) throws Exception {
+//        User user = userService.findUserByJwtToken(jwt);
+//        Flight updatedFlight = flightService.updateFlight(id, flight);
+//
+//        return new ResponseEntity<>(updatedFlight, HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponse> deleteFlight(
@@ -85,29 +85,29 @@ public class AdminFlightController {
         return new ResponseEntity<>(updatedFlight, HttpStatus.OK);
     }
 
-    @PutMapping("/flight-leg/{id}")
-    public ResponseEntity<FlightLeg> updateFlightLeg(
-            @RequestBody FlightLeg flightLeg,
-            @RequestHeader("Authorization") String jwt,
-            @PathVariable Long id
-    ) throws Exception {
-        User user = userService.findUserByJwtToken(jwt);
-        FlightLeg updatedFlightLeg = flightLegService.updateFlightLeg(id, flightLeg);
+//    @PutMapping("/flight-leg/{id}")
+//    public ResponseEntity<FlightLeg> updateFlightLeg(
+//            @RequestBody FlightLeg flightLeg,
+//            @RequestHeader("Authorization") String jwt,
+//            @PathVariable Long id
+//    ) throws Exception {
+//        User user = userService.findUserByJwtToken(jwt);
+//        FlightLeg updatedFlightLeg = flightLegService.updateFlightLeg(id, flightLeg);
+//
+//        return new ResponseEntity<>(updatedFlightLeg, HttpStatus.OK);
+//    }
 
-        return new ResponseEntity<>(updatedFlightLeg, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/flight-leg/{id}")
-    public ResponseEntity<MessageResponse> deleteFlightLeg(
-            @RequestHeader("Authorization") String jwt,
-            @PathVariable Long id
-    ) throws Exception {
-        User user = userService.findUserByJwtToken(jwt);
-        flightLegService.deleteFlightLeg(id);
-
-        MessageResponse response = new MessageResponse();
-        response.setMessage("Flight leg deleted successfully");
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+//    @DeleteMapping("/flight-leg/{id}")
+//    public ResponseEntity<MessageResponse> deleteFlightLeg(
+//            @RequestHeader("Authorization") String jwt,
+//            @PathVariable Long id
+//    ) throws Exception {
+//        User user = userService.findUserByJwtToken(jwt);
+//        flightLegService.deleteFlightLeg(id);
+//
+//        MessageResponse response = new MessageResponse();
+//        response.setMessage("Flight leg deleted successfully");
+//
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 }
