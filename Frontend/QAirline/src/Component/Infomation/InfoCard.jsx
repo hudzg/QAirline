@@ -1,4 +1,4 @@
-import { Card, TextField, Typography, MenuItem, Select, InputLabel, FormControl, FormHelperText } from "@mui/material";
+import { Card, TextField, Typography, MenuItem, Select, InputLabel, FormControl, Paper, FormHelperText } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs/AdapterDayjs";
 import React, { useState } from "react";
@@ -16,7 +16,7 @@ const InfoCard = () => {
 
   return (
     <div>
-      <Card className="mt-5 mb-5 p-5">
+      <Paper className="mt-5 mb-5 p-5">
         <div>
           <Typography variant="h5" align="center">Hành khách 1</Typography>
         </div>
@@ -65,7 +65,7 @@ const InfoCard = () => {
           </FormControl>
 
         </div>
-      </Card>
+      </Paper>
     </div>
   );
 };

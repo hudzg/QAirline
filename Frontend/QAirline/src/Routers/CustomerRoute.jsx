@@ -9,6 +9,7 @@ import Feedback from "../Component/Feedback/Feedback";
 import PersonalInfo from "../Component/Infomation/PersonalInfo";
 import PrintTicket from "../Component/Ticket/PrintTicket";
 import Preview from "..//Component/Preview/Preview";
+import MyFlight from "../Component/MyFlight/MyFlight";
 
 const CustomerRoute = () => {
   return (
@@ -21,6 +22,7 @@ const CustomerRoute = () => {
         <Route path="/info" element={<PersonalInfo />}></Route>
         <Route path="/ticket" element={<PrintTicket/>}></Route>
         <Route path="/preview" element={<Preview/>}></Route>
+        <Route path="/myflight" element={<MyFlight/>}></Route>
       </Routes>
       <Auth />
       <Footer />
