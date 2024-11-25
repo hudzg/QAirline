@@ -3,14 +3,16 @@ package com.QAirline.service;
 import com.QAirline.model.Flight;
 import com.QAirline.model.FlightLeg;
 import com.QAirline.repository.FlightRepository;
+import com.QAirline.request.GetFlightRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class FlightServiceImp implements FlightService{
+public class FlightServiceImp implements FlightService {
     @Autowired
     FlightRepository flightRepository;
     @Autowired
@@ -55,6 +57,20 @@ public class FlightServiceImp implements FlightService{
             throw new Exception("Flight not found with id: " + id);
         }
         return optional.get();
+    }
+
+    @Override
+    public List<Flight> getFlight(GetFlightRequest getFlightRequest) {
+        List<Flight> flightRes = new ArrayList<>();
+        List<Flight> allFlight = getAllFlight();
+        for (Flight flight : allFlight) {
+            if (flight.getFlightLegs().get(0).getDepartureAirport() == getFlightRequest.getDepartureAirport()
+                    && flight.getFlightLegs().getLast().getArrivalAirport() == getFlightRequest.getArrivalAirport()
+                    && ((flight.getWeekdays() >> (getFlightRequest.getDepartureTime().getDayOfWeek().getValue() - 1)) & 1) == 1) {
+                flightRes.add(flight);
+            }
+        }
+        return flightRes;
     }
 
 

@@ -2,6 +2,7 @@ package com.QAirline.service;
 
 import com.QAirline.model.Flight;
 import com.QAirline.model.FlightLeg;
+import com.QAirline.request.GetFlightRequest;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface FlightService {
     public Flight addFlightLegToFlight(Long id, FlightLeg flightLeg) throws Exception;
 
     public Flight findFlightById(Long id) throws Exception;
+    public List<Flight> getFlight(GetFlightRequest getFlightRequest);
 }

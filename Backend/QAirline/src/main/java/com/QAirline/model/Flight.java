@@ -17,7 +17,7 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String weekdays;
+    private Long weekdays;
 
     @JsonIgnore
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
