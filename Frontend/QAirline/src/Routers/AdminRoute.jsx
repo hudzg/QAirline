@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import AdminSidebar from "../AdminComponent/AdminSidebar/AdminSidebar";
 import Dashboard from "../AdminComponent/Dashboard/Dashboard";
+import Airports from "../AdminComponent/Airport/AirportEdit";
 
 const AdminRoute = () => {
   return (
@@ -9,10 +10,10 @@ const AdminRoute = () => {
       <div className="w-[20%]">
         <AdminSidebar />
       </div>
-      <div>
+      <div className="w-[80%]">
         <Routes>
           <Route path="/" element={<Dashboard />}></Route>
-          <Route path="/airport"></Route>
+          <Route path="/airport" element={<Airports />}></Route>
           <Route path="/flight"></Route>
           <Route path="/flight-status"></Route>
           <Route path="/passenger"></Route>
