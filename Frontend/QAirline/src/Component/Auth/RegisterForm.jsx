@@ -1,16 +1,23 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../State/Authentication/Action";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
+    role: "ROLE_CUSTOMER",
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    dispatch(registerUser({ userData: formData, navigate }));
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,11 +35,20 @@ const RegisterForm = () => {
         <TextField
           fullWidth
           variant="outlined"
-          id="name"
-          name="name"
-          label="Họ tên"
+          id="firstName"
+          name="firstName"
+          label="Tên"
           onChange={handleInputChange}
-          value={formData.name}
+          value={formData.firstName}
+        />
+        <TextField
+          fullWidth
+          variant="outlined"
+          id="lastName"
+          name="lastName"
+          label="Họ"
+          onChange={handleInputChange}
+          value={formData.lastName}
         />
         <TextField
           fullWidth
