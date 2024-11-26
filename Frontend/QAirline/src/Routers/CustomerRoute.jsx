@@ -10,6 +10,7 @@ import PersonalInfo from "../Component/Infomation/PersonalInfo";
 import PrintTicket from "../Component/Ticket/PrintTicket";
 import Preview from "..//Component/Preview/Preview";
 import MyFlight from "../Component/MyFlight/MyFlight";
+import Profile from "../Component/Profile/Profile";
 
 const CustomerRoute = () => {
   return (
@@ -20,9 +21,10 @@ const CustomerRoute = () => {
         <Route path="/feedback" element={<Feedback />}></Route>
         <Route path="/booking" element={<Booking />}></Route>
         <Route path="/info" element={<PersonalInfo />}></Route>
-        <Route path="/ticket" element={<PrintTicket/>}></Route>
-        <Route path="/preview" element={<Preview/>}></Route>
-        <Route path="/myflight" element={<MyFlight/>}></Route>
+        <Route path="/ticket" element={<PrintTicket />}></Route>
+        <Route path="/preview" element={<Preview />}></Route>
+        <Route path="/myflight" element={<MyFlight />}></Route>
+        <Route path="/my-profile" element={<Profile />} />
       </Routes>
       <Auth />
       <Footer />

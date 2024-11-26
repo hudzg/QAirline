@@ -1,6 +1,8 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../State/Authentication/Action";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -8,9 +10,11 @@ const LoginForm = () => {
     password: "",
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    dispatch(loginUser({ userData: formData, navigate }));
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;

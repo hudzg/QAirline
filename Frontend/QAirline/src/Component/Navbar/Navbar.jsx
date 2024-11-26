@@ -1,15 +1,20 @@
 import { Avatar, Button, Divider } from "@mui/material";
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const auth = useSelector((store) => store.auth);
   return (
     <div className="sticky top-0 bg-white z-50">
       <div className="py-5 px-5 lg:px-20 flex justify-between">
-        {false ? (
+        {!auth.user ? (
           <>
-            <div className="cursor-pointer font-semibold text-2xl">
+            <div
+              onClick={() => navigate("/")}
+              className="cursor-pointer font-semibold text-2xl"
+            >
               QAirline
             </div>
             <div className="space-x-4">
@@ -31,7 +36,10 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <div className="cursor-pointer font-semibold text-2xl">
+            <div
+              onClick={() => navigate("/")}
+              className="cursor-pointer font-semibold text-2xl"
+            >
               QAirline
             </div>
             <div className="flex justify-between w-[40%] items-center">
@@ -46,7 +54,13 @@ const Navbar = () => {
               </div>
             </div>
             <div>
-              <Avatar sx={{ bgcolor: "primary.main" }}>H</Avatar>
+              <Avatar
+                component="button"
+                onClick={() => navigate("/my-profile")}
+                sx={{ bgcolor: "primary.main" }}
+              >
+                {auth.user.firstName[0]}
+              </Avatar>
             </div>
           </>
         )}
