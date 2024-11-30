@@ -73,17 +73,17 @@ public class AdminFlightController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/flight-leg")
-    public ResponseEntity<Flight> addFlightLegToFlight(
-            @RequestBody FlightLeg flightLeg,
-            @RequestHeader("Authorization") String jwt,
-            @PathVariable Long id
-    ) throws Exception {
-        User user = userService.findUserByJwtToken(jwt);
-        Flight updatedFlight = flightService.addFlightLegToFlight(id, flightLeg);
-
-        return new ResponseEntity<>(updatedFlight, HttpStatus.OK);
-    }
+//    @PutMapping("/{id}/flight-leg")
+//    public ResponseEntity<Flight> addFlightLegToFlight(
+//            @RequestBody FlightLeg flightLeg,
+//            @RequestHeader("Authorization") String jwt,
+//            @PathVariable Long id
+//    ) throws Exception {
+//        User user = userService.findUserByJwtToken(jwt);
+//        Flight updatedFlight = flightService.addFlightLegToFlight(id, flightLeg);
+//
+//        return new ResponseEntity<>(updatedFlight, HttpStatus.OK);
+//    }
 
 //    @PutMapping("/flight-leg/{id}")
 //    public ResponseEntity<FlightLeg> updateFlightLeg(

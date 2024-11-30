@@ -13,13 +13,23 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllAirport } from "../../State/Airport/Action";
 const AirportList = [1, 1, 1, 1];
 
 const Airports = () => {
+  const airport = useSelector((store) => store.airport);
+  const jwt = localStorage.getItem("jwt");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllAirport({ jwt }));
+  }, []);
+
   return (
     <div className="w-[50vw] mx-auto m-4 p-5 bg-indigo-100">
       <div className="flex justify-between items-center">
@@ -53,19 +63,19 @@ const Airports = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {AirportList.map((item) => (
-                <TableRow>
+              {airport.airports.map((item) => (
+                <TableRow key={item.id}>
                   <TableCell align="center" className="w-1/5">
-                    HN
+                    {item.iata}
                   </TableCell>
                   <TableCell align="center" className="w-1/5">
-                    Noi Bai
+                    {item.name}
                   </TableCell>
                   <TableCell align="center" className="w-1/5">
-                    Ha Noi
+                    {item.city}
                   </TableCell>
                   <TableCell align="center" className="w-1/5">
-                    Viet Nam
+                    {item.country}
                   </TableCell>
                   <TableCell align="center" className="w-1/5">
                     <div className="flex justify-between items-center">

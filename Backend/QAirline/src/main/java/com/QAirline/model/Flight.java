@@ -19,11 +19,11 @@ public class Flight {
     private Long id;
     private Long weekdays;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FlightLeg> flightLegs = new ArrayList<>();
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets = new ArrayList<>();
 

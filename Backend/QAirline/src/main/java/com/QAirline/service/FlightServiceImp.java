@@ -2,11 +2,14 @@ package com.QAirline.service;
 
 import com.QAirline.model.Flight;
 import com.QAirline.model.FlightLeg;
+import com.QAirline.model.Ticket;
 import com.QAirline.repository.FlightRepository;
 import com.QAirline.request.GetFlightRequest;
+import com.QAirline.response.GetFlightResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,15 +17,26 @@ import java.util.Optional;
 @Service
 public class FlightServiceImp implements FlightService {
     @Autowired
-    FlightRepository flightRepository;
+    private FlightRepository flightRepository;
     @Autowired
-    FlightLegService flightLegService;
+    private FlightLegService flightLegService;
+    @Autowired
+    private TicketService ticketService;
 
     @Override
     public Flight createFlight(Flight flight) {
         Flight createdFlight = new Flight();
         createdFlight.setWeekdays(flight.getWeekdays());
-        return flightRepository.save(createdFlight);
+
+        Flight savedFlight = flightRepository.save(createdFlight);
+
+        for(FlightLeg flightLeg : flight.getFlightLegs()) {
+            flightLegService.createFlightLeg(flightLeg, savedFlight);
+        }
+        for(Ticket ticket : flight.getTickets()) {
+            ticketService.createTicket(ticket, createdFlight);
+        }
+        return savedFlight;
     }
 
     @Override
@@ -42,13 +56,13 @@ public class FlightServiceImp implements FlightService {
         flightRepository.deleteById(id);
     }
 
-    @Override
-    public Flight addFlightLegToFlight(Long id, FlightLeg flightLeg) throws Exception {
-        Flight flight = findFlightById(id);
-        FlightLeg createdFlightLeg = flightLegService.createFlightLeg(flightLeg, flight);
-        flight.getFlightLegs().add(createdFlightLeg);
-        return flight;
-    }
+//    @Override
+//    public Flight addFlightLegToFlight(Long id, FlightLeg flightLeg) throws Exception {
+//        Flight flight = findFlightById(id);
+//        FlightLeg createdFlightLeg = flightLegService.createFlightLeg(flightLeg, flight);
+//        flight.getFlightLegs().add(createdFlightLeg);
+//        return flight;
+//    }
 
     @Override
     public Flight findFlightById(Long id) throws Exception {
@@ -59,18 +73,30 @@ public class FlightServiceImp implements FlightService {
         return optional.get();
     }
 
+
+    // Thiếu Check flight instance with date
     @Override
-    public List<Flight> getFlight(GetFlightRequest getFlightRequest) {
-        List<Flight> flightRes = new ArrayList<>();
+    public List<GetFlightResponse> getFlight(GetFlightRequest getFlightRequest) {
+        List<GetFlightResponse> getFlightResponses = new ArrayList<>();
         List<Flight> allFlight = getAllFlight();
         for (Flight flight : allFlight) {
-            if (flight.getFlightLegs().get(0).getDepartureAirport() == getFlightRequest.getDepartureAirport()
-                    && flight.getFlightLegs().getLast().getArrivalAirport() == getFlightRequest.getArrivalAirport()
+            if (flight.getFlightLegs().get(0).getDepartureAirport().getId().equals(getFlightRequest.getDepartureAirport().getId())
+                    && flight.getFlightLegs().getLast().getArrivalAirport().getId().equals(getFlightRequest.getArrivalAirport().getId())
                     && ((flight.getWeekdays() >> (getFlightRequest.getDepartureTime().getDayOfWeek().getValue() - 1)) & 1) == 1) {
-                flightRes.add(flight);
+
+                GetFlightResponse flightResponse = new GetFlightResponse();
+
+                flightResponse.setFlightId(flight.getId());
+                flightResponse.setDepartureTime(flight.getFlightLegs().get(0).getDepartureTime());
+                flightResponse.setArrivalTime(flight.getFlightLegs().getLast().getArrivalTime());
+                flightResponse.setHourDuration((long) Duration.between(flightResponse.getDepartureTime(), flightResponse.getArrivalTime()).toHoursPart());
+                flightResponse.setMinuteDuration((long) Duration.between(flightResponse.getDepartureTime(), flightResponse.getArrivalTime()).toMinutesPart());
+                flightResponse.setTickets(flight.getTickets());
+
+                getFlightResponses.add(flightResponse);
             }
         }
-        return flightRes;
+        return getFlightResponses;
     }
 
 

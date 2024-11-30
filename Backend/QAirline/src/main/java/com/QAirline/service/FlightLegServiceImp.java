@@ -22,7 +22,11 @@ public class FlightLegServiceImp implements FlightLegService {
         flightLeg.setDepartureAirport(createdFlightLeg.getDepartureAirport());
         flightLeg.setDepartureTime(createdFlightLeg.getDepartureTime());
         flightLeg.setFlight(flight);
-        return flightLegRepository.save(flightLeg);
+
+        FlightLeg savedFlightLeg = flightLegRepository.save(flightLeg);
+        flight.getFlightLegs().add(savedFlightLeg);
+
+        return savedFlightLeg;
     }
 
     @Override

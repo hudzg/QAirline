@@ -18,14 +18,14 @@ public class AdminTicketController {
     @Autowired
     private TicketService ticketService;
 
-    @PostMapping()
-    public ResponseEntity<Ticket> createTicket(
-            @RequestBody CreateTicketRequest createTicketRequest,
-            @RequestHeader("Authorization") String jwt
-    ) throws Exception {
-        User user = userService.findUserByJwtToken(jwt);
-        Ticket ticket = ticketService.createTicket(createTicketRequest);
-
-        return new ResponseEntity<>(ticket, HttpStatus.CREATED);
-    }
+//    @PostMapping()
+//    public ResponseEntity<Ticket> createTicket(
+//            @RequestBody CreateTicketRequest createTicketRequest,
+//            @RequestHeader("Authorization") String jwt
+//    ) throws Exception {
+//        User user = userService.findUserByJwtToken(jwt);
+//        Ticket ticket = ticketService.createTicket(createTicketRequest);
+//
+//        return new ResponseEntity<>(ticket, HttpStatus.CREATED);
+//    }
 }

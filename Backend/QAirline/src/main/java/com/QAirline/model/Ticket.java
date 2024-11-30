@@ -1,5 +1,6 @@
 package com.QAirline.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Ticket {
     private Double checkedBaggage;
     private Double carryOnBaggage;
 
+    @JsonIgnore
     @ManyToOne
     private Flight flight;
 }
