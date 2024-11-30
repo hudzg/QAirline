@@ -12,22 +12,71 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
-import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import {
+  DatePicker,
+  DateTimePicker,
+  LocalizationProvider,
+} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs/AdapterDayjs";
 import dayjs from "dayjs";
 import FlightIcon from "@mui/icons-material/Flight";
-
-const airports = [
-  { label: "Hà Nội" },
-  { label: "Hồ Chí Minh" },
-  { label: "Đà Nẵng" },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getAllAirport } from "../../State/Airport/Action";
+import { addGetFlightRequest } from "../../State/Flight/Action";
+import { useNavigate } from "react-router-dom";
 
 const SearchFlight = () => {
+  const airport = useSelector((store) => store.airport);
+  const jwt = localStorage.getItem("jwt");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    departureAirport: null,
+    arrivalAirport: null,
+    departureTime: dayjs(),
+    arrivalTime: dayjs(),
+    departureAirportInput: "",
+    arrivalAirportInput: "",
+    numPassenger: "",
+  });
+
+  const [flightType, setflightType] = useState("round-trip");
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  useEffect(() => {
+    dispatch(getAllAirport({ jwt }));
+    // console.log("getAllAirport");
+    // console.log(
+    //   airport.airports.map((item) => ({
+    //     label: `${item.name} (${item.iata}), ${item.country}`,
+    //   }))
+    // );
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    // console.log(formData);
+    const reqData = {
+      departureAirport: formData.departureAirport.airport,
+      arrivalAirport: formData.arrivalAirport.airport,
+      departureTime: formData.departureTime.format("YYYY-MM-DD"),
+      arrivalTime: formData.arrivalTime.format("YYYY-MM-DD"),
+      numPassenger: formData.numPassenger,
+      flightType: flightType,
+    };
+    console.log(reqData);
+    dispatch(addGetFlightRequest(reqData));
+    navigate("/booking");
   };
   return (
     <Paper elevation={4} className="p-10 w-[60vw] m-auto mb-5">
@@ -42,8 +91,10 @@ const SearchFlight = () => {
               <RadioGroup
                 row
                 aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="round-trip"
+                // defaultValue={flightType}
                 name="radio-buttons-group"
+                value={flightType}
+                onChange={(e) => setflightType(e.target.value)}
               >
                 <FormControlLabel
                   value="round-trip"
@@ -62,7 +113,24 @@ const SearchFlight = () => {
             <Autocomplete
               fullWidth
               disablePortal
-              options={airports}
+              value={formData.departureAirport}
+              onChange={(event, newValue) => {
+                setFormData({
+                  ...formData,
+                  departureAirport: newValue,
+                });
+              }}
+              inputValue={formData.departureAirportInput}
+              onInputChange={(event, newInputValue) => {
+                setFormData({
+                  ...formData,
+                  departureAirportInput: newInputValue,
+                });
+              }}
+              options={airport.airports.map((item) => ({
+                label: `${item.name} (${item.iata}), ${item.country}`,
+                airport: item,
+              }))}
               //   sx={{ width: 300 }}
               renderInput={(params) => (
                 <TextField {...params} label="Sân bay khởi hành" />
@@ -73,7 +141,24 @@ const SearchFlight = () => {
             <Autocomplete
               fullWidth
               disablePortal
-              options={airports}
+              value={formData.arrivalAirport}
+              onChange={(event, newValue) => {
+                setFormData({
+                  ...formData,
+                  arrivalAirport: newValue,
+                });
+              }}
+              inputValue={formData.arrivalAirportInput}
+              onInputChange={(event, newInputValue) => {
+                setFormData({
+                  ...formData,
+                  arrivalAirportInput: newInputValue,
+                });
+              }}
+              options={airport.airports.map((item) => ({
+                label: `${item.name} (${item.iata}), ${item.country}`,
+                airport: item,
+              }))}
               //   sx={{ width: 300 }}
               renderInput={(params) => (
                 <TextField {...params} label="Sân bay đến" />
@@ -82,20 +167,31 @@ const SearchFlight = () => {
           </Grid>
           <Grid size={{ lg: 6, xs: 12 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateTimePicker
+              <DatePicker
                 label="Ngày đi"
-                value={dayjs("2022-04-17T15:30")}
-                // onChange={(newValue) => handleDateChange(newValue, "startedAt")}
+                value={formData.departureTime}
+                onChange={(newValue) =>
+                  setFormData({
+                    ...formData,
+                    departureTime: newValue,
+                  })
+                }
                 className="w-full"
               />
             </LocalizationProvider>
           </Grid>
           <Grid size={{ lg: 6, xs: 12 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateTimePicker
+              <DatePicker
+                disabled={flightType === "one-way"}
                 label="Ngày về"
-                value={dayjs("2022-04-17T15:30")}
-                // onChange={(newValue) => handleDateChange(newValue, "startedAt")}
+                value={formData.arrivalTime}
+                onChange={(newValue) =>
+                  setFormData({
+                    ...formData,
+                    arrivalTime: newValue,
+                  })
+                }
                 className="w-full"
               />
             </LocalizationProvider>
@@ -106,17 +202,24 @@ const SearchFlight = () => {
               <Select
                 labelId="passenger-select-label"
                 id="passenger-select"
-                // value={age}
+                value={formData.numPassenger}
                 label="Hành khách"
-                // onChange={handleChange}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    numPassenger: e.target.value,
+                  })
+                }
               >
-                <MenuItem value={10}>1</MenuItem>
-                <MenuItem value={20}>2</MenuItem>
-                <MenuItem value={30}>3</MenuItem>
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={5}>5</MenuItem>
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={{ lg: 6, xs: 12 }}>
+          {/* <Grid size={{ lg: 6, xs: 12 }}>
             <FormControl fullWidth>
               <InputLabel id="class-select-label">Hạng</InputLabel>
               <Select
@@ -131,7 +234,7 @@ const SearchFlight = () => {
                 <MenuItem value={"first"}>Hạng nhất</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid> */}
         </Grid>
         <Button
           sx={{

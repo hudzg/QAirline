@@ -11,18 +11,15 @@ import org.springframework.stereotype.Service;
 public class TicketServiceImp implements TicketService{
     @Autowired
     TicketRepository ticketRepository;
-    @Autowired
-    FlightService flightService;
     @Override
-    public Ticket createTicket(CreateTicketRequest createTicketRequest) throws Exception {
-        Ticket ticket = new Ticket();
-        ticket.setTicketClass(createTicketRequest.getTicketClass());
-        ticket.setAmount(createTicketRequest.getAmount());
-        ticket.setPrice(createTicketRequest.getPrice());
-        ticket.setRefund(createTicketRequest.isRefund());
-        ticket.setCarryOnBaggage(createTicketRequest.getCarryOnBaggage());
-        ticket.setCheckedBaggage(createTicketRequest.getCheckedBaggage());
-        Flight flight = flightService.findFlightById(createTicketRequest.getFlightId());
+    public Ticket createTicket(Ticket ticket, Flight flight) {
+        Ticket createdTicket = new Ticket();
+        createdTicket.setTicketClass(ticket.getTicketClass());
+        createdTicket.setAmount(ticket.getAmount());
+        createdTicket.setPrice(ticket.getPrice());
+        createdTicket.setRefund(ticket.isRefund());
+        createdTicket.setCarryOnBaggage(ticket.getCarryOnBaggage());
+        createdTicket.setCheckedBaggage(ticket.getCheckedBaggage());
         ticket.setFlight(flight);
 
         Ticket savedTicket = ticketRepository.save(ticket);

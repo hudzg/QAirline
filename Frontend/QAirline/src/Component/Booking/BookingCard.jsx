@@ -12,15 +12,25 @@ import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 import WorkIcon from "@mui/icons-material/Work";
 import LuggageIcon from "@mui/icons-material/Luggage";
 import FlightIcon from "@mui/icons-material/Flight";
+import { useSelector } from "react-redux";
 
-const BookingCard = () => {
+const flightClass = {
+  ECONOMY_CLASS: { label: "Phổ thông", color: "#B993D6" },
+  BUSINESS_CLASS: { label: "Thương gia", color: "#A2A6DB" },
+  FIRST_CLASS: { label: "Hạng nhất", color: "#8CA6DB" },
+};
+
+const BookingCard = ({ item }) => {
+  const flight = useSelector((store) => store.flight.getFlightReq);
   return (
     <div className="flex mb-5">
       <div className="w-[40%]">
         <Card className="grid grid-cols-3 items-center justify-items-center h-32">
           <div>
-            <Typography>HAN</Typography>
-            <Typography variant="h5">17:00</Typography>
+            <Typography>{flight.departureAirport.iata}</Typography>
+            <Typography variant="h5">
+              {item.departureTime.substring(0, 5)}
+            </Typography>
           </div>
           <div className="flex-col flex items-center">
             <FlightIcon fontSize="large" sx={{ transform: "rotate(90deg)" }} />
@@ -29,275 +39,106 @@ const BookingCard = () => {
               variant="body2"
               sx={{ color: "text.secondary" }}
             >
-              20 giờ 20 phút
+              {item.hourDuration} giờ {item.minuteDuration} phút
             </Typography>
           </div>
           <div>
-            <Typography>SGN</Typography>
-            <Typography variant="h5">17:00</Typography>
+            <Typography>{flight.arrivalAirport.iata}</Typography>
+            <Typography variant="h5">
+              {item.arrivalTime.substring(0, 5)}
+            </Typography>
           </div>
         </Card>
       </div>
       <div className="w-[60%] flex self-center">
-        <div className="w-[100%]">
-          <Typography
-            sx={{
-              // background: "linear-gradient(to right, #B993D6, #8CA6DB)",
-              backgroundColor: "#B993D6",
-              height: "0.5rem",
-            }}
-          ></Typography>
-          <Accordion className="w-[100%]">
-            <AccordionSummary
-              className="w-[100%]"
-              expandIcon={<ArrowDropDownIcon />}
-            >
-              <div className="w-[100%]">
-                <Typography
-                  align="center"
-                  variant="h5"
-                  gutterBottom
-                  color={"#B993D6"}
-                >
-                  Phổ thông
-                </Typography>
-                <Typography align="center" gutterBottom>
-                  5.000.000 VND
-                </Typography>
-                <Typography
-                  align="center"
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                >
-                  44 ghế trống
-                </Typography>
-              </div>
-            </AccordionSummary>
-            <AccordionDetails>
-              <div className="w-[100%] space-y-2">
-                <div className="flex space-x-2">
-                  <AirplaneTicketIcon />
-                  <div>
-                    <Typography>Hoàn vé</Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      Không được phép
-                    </Typography>
-                  </div>
+        {item.tickets.map((ticket) => (
+          <div className="w-[100%]">
+            <Typography
+              sx={{
+                // background: "linear-gradient(to right, #B993D6, #8CA6DB)",
+                backgroundColor: flightClass[ticket.ticketClass].color,
+                height: "0.5rem",
+              }}
+            ></Typography>
+            <Accordion className="w-[100%]">
+              <AccordionSummary
+                className="w-[100%]"
+                expandIcon={<ArrowDropDownIcon />}
+              >
+                <div className="w-[100%]">
+                  <Typography
+                    align="center"
+                    variant="h5"
+                    gutterBottom
+                    color={flightClass[ticket.ticketClass].color}
+                  >
+                    {flightClass[ticket.ticketClass].label}
+                  </Typography>
+                  <Typography align="center" gutterBottom>
+                    {ticket.price} VND
+                  </Typography>
+                  <Typography
+                    align="center"
+                    variant="body2"
+                    sx={{ color: "text.secondary" }}
+                  >
+                    {ticket.amount} ghế trống
+                  </Typography>
                 </div>
-                <div className="flex space-x-2">
-                  <LuggageIcon />
-                  <div>
-                    <Typography>Hành lý ký gửi</Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      23 kg
-                    </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div className="w-[100%] space-y-2">
+                  <div className="flex space-x-2">
+                    <AirplaneTicketIcon />
+                    <div>
+                      <Typography>Hoàn vé</Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        {ticket.refund ? "Được phép" : "Không được phép"}
+                      </Typography>
+                    </div>
                   </div>
-                </div>
-                <div className="flex space-x-2">
-                  <WorkIcon />
-                  <div>
-                    <Typography>Hành lý xách tay</Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      12 kg
-                    </Typography>
+                  <div className="flex space-x-2">
+                    <LuggageIcon />
+                    <div>
+                      <Typography>Hành lý ký gửi</Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        {ticket.checkedBaggage} kg
+                      </Typography>
+                    </div>
                   </div>
-                </div>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  // sx={{
-                  //   // p: "1rem",
-                  //   background: "linear-gradient(to right, #B993D6, #8CA6DB)",
-                  // }}
-                >
-                  Chọn
-                </Button>
-              </div>
-            </AccordionDetails>
-          </Accordion>
-        </div>
-        <div className="w-[100%]">
-          <Typography
-            sx={{
-              // background: "linear-gradient(to right, #B993D6, #8CA6DB)",
-              backgroundColor: "#A2A6DB",
-              height: "0.5rem",
-            }}
-          ></Typography>
-          <Accordion className="w-[100%]">
-            <AccordionSummary
-              className="w-[100%]"
-              expandIcon={<ArrowDropDownIcon />}
-            >
-              <div className="w-[100%]">
-                <Typography
-                  align="center"
-                  variant="h5"
-                  gutterBottom
-                  color={"#A2A6DB"}
-                >
-                  Thương gia
-                </Typography>
-                <Typography align="center" gutterBottom>
-                  5.000.000 VND
-                </Typography>
-                <Typography
-                  align="center"
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                >
-                  44 ghế trống
-                </Typography>
-              </div>
-            </AccordionSummary>
-            <AccordionDetails>
-              <div className="w-[100%] space-y-2">
-                <div className="flex space-x-2">
-                  <AirplaneTicketIcon />
-                  <div>
-                    <Typography>Hoàn vé</Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      Không được phép
-                    </Typography>
+                  <div className="flex space-x-2">
+                    <WorkIcon />
+                    <div>
+                      <Typography>Hành lý xách tay</Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        {ticket.carryOnBaggage} kg
+                      </Typography>
+                    </div>
                   </div>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    // sx={{
+                    //   // p: "1rem",
+                    //   background: "linear-gradient(to right, #B993D6, #8CA6DB)",
+                    // }}
+                  >
+                    Chọn
+                  </Button>
                 </div>
-                <div className="flex space-x-2">
-                  <LuggageIcon />
-                  <div>
-                    <Typography>Hành lý ký gửi</Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      23 kg
-                    </Typography>
-                  </div>
-                </div>
-                <div className="flex space-x-2">
-                  <WorkIcon />
-                  <div>
-                    <Typography>Hành lý xách tay</Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      12 kg
-                    </Typography>
-                  </div>
-                </div>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  // sx={{
-                  //   // p: "1rem",
-                  //   background: "linear-gradient(to right, #B993D6, #8CA6DB)",
-                  // }}
-                >
-                  Chọn
-                </Button>
-              </div>
-            </AccordionDetails>
-          </Accordion>
-        </div>
-        <div className="w-[100%]">
-          <Typography
-            sx={{
-              // background: "linear-gradient(to right, #B993D6, #8CA6DB)",
-              backgroundColor: "#8CA6DB",
-              height: "0.5rem",
-            }}
-          ></Typography>
-          <Accordion className="w-[100%]" disabled={false}>
-            {/* <Accordion className="w-[100%]"> */}
-            <AccordionSummary
-              className="w-[100%]"
-              expandIcon={<ArrowDropDownIcon />}
-            >
-              <div className="w-[100%]">
-                <Typography
-                  align="center"
-                  variant="h5"
-                  gutterBottom
-                  color={"#8CA6DB"}
-                >
-                  Hạng nhất
-                </Typography>
-                <Typography align="center" gutterBottom>
-                  5.000.000 VND
-                </Typography>
-                <Typography
-                  align="center"
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                >
-                  44 ghế trống
-                </Typography>
-              </div>
-            </AccordionSummary>
-            <AccordionDetails>
-              <div className="w-[100%] space-y-2">
-                <div className="flex space-x-2">
-                  <AirplaneTicketIcon />
-                  <div>
-                    <Typography>Hoàn vé</Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      Không được phép
-                    </Typography>
-                  </div>
-                </div>
-                <div className="flex space-x-2">
-                  <LuggageIcon />
-                  <div>
-                    <Typography>Hành lý ký gửi</Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      23 kg
-                    </Typography>
-                  </div>
-                </div>
-                <div className="flex space-x-2">
-                  <WorkIcon />
-                  <div>
-                    <Typography>Hành lý xách tay</Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      12 kg
-                    </Typography>
-                  </div>
-                </div>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  // sx={{
-                  //   // p: "1rem",
-                  //   background: "linear-gradient(to right, #B993D6, #8CA6DB)",
-                  // }}
-                >
-                  Chọn
-                </Button>
-              </div>
-            </AccordionDetails>
-          </Accordion>
-        </div>
+              </AccordionDetails>
+            </Accordion>
+          </div>
+        ))}
       </div>
     </div>
   );
