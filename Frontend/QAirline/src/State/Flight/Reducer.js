@@ -1,5 +1,10 @@
 import {
   ADD_GET_FLIGHT_REQUEST,
+  ADD_GET_INBOUND_FLIGHT_REQUEST,
+  ADD_SELECTED_OUTBOUND_FLIGHT,
+  GET_INBOUND_FLIGHT_FAILURE,
+  GET_INBOUND_FLIGHT_REQUEST,
+  GET_INBOUND_FLIGHT_SUCCESS,
   GET_OUTBOUND_FLIGHT_FAILURE,
   GET_OUTBOUND_FLIGHT_REQUEST,
   GET_OUTBOUND_FLIGHT_SUCCESS,
@@ -11,13 +16,23 @@ const initialState = {
   outboundFlights: [],
   inboundFlights: [],
   getFlightReq: {
-    departureAirport: null,
-    arrivalAirport: null,
+    departureAirport: {},
+    arrivalAirport: {},
     departureTime: "",
     arrivalTime: "",
-    numPassenger: "",
+    numPassenger: 0,
     flightType: "",
   },
+  getInboundFlightReq: {
+    departureAirport: {},
+    arrivalAirport: {},
+    departureTime: "",
+    arrivalTime: "",
+    numPassenger: 0,
+    flightType: "",
+  },
+  selectedOutboundFlight: null,
+  selectedInboundFlight: null,
 };
 
 export const flightReducer = (state = initialState, action) => {
@@ -26,8 +41,18 @@ export const flightReducer = (state = initialState, action) => {
       return {
         ...state,
         getFlightReq: action.payload,
+        selectedOutboundFlight: null,
+        selectedInboundFlight: null,
+      };
+    case ADD_GET_INBOUND_FLIGHT_REQUEST:
+      return {
+        ...state,
+        getInboundFlightReq: action.payload,
+        selectedOutboundFlight: null,
+        selectedInboundFlight: null,
       };
     case GET_OUTBOUND_FLIGHT_REQUEST:
+    case GET_INBOUND_FLIGHT_REQUEST:
       return { ...state, isLoading: true, error: null };
     case GET_OUTBOUND_FLIGHT_SUCCESS:
       return {
@@ -35,11 +60,23 @@ export const flightReducer = (state = initialState, action) => {
         isLoading: false,
         outboundFlights: action.payload,
       };
+    case GET_INBOUND_FLIGHT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        inboundFlights: action.payload,
+      };
     case GET_OUTBOUND_FLIGHT_FAILURE:
+    case GET_INBOUND_FLIGHT_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.payload,
+      };
+    case ADD_SELECTED_OUTBOUND_FLIGHT:
+      return {
+        ...state,
+        selectedOutboundFlight: action.payload,
       };
     default:
       return state;

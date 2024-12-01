@@ -24,7 +24,10 @@ import dayjs from "dayjs";
 import FlightIcon from "@mui/icons-material/Flight";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllAirport } from "../../State/Airport/Action";
-import { addGetFlightRequest } from "../../State/Flight/Action";
+import {
+  addGetFlightRequest,
+  addGetInboundFlightRequest,
+} from "../../State/Flight/Action";
 import { useNavigate } from "react-router-dom";
 
 const SearchFlight = () => {
@@ -40,7 +43,7 @@ const SearchFlight = () => {
     arrivalTime: dayjs(),
     departureAirportInput: "",
     arrivalAirportInput: "",
-    numPassenger: "",
+    numPassenger: 1,
   });
 
   const [flightType, setflightType] = useState("round-trip");
@@ -76,6 +79,15 @@ const SearchFlight = () => {
     };
     console.log(reqData);
     dispatch(addGetFlightRequest(reqData));
+    const InReqData = {
+      departureAirport: formData.arrivalAirport.airport,
+      arrivalAirport: formData.departureAirport.airport,
+      departureTime: formData.arrivalTime.format("YYYY-MM-DD"),
+      arrivalTime: formData.departureTime.format("YYYY-MM-DD"),
+      numPassenger: formData.numPassenger,
+      flightType: flightType,
+    };
+    dispatch(addGetInboundFlightRequest(InReqData));
     navigate("/booking");
   };
   return (
