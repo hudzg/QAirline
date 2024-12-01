@@ -20,7 +20,7 @@ const initialState = {
     arrivalAirport: {},
     departureTime: "",
     arrivalTime: "",
-    numPassenger: "",
+    numPassenger: 0,
     flightType: "",
   },
   getInboundFlightReq: {
@@ -28,7 +28,7 @@ const initialState = {
     arrivalAirport: {},
     departureTime: "",
     arrivalTime: "",
-    numPassenger: "",
+    numPassenger: 0,
     flightType: "",
   },
   selectedOutboundFlight: null,
