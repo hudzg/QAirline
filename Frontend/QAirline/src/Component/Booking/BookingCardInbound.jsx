@@ -22,18 +22,17 @@ const flightClass = {
   FIRST_CLASS: { label: "Hạng nhất", color: "#8CA6DB" },
 };
 
-const BookingCard = ({ item }) => {
+const BookingCardInbound = ({ item }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const flight = useSelector((store) => store.flight.getFlightReq);
+  const flight = useSelector((store) => store.flight.getInboundFlightReq);
 
   const handleOnClick = (flightInstance, ticket) => {
     // console.log(flightInstance, ticket, flight);
     const reqData = { flightInstance, ticket, flight };
     console.log(reqData);
     dispatch(addSelectedOutboundFlight(reqData));
-    if (flight.flightType === "round-trip") navigate("/booking-inbound");
-    else navigate("/info");
+    navigate("/info");
   };
 
   return (
@@ -158,4 +157,4 @@ const BookingCard = ({ item }) => {
   );
 };
 
-export default BookingCard;
+export default BookingCardInbound;
