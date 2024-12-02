@@ -25,13 +25,13 @@ public class Seat {
     @ManyToOne
     private Ticket ticket;
 
-    private Long seatNumber;
+    private String seatNumber;
 
     private String citizenId;
-    private String title;
+//    private String title;
     private String firstName;
     private String lastName;
     private String phone;
-    private LocalDate dateOfBirth;
-    private String sex;
+    private LocalDate dob;
+    private String gender;
 }

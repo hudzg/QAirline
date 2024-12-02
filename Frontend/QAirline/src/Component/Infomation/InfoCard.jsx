@@ -33,20 +33,13 @@ const InfoCard = ({ infor, updateInfor }) => {
           </Typography>
         </div>
         <div className="grid grid-cols-3 grid-rows-2 gap-5">
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Danh xưng</InputLabel>
-            <Select
-              value={title}
-              onChange={handleTitleChange}
-              label="Danh xưng"
-              displayEmpty
-            >
-              <MenuItem value="Ông">Ông</MenuItem>
-              <MenuItem value="Bà">Bà</MenuItem>
-              <MenuItem value="Anh">Anh</MenuItem>
-              <MenuItem value="Chị">Chị</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            label="Căn cước công dân"
+            fullWidth
+            variant="standard"
+            value={infor.citizenId}
+            onChange={(e) => handleChange("citizenId", e.target.value)}
+          />
           <TextField
             label="Tên"
             fullWidth

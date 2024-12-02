@@ -1,8 +1,60 @@
 import { Typography, Card, Button } from "@mui/material";
 import React from "react";
 import FlightIcon from "@mui/icons-material/Flight";
+import { useDispatch, useSelector } from "react-redux";
+import { createSeat } from "../../State/Seat/Action";
 
 const Preview = () => {
+  const dispatch = useDispatch();
+  const flight = useSelector((store) => store.flight);
+  const seat = useSelector((store) => store.seat);
+  const jwt = localStorage.getItem("jwt");
+
+  const handleSubmit = () => {
+    // dispatch
+    console.log(
+      flight.selectedOutboundFlight,
+      flight.selectedInboundFlight,
+      seat.customers
+    );
+    seat.customers.forEach((customer) => {
+      dispatch(
+        createSeat({
+          reqData: {
+            flightId: flight.selectedOutboundFlight.flightInstance.flightId,
+            date: flight.selectedOutboundFlight.flight.departureTime,
+            ticket: flight.selectedOutboundFlight.ticket,
+            citizenId: customer.citizenId,
+            firstName: customer.firstName,
+            lastName: customer.lastName,
+            phone: customer.phone,
+            dob: customer.dob.format("YYYY-MM-DD"),
+            gender: customer.gender,
+          },
+          jwt,
+        })
+      );
+      if (flight.selectedOutboundFlight.flight.flightType === "round-trip") {
+        dispatch(
+          createSeat({
+            reqData: {
+              flightId: flight.selectedInboundFlight.flightInstance.flightId,
+              date: flight.selectedInboundFlight.flight.departureTime,
+              ticket: flight.selectedInboundFlight.ticket,
+              citizenId: customer.citizenId,
+              firstName: customer.firstName,
+              lastName: customer.lastName,
+              phone: customer.phone,
+              dob: customer.dob.format("YYYY-MM-DD"),
+              gender: customer.gender,
+            },
+            jwt,
+          })
+        );
+      }
+    });
+  };
+
   return (
     <div className="w-[50vw] mx-auto m-4 p-5 bg-indigo-100">
       <div className=" justify-items-center">
@@ -60,8 +112,9 @@ const Preview = () => {
             sx={{
               background: "linear-gradient(to right, #B993D6, #8CA6DB)",
             }}
+            onClick={handleSubmit}
           >
-            Tiếp tục
+            Xác nhận
           </Button>
         </div>
       </div>
