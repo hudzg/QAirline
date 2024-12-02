@@ -1,7 +1,8 @@
 import React from "react";
 import { Typography, Paper, Divider, Button } from "@mui/material";
 import FlightIcon from "@mui/icons-material/Flight";
-import VisibilityIcon from '@mui/icons-material/Visibility';import CancelIcon from "@mui/icons-material/Cancel";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import CancelIcon from "@mui/icons-material/Cancel";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 const FlightCard = () => {
@@ -12,7 +13,7 @@ const FlightCard = () => {
           <Typography variant="h5">HANOI</Typography>
           <Typography variant="h5">DANANG</Typography>
         </div>
-        <Divider/>
+        <Divider />
         <div className="grid grid-cols-9 mt-1">
           {/* khởi hành */}
           <div className="col-span-2">

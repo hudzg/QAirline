@@ -43,13 +43,22 @@ const Navbar = () => {
               QAirline
             </div>
             <div className="flex justify-between w-[40%] items-center">
-              <div className="cursor-pointer font-semibold text-xl">
+              <div
+                onClick={() => navigate("/")}
+                className="cursor-pointer font-semibold text-xl"
+              >
                 Trang chủ
               </div>
-              <div className="cursor-pointer font-semibold text-xl">
+              <div
+                onClick={() => navigate("/myflight")}
+                className="cursor-pointer font-semibold text-xl"
+              >
                 Chuyến bay
               </div>
-              <div className="cursor-pointer font-semibold text-xl">
+              <div
+                onClick={() => navigate("/feedback")}
+                className="cursor-pointer font-semibold text-xl"
+              >
                 Phản hồi
               </div>
             </div>

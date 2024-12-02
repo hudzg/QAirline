@@ -1,11 +1,9 @@
 package com.QAirline.service;
 
-import com.QAirline.model.Airplane;
-import com.QAirline.model.FlightInstance;
-import com.QAirline.model.Seat;
-import com.QAirline.model.User;
+import com.QAirline.model.*;
 import com.QAirline.repository.FlightInstanceRepository;
 import com.QAirline.repository.SeatRepository;
+import com.QAirline.repository.TicketRepository;
 import com.QAirline.request.CreateFlightInstanceRequest;
 import com.QAirline.request.CreateSeatRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +21,17 @@ public class SeatServiceImp implements SeatService{
     private FlightInstanceService flightInstanceService;
     @Autowired
     private FlightService flightService;
+    @Autowired
+    private TicketRepository ticketRepository;
     @Override
     public Seat createSeat(CreateSeatRequest createSeatRequest, User user) throws Exception {
         Seat seat = new Seat();
         seat.setUser(user);
-        seat.setTicket(createSeatRequest.getTicket());
+
+        Optional<Ticket> optionalTicket = ticketRepository.findById(createSeatRequest.getTicket().getId());
+        Ticket ticket = optionalTicket.get();
+        seat.setTicket(ticket);
+
         seat.setSeatNumber(createSeatRequest.getSeatNumber());
         seat.setCitizenId(createSeatRequest.getCitizenId());
         seat.setFirstName(createSeatRequest.getFirstName());
