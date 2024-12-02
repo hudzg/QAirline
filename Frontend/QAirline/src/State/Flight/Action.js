@@ -2,6 +2,7 @@ import { api } from "../../config/api";
 import {
   ADD_GET_FLIGHT_REQUEST,
   ADD_GET_INBOUND_FLIGHT_REQUEST,
+  ADD_SELECTED_INBOUND_FLIGHT,
   ADD_SELECTED_OUTBOUND_FLIGHT,
   GET_INBOUND_FLIGHT_FAILURE,
   GET_INBOUND_FLIGHT_REQUEST,
@@ -70,4 +71,9 @@ export const addGetInboundFlightRequest = (reqData) => async (dispatch) => {
 export const addSelectedOutboundFlight = (reqData) => async (dispatch) => {
   dispatch({ type: ADD_SELECTED_OUTBOUND_FLIGHT, payload: reqData });
   localStorage.setItem("selectedOutboundFlight", JSON.stringify(reqData));
+};
+
+export const addSelectedInboundFlight = (reqData) => async (dispatch) => {
+  dispatch({ type: ADD_SELECTED_INBOUND_FLIGHT, payload: reqData });
+  localStorage.setItem("selectedInboundFlight", JSON.stringify(reqData));
 };

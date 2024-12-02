@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addGetFlightRequest } from "../../State/Flight/Action";
+import { addCustomer } from "../../State/Seat/Action";
 import InfoCard from "./InfoCard";
 
 const PersonalInfo = () => {
@@ -27,6 +28,7 @@ const PersonalInfo = () => {
       for (let i = 0; i < flight.getFlightReq.numPassenger; i++) {
         newInforData.push({
           id: i + 1,
+          citizenId: "",
           firstName: "",
           lastName: "",
           phone: "",
@@ -49,6 +51,8 @@ const PersonalInfo = () => {
 
   const handleSubmit = () => {
     console.log(inforData);
+    dispatch(addCustomer(inforData));
+    navigate("/preview");
   };
 
   return (
