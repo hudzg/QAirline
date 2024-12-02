@@ -1,15 +1,14 @@
 package com.QAirline.service;
 
-import com.QAirline.model.Flight;
-import com.QAirline.model.FlightInstance;
-import com.QAirline.model.FlightLeg;
-import com.QAirline.model.LegInstance;
+import com.QAirline.model.*;
 import com.QAirline.repository.FlightInstanceRepository;
 import com.QAirline.repository.LegInstanceRepository;
 import com.QAirline.request.CreateFlightInstanceRequest;
+import com.QAirline.response.GetFlightInstanceByUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,5 +54,17 @@ public class FlightInstanceServiceImp implements FlightInstanceService {
             throw new Exception("FlightInstance not found with id: " + id);
         }
         return optional.get();
+    }
+
+    @Override
+    public List<GetFlightInstanceByUserResponse> getFlightInstanceByUser(User user) {
+        List<GetFlightInstanceByUserResponse> responseList = new ArrayList<>();
+        List<FlightInstance> flightInstances = flightInstanceRepository.findFlightInstancesByUserId(user.getId());
+        for(FlightInstance flightInstance : flightInstances) {
+            GetFlightInstanceByUserResponse response = new GetFlightInstanceByUserResponse();
+            response.setFlightInstance(flightInstance);
+            responseList.add(response);
+        }
+        return responseList;
     }
 }
