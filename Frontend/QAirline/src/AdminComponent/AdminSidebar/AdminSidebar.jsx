@@ -16,10 +16,11 @@ import FeedbackIcon from "@mui/icons-material/Feedback";
 import PersonIcon from "@mui/icons-material/Person";
 import AirlinesIcon from "@mui/icons-material/Airlines";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
-
+import FlightIcon from '@mui/icons-material/Flight';
 const menu = [
   { title: "Dashboard", icon: <DashboardIcon />, path: "/" },
   { title: "Sân bay", icon: <AirlinesIcon />, path: "/airport" },
+  { title: "Máy bay", icon: <FlightIcon />, path: "/airplane"},
   { title: "Chuyến bay", icon: <FlightTakeoffIcon />, path: "/flight" },
   {
     title: "Trạng thái chuyến bay",
@@ -30,6 +31,7 @@ const menu = [
   { title: "Phản hồi", icon: <FeedbackIcon />, path: "/feedback" },
 ];
 
+console.log(menu.length)
 const AdminSidebar = () => {
   const isSmallScreen = useMediaQuery("(max-width:1080px)");
 
