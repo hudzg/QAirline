@@ -12,6 +12,8 @@ import Preview from "..//Component/Preview/Preview";
 import MyFlight from "../Component/MyFlight/MyFlight";
 import Profile from "../Component/Profile/Profile";
 import BookingInbound from "../Component/Booking/BookingInbound";
+import Seat from "../Component/Seat/Seat";
+
 
 const CustomerRoute = () => {
   return (
@@ -22,6 +24,7 @@ const CustomerRoute = () => {
         <Route path="/feedback" element={<Feedback />}></Route>
         <Route path="/booking" element={<Booking />}></Route>
         <Route path="/booking-inbound" element={<BookingInbound />}></Route>
+        <Route path="/seat" element={<Seat />}></Route>
         <Route path="/info" element={<PersonalInfo />}></Route>
         <Route path="/ticket" element={<PrintTicket />}></Route>
         <Route path="/preview" element={<Preview />}></Route>

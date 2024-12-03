@@ -12,7 +12,16 @@ const PersonalInfo = () => {
   const dispatch = useDispatch();
   const flight = useSelector((store) => store.flight);
 
-  const [inforData, setInforData] = useState([]);
+  const [inforData, setInforData] = useState([
+    {
+      id: 1,
+      firstName: "hoang",
+      lastName: "huu",
+      phone: "507",
+      dob: dayjs(),
+      gender: "male",
+    },
+  ]);
 
   useEffect(() => {
     const getFlightReq = localStorage.getItem("getFlightReq");
