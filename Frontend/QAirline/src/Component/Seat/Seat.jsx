@@ -59,6 +59,10 @@ const Seat = () => {
     return userChoices.includes(seatId);
   };
 
+  const handleSubmit = () => {
+    console.log(userClass + " class: " + userChoices);
+  };
+
   return (
     <div className="m-auto mb-5 mt-5 p-5 place-items-center relative">
       <Typography variant="h3" textAlign={"center"} gutterBottom>
@@ -281,14 +285,11 @@ const Seat = () => {
         }}
         className="mt-5"
         variant="contained"
-        onClick={() => {
-          console.log(userClass + " class: " + userChoices);
-        }}
+        onClick={handleSubmit}
       >
         Tiếp tục
       </Button>
-      <div className="absolute bottom-3 right-3 flex flex-col gap-1"
-      >
+      <div className="absolute bottom-3 right-3 flex flex-col gap-1">
         <div>
           <Button
             className=""

@@ -4,6 +4,9 @@ import {
   CREATE_SEAT_FAILURE,
   CREATE_SEAT_REQUEST,
   CREATE_SEAT_SUCCESS,
+  GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_FAILURE,
+  GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_REQUEST,
+  GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_SUCCESS,
 } from "./ActionType";
 
 export const createSeat =
@@ -27,3 +30,30 @@ export const createSeat =
 export const addCustomer = (reqData) => async (dispatch) => {
   dispatch({ type: ADD_CUSTOMER, payload: reqData });
 };
+
+export const getSeatsByUserAndFlightInstance =
+  ({ flightInstanceId, jwt }) =>
+  async (dispatch) => {
+    dispatch({ type: GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_REQUEST });
+    try {
+      const { data } = await api.get(
+        `/api/seat/user/flight-instance/${flightInstanceId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      dispatch({
+        type: GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_SUCCESS,
+        payload: data,
+      });
+      console.log("getSeatsByUserAndFlightInstance success", data);
+    } catch (error) {
+      dispatch({
+        type: GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_FAILURE,
+        payload: error,
+      });
+      console.log("error", error);
+    }
+  };

@@ -20,4 +20,13 @@ public class Airplane {
     private Long firstClassCapacity;
     private Long businessCapacity;
     private Long economyCapacity;
+
+    private Long firstClassRow;
+    private Long firstClassCol;
+
+    private Long businessRow;
+    private Long businessCol;
+
+    private Long economyRow;
+    private Long economyCol;
 }

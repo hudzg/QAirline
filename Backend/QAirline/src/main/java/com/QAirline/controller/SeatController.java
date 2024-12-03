@@ -3,6 +3,7 @@ package com.QAirline.controller;
 import com.QAirline.model.Seat;
 import com.QAirline.model.User;
 import com.QAirline.request.CreateSeatRequest;
+import com.QAirline.response.GetSeatsByUserAndFlightInstanceResponse;
 import com.QAirline.service.SeatService;
 import com.QAirline.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,12 @@ public class SeatController {
     }
 
     @GetMapping("/user/flight-instance/{flightInstanceId}")
-    public ResponseEntity<List<Seat>> getSeatsByUserAndFlightInstance(
+    public ResponseEntity<List<GetSeatsByUserAndFlightInstanceResponse>> getSeatsByUserAndFlightInstance(
             @PathVariable Long flightInstanceId,
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
         User user = userService.findUserByJwtToken(jwt);
-        List<Seat> seats = seatService.getSeatsByUserAndFlightInstance(user.getId(), flightInstanceId);
+        List<GetSeatsByUserAndFlightInstanceResponse> seats = seatService.getSeatsByUserAndFlightInstance(user.getId(), flightInstanceId);
 
         return new ResponseEntity<>(seats, HttpStatus.OK);
     }
