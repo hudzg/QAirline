@@ -4,8 +4,20 @@ import FlightIcon from "@mui/icons-material/Flight";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CancelIcon from "@mui/icons-material/Cancel";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getSeatsByUserAndFlightInstance } from "../../State/Seat/Action";
 
 const FlightCard = ({ flightInstance }) => {
+  const navigate = useNavigate();
+  const jwt = localStorage.getItem("jwt");
+  const dispatch = useDispatch();
+
+  const handleOnClick = (flightInstanceId) => {
+    console.log(flightInstanceId);
+    dispatch(getSeatsByUserAndFlightInstance({ flightInstanceId, jwt }));
+    navigate("/ticket");
+  };
   return (
     <div className="flex">
       <Paper className="mt-5 mb-5 mr-3 p-3 w-[90%]">
@@ -52,6 +64,7 @@ const FlightCard = ({ flightInstance }) => {
           variant="contained"
           // startIcon={<VisibilityIcon />}
           className="w-[100%]"
+          onClick={() => handleOnClick(flightInstance.flightInstance.id)}
         >
           Xem
         </Button>

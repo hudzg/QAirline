@@ -6,14 +6,16 @@ import com.QAirline.repository.SeatRepository;
 import com.QAirline.repository.TicketRepository;
 import com.QAirline.request.CreateFlightInstanceRequest;
 import com.QAirline.request.CreateSeatRequest;
+import com.QAirline.response.GetSeatsByUserAndFlightInstanceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class SeatServiceImp implements SeatService{
+public class SeatServiceImp implements SeatService {
     @Autowired
     private SeatRepository seatRepository;
     @Autowired
@@ -24,6 +26,7 @@ public class SeatServiceImp implements SeatService{
     private FlightService flightService;
     @Autowired
     private TicketRepository ticketRepository;
+
     @Override
     public Seat createSeat(CreateSeatRequest createSeatRequest, User user) throws Exception {
         Seat seat = new Seat();
@@ -49,8 +52,7 @@ public class SeatServiceImp implements SeatService{
             createFlightInstanceRequest.setDate(createSeatRequest.getDate());
             createFlightInstanceRequest.setFlight(flightService.findFlightById(createSeatRequest.getFlightId()));
             flightInstance = flightInstanceService.createFlightInstance(createFlightInstanceRequest);
-        }
-        else {
+        } else {
             flightInstance = optionalFlightInstance.get();
         }
 
@@ -65,7 +67,26 @@ public class SeatServiceImp implements SeatService{
     }
 
     @Override
-    public List<Seat> getSeatsByUserAndFlightInstance(Long userId, Long flightInstanceId) {
-        return seatRepository.findByUserIdAndFlightInstanceId(userId, flightInstanceId);
+    public List<GetSeatsByUserAndFlightInstanceResponse> getSeatsByUserAndFlightInstance(Long userId, Long flightInstanceId) {
+        List<Seat> seats = seatRepository.findByUserIdAndFlightInstanceId(userId, flightInstanceId);
+        List<GetSeatsByUserAndFlightInstanceResponse> responses = new ArrayList<>();
+        for(Seat seat : seats) {
+            GetSeatsByUserAndFlightInstanceResponse response = new GetSeatsByUserAndFlightInstanceResponse();
+            response.setId(seat.getId());
+            response.setUser(seat.getUser());
+            response.setFlightInstance(seat.getFlightInstance());
+            response.setTicket(seat.getTicket());
+            response.setSeatNumber(seat.getSeatNumber());
+            response.setCitizenId(seat.getCitizenId());
+            response.setFirstName(seat.getFirstName());
+            response.setLastName(seat.getLastName());
+            response.setPhone(seat.getPhone());
+            response.setDob(seat.getDob());
+            response.setGender(seat.getGender());
+            response.setFlightLegs(seat.getFlightInstance().getFlight().getFlightLegs());
+
+            responses.add(response);
+        }
+        return responses;
     }
 }

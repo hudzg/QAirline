@@ -18,39 +18,70 @@ const InfoField = ({ label, value }) => (
   </div>
 );
 
-const Ticket = () => {
+const flightClass = {
+  ECONOMY_CLASS: { label: "Hạng phổ thông", color: "#B993D6" },
+  BUSINESS_CLASS: { label: "Hạng thương gia", color: "#A2A6DB" },
+  FIRST_CLASS: { label: "Hạng nhất", color: "#8CA6DB" },
+};
+
+const Ticket = ({ seat }) => {
   return (
     <div className="mb-5">
       <Paper elevation={6} className="flex">
         <div className="bg-gray-100 flex-grow-[4] p-2">
-          <div className="flex justify-center mb-2">
-            <Typography variant="h4">Hạng thương gia</Typography>
+          <div
+            className={`flex justify-center mb-2`}
+            style={{
+              "background-color": flightClass[seat.ticket.ticketClass].color,
+            }}
+          >
+            <Typography variant="h4" color="primary.contrastText">
+              {flightClass[seat.ticket.ticketClass].label}
+            </Typography>
           </div>
           <Divider />
           <div className="flex items-center justify-between">
             <div>
-              <InfoField label={"Mã chuyến bay"} value={"ABC123"}/>
+              <InfoField
+                label={"Mã chuyến bay"}
+                value={seat.flightInstance.id}
+              />
             </div>
             <div className="flex items-center space-x-2">
               <div className="text-center">
-                <InfoField label={"Khởi hành"} value={"HANOI"}/>   
+                <InfoField
+                  label={"Khởi hành"}
+                  value={seat.flightLegs[0].departureAirport.city}
+                />
               </div>
               <DoubleArrowIcon />
               <div className="text-center">
-                <InfoField label={"Điểm đến"} value={"DANANG"}/>
+                <InfoField
+                  label={"Điểm đến"}
+                  value={seat.flightLegs[0].arrivalAirport.city}
+                />
               </div>
             </div>
           </div>
           <div>
             <div>
-              <InfoField label={"Giờ khởi hành"} value={"12:00"}/>
+              <InfoField
+                label={"Giờ khởi hành"}
+                value={seat.flightLegs[0].departureTime.substring(0, 5)}
+              />
             </div>
             <div>
-              <InfoField label={"Giờ hạ cánh(dự kiến)"} value={"16:00"}/>
+              <InfoField
+                label={"Giờ hạ cánh(dự kiến)"}
+                value={seat.flightLegs[0].arrivalTime.substring(0, 5)}
+              />
             </div>
           </div>
           <div>
-          <InfoField label={"Hành khách"} value={"Hoàng Công Hữu"}/>
+            <InfoField
+              label={"Hành khách"}
+              value={seat.firstName + " " + seat.lastName}
+            />
           </div>
         </div>
 

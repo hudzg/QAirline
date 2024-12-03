@@ -19,7 +19,10 @@ const MyFlight = () => {
   return (
     <div className="w-[60vw] m-auto mb-5 mt-5 p-5 bg-indigo-50">
       {flightInstances.map((flightInstance) => (
-        <FlightCard flightInstance={flightInstance} />
+        <FlightCard
+          flightInstance={flightInstance}
+          key={flightInstance.flightInstance.id}
+        />
       ))}
     </div>
   );

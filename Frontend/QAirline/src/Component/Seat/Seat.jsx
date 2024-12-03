@@ -59,7 +59,9 @@ const Seat = () => {
     return userChoices.includes(seatId);
   };
 
+
   //ấn tiếp tục
+
   const handleSubmit = () => {
     console.log(userClass + " class: " + userChoices);
   };

@@ -1,25 +1,31 @@
 import React, { useRef } from "react";
 import { Button, Typography } from "@mui/material";
-import PrintIcon from '@mui/icons-material/Print';
+import PrintIcon from "@mui/icons-material/Print";
 import Ticket from "./Ticket";
-import { useReactToPrint } from 'react-to-print';
+import { useReactToPrint } from "react-to-print";
+import { useSelector } from "react-redux";
 
 const PrintTicket = () => {
+  const userSeats = useSelector((store) => store.seat.userSeats);
+
   const printRef = useRef(null);
 
   const handlePrint = useReactToPrint({
     documentTitle: "Vé điện tử",
     contentRef: printRef,
   });
-  
 
   return (
     <div className="w-[60vw] m-auto mb-5 mt-5 p-5 bg-indigo-50">
       <div>
-        <Typography variant="h3" textAlign="center" gutterBottom>Vé điện tử</Typography>
+        <Typography variant="h3" textAlign="center" gutterBottom>
+          Vé điện tử
+        </Typography>
       </div>
       <div ref={printRef}>
-        {[1, 1, 1, 1, 1].map((_, index) => (<Ticket key={index} />))}
+        {userSeats.map((seat) => (
+          <Ticket key={seat.id} seat={seat} />
+        ))}
       </div>
       <div className="flex justify-center">
         <Button
