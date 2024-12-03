@@ -1,7 +1,6 @@
 import React from "react";
 import { Typography, Paper, Divider, Button } from "@mui/material";
 import FlightIcon from "@mui/icons-material/Flight";
-import VisibilityIcon from '@mui/icons-material/Visibility';import CancelIcon from "@mui/icons-material/Cancel";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 const FlightCard = () => {
