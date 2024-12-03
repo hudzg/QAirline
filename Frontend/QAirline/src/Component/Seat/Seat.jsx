@@ -1,17 +1,16 @@
 import { Divider, Button, Typography } from "@mui/material";
-import { red } from "@mui/material/colors";
 import { useState } from "react";
 
 const Seat = () => {
-  const economyRows = 2;
-  const economyCols = 12;
-  const bussinessRows = 6;
-  const bussinessCols = 10;
-  const firstRows = 2;
-  const firstCols = 10;
+  const economyRows = 14;
+  const economyCols = 8;
+  const bussinessRows = 12;
+  const bussinessCols = 6;
+  const firstRows = 6;
+  const firstCols = 2;
 
   //hạng của user
-  const userClass = "economy";
+  const userClass = "first";
 
   let userClassVIE;
   switch (userClass) {
@@ -31,18 +30,18 @@ const Seat = () => {
   //ghế đã có người chọn
   const seatIsTakenFirst = ["A1", "B1", "A6", "D6"];
   const seatIsTakenBussiness = ["A1", "B1", "C1"];
-  const seatIsTakeneconomy = ["A6", "B6", "D6"];
+  const seatIsTakenEconomy = ["A6", "B6", "D6"];
 
   const [userChoices, setUserChoices] = useState([]);
 
   //thay đổi khi ấn button chọn ghế
-  const handleSeatChange = (rowIndex, colIndex) => {
-    const seatID = `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`;
+  const handleSeatChange = (colIndex, rowIndex) => {
+    const seatID = `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`;
 
     if (
       (seatIsTakenFirst.includes(seatID) && userClass === "first") ||
       (seatIsTakenBussiness.includes(seatID) && userClass === "bussiness") ||
-      (seatIsTakeneconomy.includes(seatID) && userClass === "economy")
+      (seatIsTakenEconomy.includes(seatID) && userClass === "economy")
     )
       return;
 
@@ -54,8 +53,8 @@ const Seat = () => {
   };
 
   //kiểm tra trạng thái ghế
-  const isSeatSelected = (rowIndex, colIndex) => {
-    const seatId = `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`;
+  const isSeatSelected = (colIndex, rowIndex) => {
+    const seatId = `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`;
     return userChoices.includes(seatId);
   };
 
@@ -69,7 +68,7 @@ const Seat = () => {
       <Typography variant="h3" textAlign={"center"} gutterBottom>
         Chọn chỗ ngồi
       </Typography>
-      <div className="flex">
+      <div className="place-items-center">
         {/* ghế hạng nhất */}
         <div className="flex flex-col justify-center ml-5 mr-5">
           <Typography variant="body1" align="center" gutterBottom>
@@ -78,46 +77,46 @@ const Seat = () => {
           <div
             className="grid gap-x-1 items-center "
             style={{
-              gridTemplateColumns: `25px repeat(${firstCols}, 25px)`,
+              gridTemplateColumns: `30px repeat(${firstCols}, 30px)`,
             }}
           >
             {/* hiển thị id của các cột */}
             <div></div>
-            {Array.from({ length: firstCols }).map((_, colIndex) => (
-              <div className="text-center font-bold">{colIndex + 1}</div>
+            {Array.from({ length: firstCols }).map((_, index) => (
+              <div className="text-center font-bold">
+                {String.fromCharCode(65 + index)}
+              </div>
             ))}
-            {/* Hiển thị các hàng và button */}
+            {/* Hiển thị id các hàng và các seat */}
             {Array.from({ length: firstRows }).map((_, rowIndex) => (
               <>
-                <div className="text-center font-bold">
-                  {String.fromCharCode(65 + rowIndex)}
-                </div>
+                <div className="text-center font-bold">{rowIndex + 1}</div>
                 {Array.from({ length: firstCols }).map((_, colIndex) => (
                   <Button
-                    key={`seat-${rowIndex}-${colIndex}`}
+                    key={`seat-${colIndex}-${rowIndex}`}
                     variant={
                       seatIsTakenFirst.includes(
-                        `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`
+                        `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`
                       )
                         ? "contained"
-                        : isSeatSelected(rowIndex, colIndex) &&
+                        : isSeatSelected(colIndex, rowIndex) &&
                           userClass === "first"
                         ? "contained"
                         : "outlined"
                     }
                     color={
                       seatIsTakenFirst.includes(
-                        `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`
+                        `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`
                       )
                         ? "inherit"
-                        : isSeatSelected(rowIndex, colIndex) &&
+                        : isSeatSelected(colIndex, rowIndex) &&
                           userClass === "first"
                         ? "primary"
                         : "default"
                     }
                     sx={{
-                      width: "25px",
-                      height: "25px",
+                      width: "30px",
+                      height: "30px",
                       margin: "2px",
                       minWidth: "20px",
                       padding: 0,
@@ -127,17 +126,17 @@ const Seat = () => {
                     onClick={() => {
                       if (
                         !seatIsTakenFirst.includes(
-                          `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`
+                          `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`
                         )
                       ) {
                         if (userClass === "first")
-                          handleSeatChange(rowIndex, colIndex);
+                          handleSeatChange(colIndex, rowIndex);
                       }
                     }}
                   >
-                    {/* Chỉ hiển thị ID ghế */}
-                    {String.fromCharCode(65 + rowIndex)}
-                    {colIndex + 1}
+                    {/* hiển thị seat id */}
+                    {String.fromCharCode(65 + colIndex)}
+                    {rowIndex + 1}
                   </Button>
                 ))}
               </>
@@ -145,61 +144,56 @@ const Seat = () => {
           </div>
         </div>
 
-        <Divider
-          orientation="vertical"
-          variant="middle"
-          flexItem
-          className="bg-black"
-        />
+        {/* <Divider variant="middle" flexItem className="bg-black" */}
 
         {/* ghế thương gia */}
-        <div className="flex flex-col justify-center ml-5 mr-5">
+        <div className="flex flex-col justify-center mt-5 mb-5">
           <Typography variant="body1" align="center" gutterBottom>
             Hạng thương gia
           </Typography>
           <div
             className="grid gap-x-1 items-center "
             style={{
-              gridTemplateColumns: `25px repeat(${bussinessCols}, 25px)`,
+              gridTemplateColumns: `30px repeat(${bussinessCols}, 30px)`,
             }}
           >
-            {/* hiển thị id cột */}
+            {/* hiển thị id của các cột */}
             <div></div>
-            {Array.from({ length: bussinessCols }).map((_, colIndex) => (
-              <div className="text-center font-bold">{colIndex + 1}</div>
+            {Array.from({ length: bussinessCols }).map((_, index) => (
+              <div className="text-center font-bold">
+                {String.fromCharCode(65 + index)}
+              </div>
             ))}
-            {/* Hiển thị các hàng và button */}
+            {/* Hiển thị id các hàng và các seat */}
             {Array.from({ length: bussinessRows }).map((_, rowIndex) => (
               <>
-                <div className="text-center font-bold">
-                  {String.fromCharCode(65 + rowIndex)}
-                </div>
+                <div className="text-center font-bold">{rowIndex + 1}</div>
                 {Array.from({ length: bussinessCols }).map((_, colIndex) => (
                   <Button
-                    key={`seat-${rowIndex}-${colIndex}`}
+                    key={`seat-${colIndex}-${rowIndex}`}
                     variant={
                       seatIsTakenBussiness.includes(
-                        `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`
+                        `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`
                       )
                         ? "contained"
-                        : isSeatSelected(rowIndex, colIndex) &&
+                        : isSeatSelected(colIndex, rowIndex) &&
                           userClass === "bussiness"
                         ? "contained"
                         : "outlined"
                     }
                     color={
                       seatIsTakenBussiness.includes(
-                        `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`
+                        `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`
                       )
                         ? "inherit"
-                        : isSeatSelected(rowIndex, colIndex) &&
+                        : isSeatSelected(colIndex, rowIndex) &&
                           userClass === "bussiness"
                         ? "primary"
                         : "default"
                     }
                     sx={{
-                      width: "25px",
-                      height: "25px",
+                      width: "30px",
+                      height: "30px",
                       margin: "2px",
                       minWidth: "20px",
                       padding: 0,
@@ -207,13 +201,19 @@ const Seat = () => {
                       fontSize: "0.7rem",
                     }}
                     onClick={() => {
-                      if (userClass === "bussiness")
-                        handleSeatChange(rowIndex, colIndex);
+                      if (
+                        !seatIsTakenBussiness.includes(
+                          `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`
+                        )
+                      ) {
+                        if (userClass === "bussiness")
+                          handleSeatChange(colIndex, rowIndex);
+                      }
                     }}
                   >
-                    {/* Chỉ hiển thị ID ghế */}
-                    {String.fromCharCode(65 + rowIndex)}
-                    {colIndex + 1}
+                    {/* hiển thị seat id */}
+                    {String.fromCharCode(65 + colIndex)}
+                    {rowIndex + 1}
                   </Button>
                 ))}
               </>
@@ -221,62 +221,56 @@ const Seat = () => {
           </div>
         </div>
 
-        <Divider
-          orientation="vertical"
-          variant="middle"
-          flexItem
-          className="bg-black"
-        />
+        {/* <Divider variant="middle" flexItem className="bg-black" /> */}
 
         {/* ghế phổ thông */}
-        <div className="flex flex-col justify-center ml-5 mr-5">
+        <div className="flex flex-col justify-center mt-5 mb-5">
           <Typography variant="body1" align="center" gutterBottom>
             Hạng phổ thông
           </Typography>
           <div
-            className="grid gap-x-1 items-center"
+            className="grid gap-x-1 items-center "
             style={{
-              gridTemplateColumns: `25px repeat(${economyRows}, 25px)`,
+              gridTemplateColumns: `30px repeat(${economyCols}, 30px)`,
             }}
           >
-            {/* hiển thị id cột */}
+            {/* hiển thị id của các cột */}
             <div></div>
-            {Array.from({ length: economyRows }).map((_, colIndex) => (
-              <div className="text-center font-bold">{colIndex + 1}</div>
+            {Array.from({ length: economyCols }).map((_, index) => (
+              <div className="text-center font-bold">
+                {String.fromCharCode(65 + index)}
+              </div>
             ))}
-            {/* Hiển thị các hàng và button */}
-            {Array.from({ length: economyCols }).map((_, rowIndex) => (
+            {/* Hiển thị id các hàng và các seat */}
+            {Array.from({ length: economyRows }).map((_, rowIndex) => (
               <>
-                <div className="text-center font-bold">
-                  {String.fromCharCode(65 + rowIndex)}
-                </div>
-                {Array.from({ length: economyRows }).map((_, colIndex) => (
+                <div className="text-center font-bold">{rowIndex + 1}</div>
+                {Array.from({ length: economyCols }).map((_, colIndex) => (
                   <Button
-                    className=""
-                    key={`seat-${rowIndex}-${colIndex}`}
+                    key={`seat-${colIndex}-${rowIndex}`}
                     variant={
-                      seatIsTakeneconomy.includes(
-                        `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`
+                      seatIsTakenEconomy.includes(
+                        `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`
                       )
                         ? "contained"
-                        : isSeatSelected(rowIndex, colIndex) &&
+                        : isSeatSelected(colIndex, rowIndex) &&
                           userClass === "economy"
                         ? "contained"
                         : "outlined"
                     }
                     color={
-                      seatIsTakeneconomy.includes(
-                        `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`
+                      seatIsTakenEconomy.includes(
+                        `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`
                       )
                         ? "inherit"
-                        : isSeatSelected(rowIndex, colIndex) &&
+                        : isSeatSelected(colIndex, rowIndex) &&
                           userClass === "economy"
                         ? "primary"
                         : "default"
                     }
                     sx={{
-                      width: "25px",
-                      height: "25px",
+                      width: "30px",
+                      height: "30px",
                       margin: "2px",
                       minWidth: "20px",
                       padding: 0,
@@ -284,13 +278,19 @@ const Seat = () => {
                       fontSize: "0.7rem",
                     }}
                     onClick={() => {
-                      if (userClass === "economy")
-                        handleSeatChange(rowIndex, colIndex);
+                      if (
+                        !seatIsTakenEconomy.includes(
+                          `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`
+                        )
+                      ) {
+                        if (userClass === "economy")
+                          handleSeatChange(colIndex, rowIndex);
+                      }
                     }}
                   >
-                    {/* Chỉ hiển thị ID ghế */}
-                    {String.fromCharCode(65 + rowIndex)}
-                    {colIndex + 1}
+                    {/* hiển thị seat id */}
+                    {String.fromCharCode(65 + colIndex)}
+                    {rowIndex + 1}
                   </Button>
                 ))}
               </>
@@ -314,15 +314,15 @@ const Seat = () => {
       >
         Tiếp tục
       </Button>
-      <div className="absolute bottom-3 right-3 flex flex-col gap-1">
+      <div className="absolute top-24 left-3 flex flex-col gap-1">
         <div>
           <Button
             className=""
             variant={"contained"}
             color={"primary"}
             sx={{
-              width: "25px",
-              height: "25px",
+              width: "30px",
+              height: "30px",
               margin: "2px",
               minWidth: "20px",
               padding: 0,
@@ -341,8 +341,8 @@ const Seat = () => {
             variant={"contained"}
             color={"inherit"}
             sx={{
-              width: "25px",
-              height: "25px",
+              width: "30px",
+              height: "30px",
               margin: "2px",
               minWidth: "20px",
               padding: 0,
@@ -361,8 +361,8 @@ const Seat = () => {
             variant={"outlined"}
             color={"default"}
             sx={{
-              width: "25px",
-              height: "25px",
+              width: "30px",
+              height: "30px",
               margin: "2px",
               minWidth: "20px",
               padding: 0,
