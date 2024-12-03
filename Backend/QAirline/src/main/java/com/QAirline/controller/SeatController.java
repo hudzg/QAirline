@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/seat")
 public class SeatController {
@@ -26,5 +28,16 @@ public class SeatController {
         Seat seat = seatService.createSeat(createSeatRequest, user);
 
         return new ResponseEntity<>(seat, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/user/flight-instance/{flightInstanceId}")
+    public ResponseEntity<List<Seat>> getSeatsByUserAndFlightInstance(
+            @PathVariable Long flightInstanceId,
+            @RequestHeader("Authorization") String jwt
+    ) throws Exception {
+        User user = userService.findUserByJwtToken(jwt);
+        List<Seat> seats = seatService.getSeatsByUserAndFlightInstance(user.getId(), flightInstanceId);
+
+        return new ResponseEntity<>(seats, HttpStatus.OK);
     }
 }
