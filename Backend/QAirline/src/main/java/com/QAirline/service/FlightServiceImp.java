@@ -1,9 +1,13 @@
 package com.QAirline.service;
 
 import com.QAirline.model.Flight;
+import com.QAirline.model.FlightInstance;
 import com.QAirline.model.FlightLeg;
 import com.QAirline.model.Ticket;
+import com.QAirline.repository.FlightInstanceRepository;
 import com.QAirline.repository.FlightRepository;
+import com.QAirline.repository.SeatRepository;
+import com.QAirline.request.CreateFlightInstanceRequest;
 import com.QAirline.request.GetFlightRequest;
 import com.QAirline.response.GetFlightResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,10 @@ public class FlightServiceImp implements FlightService {
     private FlightLegService flightLegService;
     @Autowired
     private TicketService ticketService;
+    @Autowired
+    private FlightInstanceRepository flightInstanceRepository;
+    @Autowired
+    private SeatRepository seatRepository;
 
     @Override
     public Flight createFlight(Flight flight) {
@@ -92,6 +100,14 @@ public class FlightServiceImp implements FlightService {
                 flightResponse.setHourDuration((long) Duration.between(flightResponse.getDepartureTime(), flightResponse.getArrivalTime()).toHoursPart());
                 flightResponse.setMinuteDuration((long) Duration.between(flightResponse.getDepartureTime(), flightResponse.getArrivalTime()).toMinutesPart());
                 flightResponse.setTickets(flight.getTickets());
+
+                Optional<FlightInstance> optionalFlightInstance = flightInstanceRepository.findByDateAndFlightId(getFlightRequest.getDepartureTime(), flight.getId());
+                if (optionalFlightInstance.isPresent()) {
+                    FlightInstance flightInstance = optionalFlightInstance.get();
+                    for(Ticket ticket : flightResponse.getTickets()) {
+                        ticket.setAmount(ticket.getAmount() - seatRepository.countByTicketIdAndFlightInstanceId(ticket.getId(), flightInstance.getId()));
+                    }
+                }
 
                 getFlightResponses.add(flightResponse);
             }

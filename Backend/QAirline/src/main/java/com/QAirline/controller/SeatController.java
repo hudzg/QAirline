@@ -1,8 +1,9 @@
 package com.QAirline.controller;
 
-import com.QAirline.model.Ticket;
+import com.QAirline.model.Seat;
 import com.QAirline.model.User;
-import com.QAirline.request.CreateTicketRequest;
+import com.QAirline.request.CreateSeatRequest;
+import com.QAirline.service.SeatService;
 import com.QAirline.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,14 +15,16 @@ import org.springframework.web.bind.annotation.*;
 public class SeatController {
     @Autowired
     private UserService userService;
-//    @PostMapping()
-//    public ResponseEntity<Ticket> createSeat(
-//            @RequestBody CreateTicketRequest createTicketRequest,
-//            @RequestHeader("Authorization") String jwt
-//    ) throws Exception {
-//        User user = userService.findUserByJwtToken(jwt);
-//
-//
-//        return new ResponseEntity<>(ticket, HttpStatus.CREATED);
-//    }
+    @Autowired
+    private SeatService seatService;
+    @PostMapping()
+    public ResponseEntity<Seat> createSeat(
+            @RequestBody CreateSeatRequest createSeatRequest,
+            @RequestHeader("Authorization") String jwt
+    ) throws Exception {
+        User user = userService.findUserByJwtToken(jwt);
+        Seat seat = seatService.createSeat(createSeatRequest, user);
+
+        return new ResponseEntity<>(seat, HttpStatus.CREATED);
+    }
 }

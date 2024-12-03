@@ -13,7 +13,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import LuggageIcon from "@mui/icons-material/Luggage";
 import FlightIcon from "@mui/icons-material/Flight";
 import { useDispatch, useSelector } from "react-redux";
-import { addSelectedOutboundFlight } from "../../State/Flight/Action";
+import { addSelectedInboundFlight } from "../../State/Flight/Action";
 import { useNavigate } from "react-router-dom";
 
 const flightClass = {
@@ -31,7 +31,7 @@ const BookingCardInbound = ({ item }) => {
     // console.log(flightInstance, ticket, flight);
     const reqData = { flightInstance, ticket, flight };
     console.log(reqData);
-    dispatch(addSelectedOutboundFlight(reqData));
+    dispatch(addSelectedInboundFlight(reqData));
     navigate("/info");
   };
 
