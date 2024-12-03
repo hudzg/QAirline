@@ -9,6 +9,7 @@ import com.QAirline.request.CreateSeatRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -61,5 +62,10 @@ public class SeatServiceImp implements SeatService{
         flightInstance.getSeats().add(savedSeat);
 
         return savedSeat;
+    }
+
+    @Override
+    public List<Seat> getSeatsByUserAndFlightInstance(Long userId, Long flightInstanceId) {
+        return seatRepository.findByUserIdAndFlightInstanceId(userId, flightInstanceId);
     }
 }

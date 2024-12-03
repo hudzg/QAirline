@@ -8,6 +8,7 @@ import com.QAirline.response.GetFlightInstanceByUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +64,12 @@ public class FlightInstanceServiceImp implements FlightInstanceService {
         for(FlightInstance flightInstance : flightInstances) {
             GetFlightInstanceByUserResponse response = new GetFlightInstanceByUserResponse();
             response.setFlightInstance(flightInstance);
+            response.setDepartureAirport(flightInstance.getFlight().getFlightLegs().get(0).getDepartureAirport());
+            response.setArrivalAirport(flightInstance.getFlight().getFlightLegs().getLast().getArrivalAirport());
+            response.setDepartureTime(flightInstance.getFlight().getFlightLegs().get(0).getDepartureTime());
+            response.setArrivalTime(flightInstance.getFlight().getFlightLegs().getLast().getArrivalTime());
+            response.setHourDuration((long) Duration.between(response.getDepartureTime(), response.getArrivalTime()).toHoursPart());
+            response.setMinuteDuration((long) Duration.between(response.getDepartureTime(), response.getArrivalTime()).toMinutesPart());
             responseList.add(response);
         }
         return responseList;
