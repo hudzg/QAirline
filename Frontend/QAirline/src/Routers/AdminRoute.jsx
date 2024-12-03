@@ -3,7 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import AdminSidebar from "../AdminComponent/AdminSidebar/AdminSidebar";
 import Dashboard from "../AdminComponent/Dashboard/Dashboard";
 import Airports from "../AdminComponent/Airport/AirportEdit";
-import AllFlight from "../AdminComponent/Flight/AllFlight";
+import FlightManagement from "../AdminComponent/Flight/FlightManagement";
+import FlightDetail from "../AdminComponent/Flight/FlightDetail";
 
 const AdminRoute = () => {
   return (
@@ -15,7 +16,8 @@ const AdminRoute = () => {
         <Routes>
           <Route path="/" element={<Dashboard />}></Route>
           <Route path="/airport" element={<Airports />}></Route>
-          <Route path="/flight" element={<AllFlight />}></Route>
+          <Route path="/flight" element={<FlightManagement />}></Route>
+          <Route path="/flight-detail" element={<FlightDetail/>}></Route>
           <Route path="/flight-status"></Route>
           <Route path="/passenger"></Route>
           <Route path="/feedback"></Route>
