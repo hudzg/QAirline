@@ -14,12 +14,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs/AdapterDayjs";
 import React, { useState } from "react";
 
 const InfoCard = ({ infor, updateInfor }) => {
-  //set danh xưng
-  const [title, setTitle] = useState("");
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-
   const handleChange = (field, value) => {
     // console.log(field, value);
     updateInfor(infor.id, { [field]: value });

@@ -3,15 +3,15 @@ import { red } from "@mui/material/colors";
 import { useState } from "react";
 
 const Seat = () => {
-  const normalRows = 6;
-  const normalCols = 12;
-  const bussinessRows = 4;
-  const bussinessCols = 8;
+  const economyRows = 2;
+  const economyCols = 12;
+  const bussinessRows = 6;
+  const bussinessCols = 10;
   const firstRows = 2;
-  const firstCols = 6;
+  const firstCols = 10;
 
   //hạng của user
-  const userClass = "normal";
+  const userClass = "economy";
 
   let userClassVIE;
   switch (userClass) {
@@ -21,7 +21,7 @@ const Seat = () => {
     case "bussiness":
       userClassVIE = "thương gia";
       break;
-    case "normal":
+    case "economy":
       userClassVIE = "phổ thông";
       break;
     default:
@@ -31,18 +31,18 @@ const Seat = () => {
   //ghế đã có người chọn
   const seatIsTakenFirst = ["A1", "B1", "A6", "D6"];
   const seatIsTakenBussiness = ["A1", "B1", "C1"];
-  const seatIsTakenNormal = ["A6", "B6", "D6"];
+  const seatIsTakeneconomy = ["A6", "B6", "D6"];
 
   const [userChoices, setUserChoices] = useState([]);
 
-  //thay đổi khi ấn button
+  //thay đổi khi ấn button chọn ghế
   const handleSeatChange = (rowIndex, colIndex) => {
     const seatID = `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`;
 
     if (
       (seatIsTakenFirst.includes(seatID) && userClass === "first") ||
       (seatIsTakenBussiness.includes(seatID) && userClass === "bussiness") ||
-      (seatIsTakenNormal.includes(seatID) && userClass === "normal")
+      (seatIsTakeneconomy.includes(seatID) && userClass === "economy")
     )
       return;
 
@@ -59,30 +59,41 @@ const Seat = () => {
     return userChoices.includes(seatId);
   };
 
+
+  //ấn tiếp tục
+
   const handleSubmit = () => {
     console.log(userClass + " class: " + userChoices);
   };
 
   return (
-    <div className="m-auto mb-5 mt-5 p-5 place-items-center relative">
+    <div className="m-auto mb-5 mt-5 p-5 place-items-center relative bg-indigo-50">
       <Typography variant="h3" textAlign={"center"} gutterBottom>
         Chọn chỗ ngồi
       </Typography>
       <div className="flex">
         {/* ghế hạng nhất */}
-        <div className="flex flex-col justify-center">
-          <Typography variant="body2" align="center" gutterBottom>
+        <div className="flex flex-col justify-center ml-5 mr-5">
+          <Typography variant="body1" align="center" gutterBottom>
             Hạng nhất
           </Typography>
           <div
-            className="grid gap-x-1 items-center ml-5 mr-5"
+            className="grid gap-x-1 items-center "
             style={{
-              gridTemplateColumns: `25px repeat(${firstCols - 1}, 25px)`,
+              gridTemplateColumns: `25px repeat(${firstCols}, 25px)`,
             }}
           >
+            {/* hiển thị id của các cột */}
+            <div></div>
+            {Array.from({ length: firstCols }).map((_, colIndex) => (
+              <div className="text-center font-bold">{colIndex + 1}</div>
+            ))}
             {/* Hiển thị các hàng và button */}
             {Array.from({ length: firstRows }).map((_, rowIndex) => (
               <>
+                <div className="text-center font-bold">
+                  {String.fromCharCode(65 + rowIndex)}
+                </div>
                 {Array.from({ length: firstCols }).map((_, colIndex) => (
                   <Button
                     key={`seat-${rowIndex}-${colIndex}`}
@@ -144,19 +155,27 @@ const Seat = () => {
         />
 
         {/* ghế thương gia */}
-        <div className="flex flex-col justify-center">
-          <Typography variant="body2" align="center" gutterBottom>
+        <div className="flex flex-col justify-center ml-5 mr-5">
+          <Typography variant="body1" align="center" gutterBottom>
             Hạng thương gia
           </Typography>
           <div
-            className="grid gap-x-1 items-center ml-5 mr-5"
+            className="grid gap-x-1 items-center "
             style={{
-              gridTemplateColumns: `25px repeat(${bussinessCols - 1}, 25px)`,
+              gridTemplateColumns: `25px repeat(${bussinessCols}, 25px)`,
             }}
           >
+            {/* hiển thị id cột */}
+            <div></div>
+            {Array.from({ length: bussinessCols }).map((_, colIndex) => (
+              <div className="text-center font-bold">{colIndex + 1}</div>
+            ))}
             {/* Hiển thị các hàng và button */}
             {Array.from({ length: bussinessRows }).map((_, rowIndex) => (
               <>
+                <div className="text-center font-bold">
+                  {String.fromCharCode(65 + rowIndex)}
+                </div>
                 {Array.from({ length: bussinessCols }).map((_, colIndex) => (
                   <Button
                     key={`seat-${rowIndex}-${colIndex}`}
@@ -212,40 +231,48 @@ const Seat = () => {
         />
 
         {/* ghế phổ thông */}
-        <div className="flex flex-col justify-center">
-          <Typography variant="body2" align="center" gutterBottom>
+        <div className="flex flex-col justify-center ml-5 mr-5">
+          <Typography variant="body1" align="center" gutterBottom>
             Hạng phổ thông
           </Typography>
           <div
-            className="grid gap-x-1 items-center ml-5 mr-5"
+            className="grid gap-x-1 items-center"
             style={{
-              gridTemplateColumns: `25px repeat(${normalCols - 1}, 25px)`,
+              gridTemplateColumns: `25px repeat(${economyRows}, 25px)`,
             }}
           >
+            {/* hiển thị id cột */}
+            <div></div>
+            {Array.from({ length: economyRows }).map((_, colIndex) => (
+              <div className="text-center font-bold">{colIndex + 1}</div>
+            ))}
             {/* Hiển thị các hàng và button */}
-            {Array.from({ length: normalRows }).map((_, rowIndex) => (
+            {Array.from({ length: economyCols }).map((_, rowIndex) => (
               <>
-                {Array.from({ length: normalCols }).map((_, colIndex) => (
+                <div className="text-center font-bold">
+                  {String.fromCharCode(65 + rowIndex)}
+                </div>
+                {Array.from({ length: economyRows }).map((_, colIndex) => (
                   <Button
                     className=""
                     key={`seat-${rowIndex}-${colIndex}`}
                     variant={
-                      seatIsTakenNormal.includes(
+                      seatIsTakeneconomy.includes(
                         `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`
                       )
                         ? "contained"
                         : isSeatSelected(rowIndex, colIndex) &&
-                          userClass === "normal"
+                          userClass === "economy"
                         ? "contained"
                         : "outlined"
                     }
                     color={
-                      seatIsTakenNormal.includes(
+                      seatIsTakeneconomy.includes(
                         `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`
                       )
                         ? "inherit"
                         : isSeatSelected(rowIndex, colIndex) &&
-                          userClass === "normal"
+                          userClass === "economy"
                         ? "primary"
                         : "default"
                     }
@@ -259,7 +286,7 @@ const Seat = () => {
                       fontSize: "0.7rem",
                     }}
                     onClick={() => {
-                      if (userClass === "normal")
+                      if (userClass === "economy")
                         handleSeatChange(rowIndex, colIndex);
                     }}
                   >
@@ -305,7 +332,7 @@ const Seat = () => {
               fontSize: "0.7rem",
             }}
           >
-            A1
+            A
           </Button>
           <label> Ghế bạn chọn</label>
         </div>
