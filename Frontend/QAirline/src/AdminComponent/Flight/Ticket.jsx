@@ -1,14 +1,5 @@
 import { Typography, Paper, Button, Divider } from "@mui/material";
 
-const InfoField = ({ label, value }) => (
-  <div>
-    <Typography variant="caption" color="textSecondary">
-      {label}
-    </Typography>
-    <Typography variant="body1">{value}</Typography>
-  </div>
-);
-
 const flightClass = {
   ECONOMY_CLASS: { label: "Hạng phổ thông", color: "#B993D6" },
   BUSINESS_CLASS: { label: "Hạng thương gia", color: "#A2A6DB" },
