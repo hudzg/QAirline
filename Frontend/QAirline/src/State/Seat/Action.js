@@ -7,6 +7,9 @@ import {
   GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_FAILURE,
   GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_REQUEST,
   GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_SUCCESS,
+  GET_SEAT_MAP_FAILURE,
+  GET_SEAT_MAP_REQUEST,
+  GET_SEAT_MAP_SUCCESS,
 } from "./ActionType";
 
 export const createSeat =
@@ -52,6 +55,33 @@ export const getSeatsByUserAndFlightInstance =
     } catch (error) {
       dispatch({
         type: GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_FAILURE,
+        payload: error,
+      });
+      console.log("error", error);
+    }
+  };
+
+export const getSeatMap =
+  ({ flightId, date, jwt }) =>
+  async (dispatch) => {
+    dispatch({ type: GET_SEAT_MAP_REQUEST });
+    try {
+      const { data } = await api.get(
+        `/api/seat/seat-map?flightId=${flightId}&date=${date}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      dispatch({
+        type: GET_SEAT_MAP_SUCCESS,
+        payload: data,
+      });
+      console.log("getSeatMap success", data);
+    } catch (error) {
+      dispatch({
+        type: GET_SEAT_MAP_FAILURE,
         payload: error,
       });
       console.log("error", error);

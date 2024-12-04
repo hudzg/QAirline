@@ -6,10 +6,13 @@ import com.QAirline.repository.SeatRepository;
 import com.QAirline.repository.TicketRepository;
 import com.QAirline.request.CreateFlightInstanceRequest;
 import com.QAirline.request.CreateSeatRequest;
+import com.QAirline.response.GetFlightResponse;
+import com.QAirline.response.GetSeatMapResponse;
 import com.QAirline.response.GetSeatsByUserAndFlightInstanceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -88,5 +91,19 @@ public class SeatServiceImp implements SeatService {
             responses.add(response);
         }
         return responses;
+    }
+
+    @Override
+    public GetSeatMapResponse getSeatMap(Long flightId, LocalDate date) throws Exception {
+        GetSeatMapResponse response = new GetSeatMapResponse();
+        Flight flight = flightService.findFlightById(flightId);
+        response.setAirplane(flight.getFlightLegs().getFirst().getAirplane());
+        response.setSeats(new ArrayList<>());
+        Optional<FlightInstance> optionalFlightInstance = flightInstanceRepository.findByDateAndFlightId(date, flightId);
+        if (optionalFlightInstance.isPresent()) {
+            FlightInstance flightInstance = optionalFlightInstance.get();
+            response.setSeats(flightInstance.getSeats());
+        }
+        return response;
     }
 }

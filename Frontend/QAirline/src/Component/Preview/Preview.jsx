@@ -3,12 +3,14 @@ import React from "react";
 import FlightIcon from "@mui/icons-material/Flight";
 import { useDispatch, useSelector } from "react-redux";
 import { createSeat } from "../../State/Seat/Action";
+import { useNavigate } from "react-router-dom";
 
 const Preview = () => {
   const dispatch = useDispatch();
   const flight = useSelector((store) => store.flight);
   const seat = useSelector((store) => store.seat);
   const jwt = localStorage.getItem("jwt");
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     // dispatch
@@ -24,6 +26,7 @@ const Preview = () => {
             flightId: flight.selectedOutboundFlight.flightInstance.flightId,
             date: flight.selectedOutboundFlight.flight.departureTime,
             ticket: flight.selectedOutboundFlight.ticket,
+            seatNumber: customer.seatNumber.outbound,
             citizenId: customer.citizenId,
             firstName: customer.firstName,
             lastName: customer.lastName,
@@ -41,6 +44,7 @@ const Preview = () => {
               flightId: flight.selectedInboundFlight.flightInstance.flightId,
               date: flight.selectedInboundFlight.flight.departureTime,
               ticket: flight.selectedInboundFlight.ticket,
+              seatNumber: customer.seatNumber.inbound,
               citizenId: customer.citizenId,
               firstName: customer.firstName,
               lastName: customer.lastName,
@@ -53,6 +57,7 @@ const Preview = () => {
         );
       }
     });
+    navigate("/");
   };
 
   return (

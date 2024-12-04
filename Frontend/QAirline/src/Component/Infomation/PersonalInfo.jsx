@@ -34,6 +34,10 @@ const PersonalInfo = () => {
           phone: "",
           dob: dayjs(),
           gender: "",
+          seatNumber: {
+            outbound: "",
+            inbound: "",
+          },
         });
       }
       setInforData(newInforData);
@@ -52,7 +56,7 @@ const PersonalInfo = () => {
   const handleSubmit = () => {
     console.log(inforData);
     dispatch(addCustomer(inforData));
-    navigate("/preview");
+    navigate("/seat");
   };
 
   return (
