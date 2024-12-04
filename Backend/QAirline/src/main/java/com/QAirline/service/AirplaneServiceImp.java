@@ -19,6 +19,12 @@ public class AirplaneServiceImp implements AirplaneService{
         createdAirplane.setEconomyCapacity(airplane.getEconomyCapacity());
         createdAirplane.setBusinessCapacity(airplane.getBusinessCapacity());
         createdAirplane.setFirstClassCapacity(airplane.getFirstClassCapacity());
+        createdAirplane.setFirstClassRow(airplane.getFirstClassRow());
+        createdAirplane.setFirstClassCol(airplane.getFirstClassCol());
+        createdAirplane.setBusinessRow(airplane.getBusinessRow());
+        createdAirplane.setBusinessCol(airplane.getBusinessCol());
+        createdAirplane.setEconomyRow(airplane.getEconomyRow());
+        createdAirplane.setEconomyCol(airplane.getEconomyCol());
         return airplaneRepository.save(createdAirplane);
     }
 
@@ -34,6 +40,12 @@ public class AirplaneServiceImp implements AirplaneService{
         updatedAirplane.setEconomyCapacity(airplane.getEconomyCapacity());
         updatedAirplane.setBusinessCapacity(airplane.getBusinessCapacity());
         updatedAirplane.setFirstClassCapacity(airplane.getFirstClassCapacity());
+        updatedAirplane.setFirstClassRow(airplane.getFirstClassRow());
+        updatedAirplane.setFirstClassCol(airplane.getFirstClassCol());
+        updatedAirplane.setBusinessRow(airplane.getBusinessRow());
+        updatedAirplane.setBusinessCol(airplane.getBusinessCol());
+        updatedAirplane.setEconomyRow(airplane.getEconomyRow());
+        updatedAirplane.setEconomyCol(airplane.getEconomyCol());
         return airplaneRepository.save(updatedAirplane);
     }
 

@@ -79,15 +79,17 @@ const SearchFlight = () => {
     };
     console.log(reqData);
     dispatch(addGetFlightRequest(reqData));
-    const InReqData = {
-      departureAirport: formData.arrivalAirport.airport,
-      arrivalAirport: formData.departureAirport.airport,
-      departureTime: formData.arrivalTime.format("YYYY-MM-DD"),
-      arrivalTime: formData.departureTime.format("YYYY-MM-DD"),
-      numPassenger: formData.numPassenger,
-      flightType: flightType,
-    };
-    dispatch(addGetInboundFlightRequest(InReqData));
+    if (flightType === "round-trip") {
+      const InReqData = {
+        departureAirport: formData.arrivalAirport.airport,
+        arrivalAirport: formData.departureAirport.airport,
+        departureTime: formData.arrivalTime.format("YYYY-MM-DD"),
+        arrivalTime: formData.departureTime.format("YYYY-MM-DD"),
+        numPassenger: formData.numPassenger,
+        flightType: flightType,
+      };
+      dispatch(addGetInboundFlightRequest(InReqData));
+    }
     navigate("/booking");
   };
   return (

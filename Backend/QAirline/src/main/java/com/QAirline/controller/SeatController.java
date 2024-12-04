@@ -3,6 +3,7 @@ package com.QAirline.controller;
 import com.QAirline.model.Seat;
 import com.QAirline.model.User;
 import com.QAirline.request.CreateSeatRequest;
+import com.QAirline.response.GetSeatMapResponse;
 import com.QAirline.response.GetSeatsByUserAndFlightInstanceResponse;
 import com.QAirline.service.SeatService;
 import com.QAirline.service.UserService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -40,5 +42,17 @@ public class SeatController {
         List<GetSeatsByUserAndFlightInstanceResponse> seats = seatService.getSeatsByUserAndFlightInstance(user.getId(), flightInstanceId);
 
         return new ResponseEntity<>(seats, HttpStatus.OK);
+    }
+
+    @GetMapping("/seat-map")
+    public ResponseEntity<GetSeatMapResponse> getSeatMap(
+            @RequestParam Long flightId,
+            @RequestParam String date,
+            @RequestHeader("Authorization") String jwt
+    ) throws Exception {
+        User user = userService.findUserByJwtToken(jwt);
+        GetSeatMapResponse response = seatService.getSeatMap(flightId, LocalDate.parse(date));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
