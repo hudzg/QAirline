@@ -3,24 +3,9 @@ import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 
 
 const FlightLeg = ({ legInfo }) => {
-  // let weekdaysVIE;
-  // switch (legInfo.weekdays) {
-  //   case 2:
-  //     weekdaysVIE = "Thứ hai";
-  //     break;
-  //   case 3:
-  //     weekdaysVIE = "Thứ ba";
-  //     break;
-  //   case 4:
-  //     weekdaysVIE = "Thứ tư";
-  //     break;
-  //   case 5:
-  //     weekdaysVIE = "Thứ năm";
-  //     break;
-  // }
   return (
     <div className="relative">
-      <Paper className="flex mb-2 justify-between items-center relative">
+      <Paper elevation={6} className="flex mb-3 justify-between items-center relative p-1">
         <div>
           <Typography>Máy bay: {legInfo.airplane}</Typography>
           <Typography variant="caption" color="textSecondary">
