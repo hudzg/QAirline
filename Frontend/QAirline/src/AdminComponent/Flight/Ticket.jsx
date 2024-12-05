@@ -33,7 +33,7 @@ const Ticket = ({ ticketInfo }) => {
               Hành lý mang theo tối đa: {ticketInfo.carryOnBaggage} (KG)
             </Typography>
             <Typography variant="body1">
-              Hoàn tiền/vé: {ticketInfo.refund === true ? "có" : "không"}
+              Hoàn vé: {ticketInfo.refund === true ? "có" : "không"}
             </Typography>
           </div>
         </div>
