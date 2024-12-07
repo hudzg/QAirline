@@ -11,11 +11,19 @@ import {
   Button,
 } from "@mui/material";
 
-const AddTicket = ({
+const AddFlightTicket = ({
   ticketData,
   handleInputChangeTicket,
   handleRefundChange,
 }) => {
+  // không cho nhập giá trị âm
+  const handleNonNegativeInputChange = (e, className) => {
+    const { name, value } = e.target;
+    if (value >= 0) {
+      handleInputChangeTicket(e, className);
+    }
+  };
+
   return (
     <div className="w-[50vw] justify-self-center mx-auto m-4 p-5 bg-indigo-100">
       <div className="mb-4">
@@ -33,26 +41,28 @@ const AddTicket = ({
                 ? "Hạng thương gia"
                 : "Hạng phổ thông"}
             </Typography>
+            {/* Số lượng vé */}
             <TextField
               label="Số lượng vé"
               type="number"
               fullWidth
               name="amount"
               value={ticketData[className].amount}
-              onChange={(e) => handleInputChangeTicket(e, className)}
+              onChange={(e) => handleNonNegativeInputChange(e, className)}
               sx={{
                 "& .MuiInputBase-root": {
                   height: 40,
                 },
               }}
             />
+            {/* Giá vé */}
             <TextField
               label="Giá vé"
               type="number"
               fullWidth
               name="price"
               value={ticketData[className].price}
-              onChange={(e) => handleInputChangeTicket(e, className)}
+              onChange={(e) => handleNonNegativeInputChange(e, className)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">VNĐ</InputAdornment>
@@ -64,13 +74,14 @@ const AddTicket = ({
                 },
               }}
             />
+            {/* Hành lý ký gửi */}
             <TextField
               label="Hành lý ký gửi"
               type="number"
               fullWidth
               name="checkedBaggage"
               value={ticketData[className].checkedBaggage}
-              onChange={(e) => handleInputChangeTicket(e, className)}
+              onChange={(e) => handleNonNegativeInputChange(e, className)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">KG</InputAdornment>
@@ -82,13 +93,14 @@ const AddTicket = ({
                 },
               }}
             />
+            {/* Hành lý mang theo */}
             <TextField
               label="Hành lý mang theo"
               type="number"
               fullWidth
               name="carryOnBaggage"
               value={ticketData[className].carryOnBaggage}
-              onChange={(e) => handleInputChangeTicket(e, className)}
+              onChange={(e) => handleNonNegativeInputChange(e, className)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">KG</InputAdornment>
@@ -100,6 +112,7 @@ const AddTicket = ({
                 },
               }}
             />
+            {/* Hoàn vé */}
             <FormControl
               fullWidth
               sx={{
@@ -123,4 +136,4 @@ const AddTicket = ({
   );
 };
 
-export default AddTicket;
+export default AddFlightTicket;

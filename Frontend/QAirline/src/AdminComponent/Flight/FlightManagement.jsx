@@ -6,8 +6,6 @@ import FlightCard from "./FlightCard";
 import AddFlight from "./AddFlight";
 
 const FlightManagement = () => {
-  const [openAddFlight, setOpenAddFlight] = useState(false);
-
   const [flightsInfo, setFlightsInfo] = useState([
     {
       id: 12345,
@@ -29,15 +27,12 @@ const FlightManagement = () => {
     },
   ]);
 
-  const handleOpenAddFlight = () => setOpenAddFlight(true);
-  const handleCloseAddFlight = () => setOpenAddFlight(false);
-
   return (
     <div className="w-[50vw] justify-self-center mx-auto m-4 p-5 bg-indigo-100">
       <div className="flex justify-between items-center">
         <Typography variant="h4">Quản lý chuyến bay</Typography>
         <div className="flex">
-          <Button onClick={handleOpenAddFlight}>
+          <Button>
             <Typography color="textPrimary">Thêm chuyến bay </Typography>
             <AddIcon />
           </Button>
@@ -47,8 +42,6 @@ const FlightManagement = () => {
       {flightsInfo.map((flight) => (
         <FlightCard key={flight.id} flightInfo={flight} />
       ))}
-
-      <AddFlight open={openAddFlight} onClose={handleCloseAddFlight} />
     </div>
   );
 };
