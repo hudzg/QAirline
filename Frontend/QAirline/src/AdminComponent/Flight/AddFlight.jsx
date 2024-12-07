@@ -1,150 +1,130 @@
+import { Button } from "@mui/material";
 import React, { useState } from "react";
-import {
-  Typography,
-  Paper,
-  Box,
-  TextField,
-  Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  FormControlLabel,
-  Checkbox,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from "@mui/material";
+import AddFlightTicket from "./AddFlightTicket";
+import AddFlightLeg from "./AddFlightLeg";
 
-const AddFlight = ({ open, onClose }) => {
-  const [formData, setFormData] = useState({
-    numOfLeg: 0,
-    airplane: "",
-    ticketTypes: {
-      firstTicket: false,
-      businessTicket: false,
-      economyTicket: false,
+const AddFlight = () => {
+  const airportOptions = [
+    "Tân Sơn Nhất",
+    "Nội Bài",
+    "Đà Nẵng",
+    "Phú Quốc",
+    "Cam Ranh",
+  ];
+
+  const airplaneOptions = [
+    "Airbus A320",
+    "Boeing 737",
+    "Airbus A321",
+    "Boeing 777",
+  ];
+
+  const [ticketData, setTicketData] = useState({
+    FIRST_CLASS: {
+      amount: 0,
+      price: 0,
+      refund: false,
+      checkedBaggage: 0.0,
+      carryOnBaggage: 0.0,
+    },
+    BUSINESS_CLASS: {
+      amount: 0,
+      price: 0,
+      refund: false,
+      checkedBaggage: 0.0,
+      carryOnBaggage: 0.0,
+    },
+    ECONOMY_CLASS: {
+      amount: 0,
+      price: 0,
+      refund: false,
+      checkedBaggage: 0.0,
+      carryOnBaggage: 0.0,
     },
   });
 
-  const airplanes = ["Airbus A320", "Boeing 737", "Cessna 172"];
-
-  const handleInputChange = (e) => {
+  const handleInputChangeTicket = (e, className) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setFormData({
-      ...formData,
-      ticketTypes: {
-        ...formData.ticketTypes,
-        [name]: checked,
+    setTicketData({
+      ...ticketData,
+      [className]: {
+        ...ticketData[className],
+        [name]: value,
       },
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Dữ liệu chuyến bay:", formData);
-    onClose();
+  const handleRefundChange = (e, className) => {
+    const { value } = e.target;
+    const refundValue = value === "Có" ? true : false;
+    setTicketData({
+      ...ticketData,
+      [className]: {
+        ...ticketData[className],
+        refund: refundValue,
+      },
+    });
+  };
+
+  const [legData, setLegData] = useState([
+    {
+      departureAirport: "",
+      arrivalAirport: "",
+      departureTime: "",
+      arrivalTime: "",
+      airplane: "",
+    },
+  ]);
+
+  const handleInputChangeLeg = (e, index) => {
+    const { name, value } = e.target;
+    const updatedLegData = [...legData];
+    updatedLegData[index] = {
+      ...updatedLegData[index],
+      [name]: value,
+    };
+    setLegData(updatedLegData);
+  };
+
+  const handleSubmit = () => {
+    console.log("Thông tin các loại vé: ", ticketData);
+    console.log("Thông tin các chặng bay: ", legData);
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>Thêm chuyến bay</DialogTitle>
-      <DialogContent>
-        <Paper elevation={6} className="p-5">
-          <form className="space-y-4">
-            <TextField
-              label="Số chặng bay"
-              variant="outlined"
-              fullWidth
-              value={formData.numOfLeg}
-              name="numOfLeg"
-              onChange={handleInputChange}
-            />
-            <FormControl fullWidth>
-              <InputLabel>Máy bay</InputLabel>
-              <Select
-                label="Máy bay"
-                value={formData.airplane}
-                name="airplane"
-                onChange={handleInputChange}
-              >
-                {airplanes.map((plane, index) => (
-                  <MenuItem key={index} value={plane}>
-                    {plane}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <Typography variant="h6">Chọn loại vé</Typography>
-            <Box className="space-x-5">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={formData.ticketTypes.firstTicket}
-                    onChange={handleCheckboxChange}
-                    name="firstTicket"
-                  />
-                }
-                label="Hạng nhất"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={formData.ticketTypes.businessTicket}
-                    onChange={handleCheckboxChange}
-                    name="businessTicket"
-                  />
-                }
-                label="Hạng thương gia"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={formData.ticketTypes.economyTicket}
-                    onChange={handleCheckboxChange}
-                    name="economyTicket"
-                  />
-                }
-                label="Hạng phổ thông"
-              />
-            </Box>
-          </form>
-        </Paper>
-      </DialogContent>
-      <DialogActions>
-        <Box
+    <div className="w-[60vw] justify-self-center m-5">
+      {/* bảng thêm chặng bay */}
+      <div className="mb-10">
+        <AddFlightLeg
+          legData={legData}
+          setLegData={setLegData}
+          handleInputChangeLeg={handleInputChangeLeg}
+          airportOptions={airportOptions}
+          airplaneOptions={airplaneOptions}
+        />
+      </div>
+      {/* bảng thêm vé */}
+      <div>
+        <AddFlightTicket
+          ticketData={ticketData}
+          handleInputChangeTicket={handleInputChangeTicket}
+          handleRefundChange={handleRefundChange}
+        />
+      </div>
+
+      <div className="flex justify-center mt-5">
+        <Button
+          variant="contained"
+          type="submit"
+          onClick={handleSubmit}
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            pl: 2,
-            pr: 2,
+            background: "linear-gradient(to right, #B993D6, #8CA6DB)",
           }}
         >
-          <Button onClick={onClose} variant="outlined">
-            Hủy
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            sx={{
-              background: "linear-gradient(to right, #B993D6, #8CA6DB)",
-            }}
-          >
-            Lưu
-          </Button>
-        </Box>
-      </DialogActions>
-    </Dialog>
+          Lưu
+        </Button>
+      </div>
+    </div>
   );
 };
 

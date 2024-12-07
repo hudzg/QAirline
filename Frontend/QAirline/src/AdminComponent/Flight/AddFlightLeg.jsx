@@ -1,7 +1,29 @@
 import React from "react";
-import { Typography, Paper, Box, TextField, Button } from "@mui/material";
+import { Typography, Paper, Box, TextField, Button, Autocomplete } from "@mui/material";
 
-const AddFlightLeg = ({ legData, handleInputChangeLeg }) => {
+const AddFlightLeg = ({ legData, setLegData, handleInputChangeLeg, airportOptions, airplaneOptions }) => {
+
+  const handleAddFlightLeg = () => {
+    setLegData([
+      ...legData,
+      {
+        departureAirport: "",
+        arrivalAirport: "",
+        departureTime: "",
+        arrivalTime: "",
+        airplane: "",
+      },
+    ]);
+  };
+
+  // Xóa chặng bay
+  const handleRemoveFlightLeg = (index) => {
+    if (legData.length > 1) {
+      const updatedLegData = legData.filter((_, i) => i !== index);
+      setLegData(updatedLegData);
+    }
+  };
+
   return (
     <div className="w-[50vw] justify-self-center mx-auto m-4 p-5 bg-indigo-100">
       <div className="mb-4">
@@ -10,35 +32,50 @@ const AddFlightLeg = ({ legData, handleInputChangeLeg }) => {
         </Typography>
       </div>
       <Paper className="p-5">
+        {/* Render từng chặng bay */}
         {legData.map((leg, index) => (
           <Box key={index} className="space-y-4 mb-8">
             <Typography variant="h6">Chặng bay {index + 1}</Typography>
-            <TextField
-              variant="outlined"
-              fullWidth
+
+            {/* Sân bay khởi hành */}
+            <Autocomplete
+              options={airportOptions}
               value={leg.departureAirport}
-              name="departureAirport"
-              onChange={(e) => handleInputChangeLeg(e, index)} // Truyền index vào
-              placeholder="Nhập sân bay khởi hành"
+              onChange={(event, newValue) => {
+                const updatedLegData = [...legData];
+                updatedLegData[index].departureAirport = newValue || "";
+                setLegData(updatedLegData);
+              }}
+              renderInput={(params) => (
+                <TextField {...params} placeholder="Nhập hoặc chọn sân bay khởi hành" fullWidth />
+              )}
               sx={{
                 "& .MuiInputBase-root": {
                   height: 40,
                 },
               }}
             />
-            <TextField
-              variant="outlined"
-              fullWidth
+
+            {/* Sân bay đến */}
+            <Autocomplete
+              options={airportOptions}
               value={leg.arrivalAirport}
-              name="arrivalAirport"
-              onChange={(e) => handleInputChangeLeg(e, index)} // Truyền index vào
-              placeholder="Nhập sân bay đến"
+              onChange={(event, newValue) => {
+                const updatedLegData = [...legData];
+                updatedLegData[index].arrivalAirport = newValue || ""; 
+                setLegData(updatedLegData);
+              }}
+              renderInput={(params) => (
+                <TextField {...params} placeholder="Nhập hoặc chọn sân bay đích đến" fullWidth />
+              )}
               sx={{
                 "& .MuiInputBase-root": {
                   height: 40,
                 },
               }}
             />
+
+            {/* Thời gian khởi hành */}
             <TextField
               label="Thời gian khởi hành"
               variant="outlined"
@@ -46,7 +83,7 @@ const AddFlightLeg = ({ legData, handleInputChangeLeg }) => {
               type="datetime-local"
               value={leg.departureTime}
               name="departureTime"
-              onChange={(e) => handleInputChangeLeg(e, index)} // Truyền index vào
+              onChange={(e) => handleInputChangeLeg(e, index)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -56,6 +93,8 @@ const AddFlightLeg = ({ legData, handleInputChangeLeg }) => {
                 },
               }}
             />
+
+            {/* Thời gian đến */}
             <TextField
               label="Thời gian đến"
               variant="outlined"
@@ -63,7 +102,7 @@ const AddFlightLeg = ({ legData, handleInputChangeLeg }) => {
               type="datetime-local"
               value={leg.arrivalTime}
               name="arrivalTime"
-              onChange={(e) => handleInputChangeLeg(e, index)} // Truyền index vào
+              onChange={(e) => handleInputChangeLeg(e, index)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -73,23 +112,50 @@ const AddFlightLeg = ({ legData, handleInputChangeLeg }) => {
                 },
               }}
             />
-            <TextField
-              label="Loại máy bay"
-              variant="outlined"
-              fullWidth
+
+            {/* Loại máy bay */}
+            <Autocomplete
+              options={airplaneOptions}
               value={leg.airplane}
-              name="airplane"
-              onChange={(e) => handleInputChangeLeg(e, index)} // Truyền index vào
-              placeholder="Nhập loại máy bay"
+              onChange={(event, newValue) => {
+                const updatedLegData = [...legData];
+                updatedLegData[index].airplane = newValue || "";
+                setLegData(updatedLegData);
+              }}
+              renderInput={(params) => (
+                <TextField {...params} placeholder="Nhập hoặc chọn loại máy bay" fullWidth />
+              )}
               sx={{
                 "& .MuiInputBase-root": {
                   height: 40,
                 },
               }}
-              s
             />
+
+            {/* Nút xóa chặng bay */}
+            <Box textAlign="right">
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => handleRemoveFlightLeg(index)}
+                disabled={legData.length === 1}
+              >
+                Xóa chặng bay
+              </Button>
+            </Box>
           </Box>
         ))}
+
+        {/* Nút thêm chặng bay */}
+        <Box textAlign="center" mt={4}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleAddFlightLeg}
+          >
+            Thêm chặng bay
+          </Button>
+        </Box>
       </Paper>
     </div>
   );
