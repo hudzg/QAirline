@@ -39,11 +39,18 @@ const SearchFlight = () => {
   const [formData, setFormData] = useState({
     departureAirport: null,
     arrivalAirport: null,
-    departureTime: dayjs(),
-    arrivalTime: dayjs(),
+    departureTime: null,
+    arrivalTime: null,
     departureAirportInput: "",
     arrivalAirportInput: "",
     numPassenger: 1,
+  });
+
+  const [formError, setFormError] = useState({
+    departureAirport: false,
+    arrivalAirport: false,
+    departureTime: false,
+    arrivalTime: false,
   });
 
   const [flightType, setflightType] = useState("round-trip");
@@ -66,14 +73,38 @@ const SearchFlight = () => {
     // );
   }, []);
 
+  const validate = () => {
+    const newFormError = {
+      ...formError,
+      departureAirport: formData.departureAirport === null ? "error" : false,
+      arrivalAirport: formData.arrivalAirport === null ? "error" : false,
+      departureTime: formData.departureTime === null ? "error" : false,
+    };
+
+    if (flightType === "round-trip") {
+      newFormError.arrivalTime =
+        formData.arrivalTime === null ? "error" : false;
+    }
+
+    setFormError(newFormError);
+
+    console.log(newFormError);
+
+    return Object.values(newFormError).every((value) => value === false);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(formData);
+    if (!validate()) return;
     const reqData = {
       departureAirport: formData.departureAirport.airport,
       arrivalAirport: formData.arrivalAirport.airport,
       departureTime: formData.departureTime.format("YYYY-MM-DD"),
-      arrivalTime: formData.arrivalTime.format("YYYY-MM-DD"),
+      arrivalTime:
+        formData.arrivalTime === null
+          ? null
+          : formData.arrivalTime.format("YYYY-MM-DD"),
       numPassenger: formData.numPassenger,
       flightType: flightType,
     };
@@ -108,7 +139,13 @@ const SearchFlight = () => {
                 // defaultValue={flightType}
                 name="radio-buttons-group"
                 value={flightType}
-                onChange={(e) => setflightType(e.target.value)}
+                onChange={(e) => {
+                  setflightType(e.target.value);
+                  if (e.target.value === "one-way") {
+                    setFormData({ ...formData, arrivalTime: null });
+                    setFormError({ ...formError, arrivalTime: false });
+                  }
+                }}
               >
                 <FormControlLabel
                   value="round-trip"
@@ -133,6 +170,8 @@ const SearchFlight = () => {
                   ...formData,
                   departureAirport: newValue,
                 });
+                // if (!newValue) formError.departureAirport = "error";
+                // else formError.departureAirport = false;
               }}
               inputValue={formData.departureAirportInput}
               onInputChange={(event, newInputValue) => {
@@ -147,8 +186,14 @@ const SearchFlight = () => {
               }))}
               //   sx={{ width: 300 }}
               renderInput={(params) => (
-                <TextField {...params} label="Sân bay khởi hành" />
+                <TextField
+                  {...params}
+                  error={formError.departureAirport ? true : false}
+                  helperText={formError.departureAirport}
+                  label="Sân bay khởi hành"
+                />
               )}
+              // error={formError.departureAirport ? true : false}
             />
           </Grid>
           <Grid size={{ lg: 6, xs: 12 }}>
@@ -175,13 +220,24 @@ const SearchFlight = () => {
               }))}
               //   sx={{ width: 300 }}
               renderInput={(params) => (
-                <TextField {...params} label="Sân bay đến" />
+                <TextField
+                  error={formError.arrivalAirport ? true : false}
+                  helperText={formError.arrivalAirport}
+                  {...params}
+                  label="Sân bay đến"
+                />
               )}
             />
           </Grid>
           <Grid size={{ lg: 6, xs: 12 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
+                slotProps={{
+                  textField: {
+                    error: formError.departureTime ? true : false,
+                    helperText: formError.departureTime,
+                  },
+                }}
                 label="Ngày đi"
                 value={formData.departureTime}
                 onChange={(newValue) =>
@@ -197,6 +253,12 @@ const SearchFlight = () => {
           <Grid size={{ lg: 6, xs: 12 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
+                slotProps={{
+                  textField: {
+                    error: formError.arrivalTime ? true : false,
+                    helperText: formError.arrivalTime,
+                  },
+                }}
                 disabled={flightType === "one-way"}
                 label="Ngày về"
                 value={formData.arrivalTime}
