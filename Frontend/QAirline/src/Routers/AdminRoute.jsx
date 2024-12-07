@@ -11,9 +11,9 @@ import AddFlight from "../AdminComponent/Flight/AddFlight";
 const AdminRoute = () => {
   return (
     <div className="flex">
-      {/* <div className="w-[20%]">
+      <div className="w-[20%]">
         <AdminSidebar />
-      </div> */}
+      </div>
       <div className="w-[80%]">
         <Routes>
           <Route path="/" element={<Dashboard />}></Route>
