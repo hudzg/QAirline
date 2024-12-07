@@ -5,11 +5,12 @@ import SearchFlight from "./SearchFlight";
 
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import HeroBanner from "./HeroBanner";
 
 const Home = () => {
   return (
     <div className="px-5 lg:px-20">
-      <div className="w-full h-[80vh] my-5">
+      {/* <div className="w-full h-[80vh] my-5">
         <Carousel
           additionalTransfrom={0}
           arrows={false}
@@ -78,12 +79,13 @@ const Home = () => {
             />
           </div>
         </Carousel>
-      </div>
+      </div> */}
       {/* <img
         className="w-full h-[80vh] py-5"
         src="https://images.pexels.com/photos/91217/pexels-photo-91217.jpeg?auto=compress&cs=tinysrgb&w=600"
         alt=""
       /> */}
+      <HeroBanner />
       <SearchFlight />
       <PopularFlight />
     </div>

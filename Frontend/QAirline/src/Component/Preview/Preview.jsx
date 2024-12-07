@@ -12,39 +12,16 @@ const Preview = () => {
   const jwt = localStorage.getItem("jwt");
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    // dispatch
-    console.log(
-      flight.selectedOutboundFlight,
-      flight.selectedInboundFlight,
-      seat.customers
-    );
-    seat.customers.forEach((customer) => {
-      dispatch(
-        createSeat({
-          reqData: {
-            flightId: flight.selectedOutboundFlight.flightInstance.flightId,
-            date: flight.selectedOutboundFlight.flight.departureTime,
-            ticket: flight.selectedOutboundFlight.ticket,
-            seatNumber: customer.seatNumber.outbound,
-            citizenId: customer.citizenId,
-            firstName: customer.firstName,
-            lastName: customer.lastName,
-            phone: customer.phone,
-            dob: customer.dob.format("YYYY-MM-DD"),
-            gender: customer.gender,
-          },
-          jwt,
-        })
-      );
-      if (flight.selectedOutboundFlight.flight.flightType === "round-trip") {
-        dispatch(
+  const sendRequestsSequentially = async () => {
+    for (const customer of seat.customers) {
+      try {
+        await dispatch(
           createSeat({
             reqData: {
-              flightId: flight.selectedInboundFlight.flightInstance.flightId,
-              date: flight.selectedInboundFlight.flight.departureTime,
-              ticket: flight.selectedInboundFlight.ticket,
-              seatNumber: customer.seatNumber.inbound,
+              flightId: flight.selectedOutboundFlight.flightInstance.flightId,
+              date: flight.selectedOutboundFlight.flight.departureTime,
+              ticket: flight.selectedOutboundFlight.ticket,
+              seatNumber: customer.seatNumber.outbound,
               citizenId: customer.citizenId,
               firstName: customer.firstName,
               lastName: customer.lastName,
@@ -55,8 +32,81 @@ const Preview = () => {
             jwt,
           })
         );
+      } catch (error) {
+        console.error("Error creating seat:", error);
       }
-    });
+      if (flight.selectedOutboundFlight.flight.flightType === "round-trip") {
+        try {
+          await dispatch(
+            createSeat({
+              reqData: {
+                flightId: flight.selectedInboundFlight.flightInstance.flightId,
+                date: flight.selectedInboundFlight.flight.departureTime,
+                ticket: flight.selectedInboundFlight.ticket,
+                seatNumber: customer.seatNumber.inbound,
+                citizenId: customer.citizenId,
+                firstName: customer.firstName,
+                lastName: customer.lastName,
+                phone: customer.phone,
+                dob: customer.dob.format("YYYY-MM-DD"),
+                gender: customer.gender,
+              },
+              jwt,
+            })
+          );
+        } catch (error) {
+          console.error("Error creating seat:", error);
+        }
+      }
+    }
+  };
+
+  const handleSubmit = async () => {
+    // dispatch
+    console.log(
+      flight.selectedOutboundFlight,
+      flight.selectedInboundFlight,
+      seat.customers
+    );
+    // for (const customer of seat.customers) {
+    //   await dispatch(
+    //     createSeat({
+    //       reqData: {
+    //         flightId: flight.selectedOutboundFlight.flightInstance.flightId,
+    //         date: flight.selectedOutboundFlight.flight.departureTime,
+    //         ticket: flight.selectedOutboundFlight.ticket,
+    //         seatNumber: customer.seatNumber.outbound,
+    //         citizenId: customer.citizenId,
+    //         firstName: customer.firstName,
+    //         lastName: customer.lastName,
+    //         phone: customer.phone,
+    //         dob: customer.dob.format("YYYY-MM-DD"),
+    //         gender: customer.gender,
+    //       },
+    //       jwt,
+    //     })
+    //   );
+    //   if (flight.selectedOutboundFlight.flight.flightType === "round-trip") {
+    //     dispatch(
+    //       createSeat({
+    //         reqData: {
+    //           flightId: flight.selectedInboundFlight.flightInstance.flightId,
+    //           date: flight.selectedInboundFlight.flight.departureTime,
+    //           ticket: flight.selectedInboundFlight.ticket,
+    //           seatNumber: customer.seatNumber.inbound,
+    //           citizenId: customer.citizenId,
+    //           firstName: customer.firstName,
+    //           lastName: customer.lastName,
+    //           phone: customer.phone,
+    //           dob: customer.dob.format("YYYY-MM-DD"),
+    //           gender: customer.gender,
+    //         },
+    //         jwt,
+    //       })
+    //     );
+    //   }
+    // }
+    sendRequestsSequentially();
     navigate("/");
   };
 
