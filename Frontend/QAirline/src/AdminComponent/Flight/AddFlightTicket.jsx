@@ -25,7 +25,7 @@ const AddFlightTicket = ({
   };
 
   return (
-    <div className="w-[50vw] justify-self-center mx-auto m-4 p-5 bg-indigo-100">
+    <div className="w-[50vw] justify-self-center mx-auto p-5 bg-indigo-100">
       <div className="mb-4">
         <Typography variant="h4" align="center">
           Thêm loại vé
@@ -113,22 +113,21 @@ const AddFlightTicket = ({
               }}
             />
             {/* Hoàn vé */}
-            <FormControl
+            <TextField
+              label="Hoàn vé"
+              select
               fullWidth
+              value={ticketData[className].refund ? "Có" : "Không"}
+              onChange={(e) => handleRefundChange(e, className)}
               sx={{
                 "& .MuiInputBase-root": {
                   height: 40,
                 },
               }}
             >
-              <Select
-                value={ticketData[className].refund ? "Có" : "Không"}
-                onChange={(e) => handleRefundChange(e, className)}
-              >
-                <MenuItem value="Có">Có</MenuItem>
-                <MenuItem value="Không">Không</MenuItem>
-              </Select>
-            </FormControl>
+              <MenuItem value="Có">Có</MenuItem>
+              <MenuItem value="Không">Không</MenuItem>
+            </TextField>
           </Box>
         ))}
       </Paper>

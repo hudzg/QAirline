@@ -1,23 +1,43 @@
-import { Button } from "@mui/material";
-import React, { useState } from "react";
+import {
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import AddFlightTicket from "./AddFlightTicket";
 import AddFlightLeg from "./AddFlightLeg";
+import { getAllAirport } from "../../State/Airport/Action";
+import { getAllAirplane } from "../../State/Airplane/Action";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AddFlight = () => {
-  const airportOptions = [
-    "Tân Sơn Nhất",
-    "Nội Bài",
-    "Đà Nẵng",
-    "Phú Quốc",
-    "Cam Ranh",
+  const navigate = useNavigate();
+
+  const jwt = localStorage.getItem("jwt");
+  const airport = useSelector((store) => store.airport);
+  const airplane = useSelector((store) => store.airplane);
+  const dispatch = useDispatch();
+
+  const [weekdays, setWeekDays] = useState(0);
+
+  const [selectedDays, setSelectedDays] = useState(null);
+  const daysOfWeek = [
+    { label: "Thứ Hai", value: 1 },
+    { label: "Thứ Ba", value: 2 },
+    { label: "Thứ Tư", value: 3 },
+    { label: "Thứ Năm", value: 4 },
+    { label: "Thứ Sáu", value: 5 },
+    { label: "Thứ Bảy", value: 6 },
+    { label: "Chủ Nhật", value: 7 },
   ];
 
-  const airplaneOptions = [
-    "Airbus A320",
-    "Boeing 737",
-    "Airbus A321",
-    "Boeing 777",
-  ];
+  useEffect(() => {
+    dispatch(getAllAirport({ jwt }));
+    dispatch(getAllAirplane({ jwt }));
+  }, []);
 
   const [ticketData, setTicketData] = useState({
     FIRST_CLASS: {
@@ -42,6 +62,19 @@ const AddFlight = () => {
       carryOnBaggage: 0.0,
     },
   });
+
+  //chuyển về flight
+  const navToFlight = () => {
+    navigate("/admin/flight");
+  };
+
+  const handleDayChange = (event) => {
+    const selectedValue = event.target.value;
+
+    const newWeekdays = Math.pow(2, selectedValue);
+    setWeekDays(newWeekdays);
+    setSelectedDays(selectedValue);
+  };
 
   const handleInputChangeTicket = (e, className) => {
     const { name, value } = e.target;
@@ -68,11 +101,11 @@ const AddFlight = () => {
 
   const [legData, setLegData] = useState([
     {
-      departureAirport: "",
-      arrivalAirport: "",
-      departureTime: "",
-      arrivalTime: "",
-      airplane: "",
+      departureAirport: null,
+      arrivalAirport: null,
+      departureTime: null,
+      arrivalTime: null,
+      airplane: null,
     },
   ]);
 
@@ -87,20 +120,40 @@ const AddFlight = () => {
   };
 
   const handleSubmit = () => {
+    console.log("weekdays: ", weekdays);
     console.log("Thông tin các loại vé: ", ticketData);
     console.log("Thông tin các chặng bay: ", legData);
   };
 
   return (
     <div className="w-[60vw] justify-self-center m-5">
+      {/* Chọn ngày trong tuần */}
+      <div className="mb-5">
+        <FormControl fullWidth>
+          <InputLabel id="select-days-label">Chọn ngày trong tuần</InputLabel>
+          <Select
+            labelId="select-days-label"
+            value={selectedDays || ""}
+            onChange={handleDayChange}
+            label="Chọn ngày trong tuần"
+          >
+            {daysOfWeek.map((day) => (
+              <MenuItem key={day.value} value={day.value}>
+                {day.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+
       {/* bảng thêm chặng bay */}
       <div className="mb-10">
         <AddFlightLeg
           legData={legData}
           setLegData={setLegData}
           handleInputChangeLeg={handleInputChangeLeg}
-          airportOptions={airportOptions}
-          airplaneOptions={airplaneOptions}
+          airportOptions={airport.airports}
+          airplaneOptions={airplane.airplanes}
         />
       </div>
       {/* bảng thêm vé */}
@@ -112,7 +165,10 @@ const AddFlight = () => {
         />
       </div>
 
-      <div className="flex justify-center mt-5">
+      <div className="flex justify-between mt-5">
+        <Button variant="outlined" onClick={navToFlight}>
+          Hủy
+        </Button>
         <Button
           variant="contained"
           type="submit"

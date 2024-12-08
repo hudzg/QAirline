@@ -3,12 +3,14 @@ import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import FlightIcon from "@mui/icons-material/Flight";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
-const FlightCard = ({ flightInfo }) => {
+const FlightCard = ({ flightInfo, navToDetail}) => {
+  // console.log("This is flight card", flightInfo);
   return (
     <div className="mt-2">
       <Paper elevation={6} className="mb-3 p-3">
-        <div>
+        <div className="flex justify-between">
           <Typography>Mã chuyến bay: {flightInfo.id}</Typography>
+          <Button onClick={navToDetail}>Xem chi tiết</Button>
         </div>
         <Divider />
         <div className="grid grid-cols-4 justify-between items-center mt-2">
@@ -17,8 +19,8 @@ const FlightCard = ({ flightInfo }) => {
             <Typography variant="caption" color="textSecondary">
               Khởi hành
             </Typography>
-            <Typography>{flightInfo.departureAirport}</Typography>
-            <Typography>{flightInfo.departureTime}</Typography>
+            <Typography>{flightInfo.flightLegs[0].departureAirport.name}</Typography>
+            <Typography>{flightInfo.flightLegs[0].departureTime}</Typography>
           </div>
           {/* mấy cái icons */}
           <div className="col-span-2 flex justify-between items-center">
@@ -34,8 +36,8 @@ const FlightCard = ({ flightInfo }) => {
             <Typography variant="caption" color="textSecondary">
               Điểm đến
             </Typography>
-            <Typography>{flightInfo.arrivalAirport}</Typography>
-            <Typography>{flightInfo.arrivalTime}</Typography>
+            <Typography>{flightInfo.flightLegs[0].arrivalAirport.name}</Typography>
+            <Typography>{flightInfo.flightLegs[0].arrivalTime}</Typography>
           </div>
         </div>
       </Paper>

@@ -19,10 +19,11 @@ import {
   import EditIcon from "@mui/icons-material/Edit";
   import DeleteIcon from "@mui/icons-material/Delete";
   import { useDispatch, useSelector } from "react-redux";
+  import { getAllAirplane } from "../../State/Airplane/Action";
   
   const AirplaneList = [1, 1, 1, 1]
   const Airplane = () => {
-    const airport = useSelector((store) => store.airport);
+    const airplane = useSelector((store) => store.airplane);
     const jwt = localStorage.getItem("jwt");
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
@@ -50,6 +51,10 @@ import {
       console.log(formData)
       handleClose()
     }
+    useEffect(() => {
+      dispatch(getAllAirplane({jwt}));
+    }, []);
+
     return (
       <div className="w-[50vw] mx-auto m-4 p-5 bg-indigo-100">
         <div className="flex justify-between items-center">
@@ -83,19 +88,19 @@ import {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {AirplaneList.map((item) => (
+                {airplane.airplanes.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell align="center" className="w-1/5">
-                      1234
+                      {item.model}
                     </TableCell>
                     <TableCell align="center" className="w-1/5">
-                      10
+                      {item.firstClassCapacity}
                     </TableCell>
                     <TableCell align="center" className="w-1/5">
-                      15
+                      {item.businessCapacity}
                     </TableCell>
                     <TableCell align="center" className="w-1/5">
-                      20
+                      {item.economyCapacitys}
                     </TableCell>
                     <TableCell align="center" className="w-1/5">
                       <div className="flex justify-between items-center">

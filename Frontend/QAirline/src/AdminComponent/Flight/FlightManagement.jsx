@@ -1,46 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
 import FlightCard from "./FlightCard";
-import AddFlight from "./AddFlight";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllFlight } from "../../State/FlightAdmin/Action";
+import { useNavigate } from "react-router-dom";
 
 const FlightManagement = () => {
-  const [flightsInfo, setFlightsInfo] = useState([
-    {
-      id: 12345,
-      weekdays: 2,
-      departureAirport: "Nội Bài",
-      arrivalAirport: "Tân Sơn Nhất",
-      departureTime: dayjs().format("DD/MM/YYYY"),
-      arrivalTime: dayjs().add(1, "day").format("DD/MM/YYYY"),
-      airplane: "Boeing 777",
-    },
-    {
-      id: 12346,
-      weekdays: 2,
-      departureAirport: "Tân Sơn Nhất",
-      arrivalAirport: "Nội Bài",
-      departureTime: dayjs().format("DD/MM/YYYY"),
-      arrivalTime: dayjs().add(5, "day").format("DD/MM/YYYY"),
-      airplane: "Boeing 777",
-    },
-  ]);
+  const navigate = useNavigate();
+  const flight = useSelector((store) => store.flightAdmin);
+  const jwt = localStorage.getItem("jwt");
+  const dispatch = useDispatch();
 
+  // chuyển hướng đến detail
+  const navToDetail = () => {
+    navigate("/admin/flight-detail");
+  };
+  //chuyển hướng đến add flight
+  const navToFlightAdd = () => {
+    navigate("/admin/flight-add");
+  };
+
+  useEffect(() => {
+    dispatch(getAllFlight({ jwt }));
+  }, []);
   return (
     <div className="w-[50vw] justify-self-center mx-auto m-4 p-5 bg-indigo-100">
       <div className="flex justify-between items-center">
         <Typography variant="h4">Quản lý chuyến bay</Typography>
         <div className="flex">
-          <Button>
+          <Button onClick={navToFlightAdd}>
             <Typography color="textPrimary">Thêm chuyến bay </Typography>
             <AddIcon />
           </Button>
         </div>
       </div>
-
-      {flightsInfo.map((flight) => (
-        <FlightCard key={flight.id} flightInfo={flight} />
+      {/* <FlightCard></FlightCard> */}
+      {flight.flights.map((item) => (
+        <FlightCard key={item.id} flightInfo={item} navToDetail={navToDetail} />
       ))}
     </div>
   );
