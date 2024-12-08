@@ -1,8 +1,21 @@
 import React from "react";
-import { Typography, Paper, Box, TextField, Button, Autocomplete } from "@mui/material";
+import {
+  Typography,
+  Paper,
+  Box,
+  TextField,
+  Button,
+  Autocomplete,
+} from "@mui/material";
 
-const AddFlightLeg = ({ legData, setLegData, handleInputChangeLeg, airportOptions, airplaneOptions }) => {
-
+const AddFlightLeg = ({
+  legData,
+  setLegData,
+  handleInputChangeLeg,
+  airportOptions,
+  airplaneOptions,
+}) => {
+  console.log("this is add leg", airportOptions);
   const handleAddFlightLeg = () => {
     setLegData([
       ...legData,
@@ -25,7 +38,7 @@ const AddFlightLeg = ({ legData, setLegData, handleInputChangeLeg, airportOption
   };
 
   return (
-    <div className="w-[50vw] justify-self-center mx-auto m-4 p-5 bg-indigo-100">
+    <div className="w-[50vw] justify-self-center p-5 bg-indigo-100">
       <div className="mb-4">
         <Typography variant="h4" align="center">
           Thêm chặng bay
@@ -39,7 +52,7 @@ const AddFlightLeg = ({ legData, setLegData, handleInputChangeLeg, airportOption
 
             {/* Sân bay khởi hành */}
             <Autocomplete
-              options={airportOptions}
+              options={airportOptions.map((airport) => airport.name)}
               value={leg.departureAirport}
               onChange={(event, newValue) => {
                 const updatedLegData = [...legData];
@@ -47,7 +60,11 @@ const AddFlightLeg = ({ legData, setLegData, handleInputChangeLeg, airportOption
                 setLegData(updatedLegData);
               }}
               renderInput={(params) => (
-                <TextField {...params} placeholder="Nhập hoặc chọn sân bay khởi hành" fullWidth />
+                <TextField
+                  {...params}
+                  placeholder="Nhập hoặc chọn sân bay khởi hành"
+                  fullWidth
+                />
               )}
               sx={{
                 "& .MuiInputBase-root": {
@@ -58,15 +75,19 @@ const AddFlightLeg = ({ legData, setLegData, handleInputChangeLeg, airportOption
 
             {/* Sân bay đến */}
             <Autocomplete
-              options={airportOptions}
+              options={airportOptions.map((airport) => airport.name)}
               value={leg.arrivalAirport}
               onChange={(event, newValue) => {
                 const updatedLegData = [...legData];
-                updatedLegData[index].arrivalAirport = newValue || ""; 
+                updatedLegData[index].arrivalAirport = newValue || "";
                 setLegData(updatedLegData);
               }}
               renderInput={(params) => (
-                <TextField {...params} placeholder="Nhập hoặc chọn sân bay đích đến" fullWidth />
+                <TextField
+                  {...params}
+                  placeholder="Nhập hoặc chọn sân bay đích đến"
+                  fullWidth
+                />
               )}
               sx={{
                 "& .MuiInputBase-root": {
@@ -80,7 +101,7 @@ const AddFlightLeg = ({ legData, setLegData, handleInputChangeLeg, airportOption
               label="Thời gian khởi hành"
               variant="outlined"
               fullWidth
-              type="datetime-local"
+              type="time"
               value={leg.departureTime}
               name="departureTime"
               onChange={(e) => handleInputChangeLeg(e, index)}
@@ -99,7 +120,7 @@ const AddFlightLeg = ({ legData, setLegData, handleInputChangeLeg, airportOption
               label="Thời gian đến"
               variant="outlined"
               fullWidth
-              type="datetime-local"
+              type="time"
               value={leg.arrivalTime}
               name="arrivalTime"
               onChange={(e) => handleInputChangeLeg(e, index)}
@@ -115,7 +136,7 @@ const AddFlightLeg = ({ legData, setLegData, handleInputChangeLeg, airportOption
 
             {/* Loại máy bay */}
             <Autocomplete
-              options={airplaneOptions}
+              options={airplaneOptions.map((airplane) => (airplane.model))}
               value={leg.airplane}
               onChange={(event, newValue) => {
                 const updatedLegData = [...legData];
@@ -123,7 +144,11 @@ const AddFlightLeg = ({ legData, setLegData, handleInputChangeLeg, airportOption
                 setLegData(updatedLegData);
               }}
               renderInput={(params) => (
-                <TextField {...params} placeholder="Nhập hoặc chọn loại máy bay" fullWidth />
+                <TextField
+                  {...params}
+                  placeholder="Nhập hoặc chọn loại máy bay"
+                  fullWidth
+                />
               )}
               sx={{
                 "& .MuiInputBase-root": {

@@ -1,8 +1,14 @@
 import { Typography, Button } from "@mui/material";
 import FlightLeg from "./FlightLeg";
 import Ticket from "./Ticket";
+import { useNavigate } from "react-router-dom";
 
 const FlightDetail = () => {
+  const navigate = useNavigate();
+  // quay lại flight
+  const navToFlight = () => {
+    navigate("/admin/flight");
+  };
   const legsInfo = [
     {
       id: 12345,
@@ -82,6 +88,7 @@ const FlightDetail = () => {
           }}
           className="mt-5"
           variant="contained"
+          onClick={navToFlight}
         >
           Quay lại
         </Button>
