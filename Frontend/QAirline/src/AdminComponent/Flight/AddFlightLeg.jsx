@@ -15,16 +15,16 @@ const AddFlightLeg = ({
   airportOptions,
   airplaneOptions,
 }) => {
-  console.log("this is add leg", airportOptions);
+  //thêm chặng bay
   const handleAddFlightLeg = () => {
     setLegData([
       ...legData,
       {
-        departureAirport: "",
-        arrivalAirport: "",
-        departureTime: "",
-        arrivalTime: "",
-        airplane: "",
+        departureAirport: null,
+        arrivalAirport: null,
+        departureTime: null,
+        arrivalTime: null,
+        airplane: null,
       },
     ]);
   };
@@ -52,11 +52,12 @@ const AddFlightLeg = ({
 
             {/* Sân bay khởi hành */}
             <Autocomplete
-              options={airportOptions.map((airport) => airport.name)}
+              options={airportOptions} 
+              getOptionLabel={(option) => option.name} 
               value={leg.departureAirport}
               onChange={(event, newValue) => {
                 const updatedLegData = [...legData];
-                updatedLegData[index].departureAirport = newValue || "";
+                updatedLegData[index].departureAirport = newValue || null;
                 setLegData(updatedLegData);
               }}
               renderInput={(params) => (
@@ -75,11 +76,12 @@ const AddFlightLeg = ({
 
             {/* Sân bay đến */}
             <Autocomplete
-              options={airportOptions.map((airport) => airport.name)}
+              options={airportOptions}
+              getOptionLabel={(option) => option.name}
               value={leg.arrivalAirport}
               onChange={(event, newValue) => {
                 const updatedLegData = [...legData];
-                updatedLegData[index].arrivalAirport = newValue || "";
+                updatedLegData[index].arrivalAirport = newValue || null;
                 setLegData(updatedLegData);
               }}
               renderInput={(params) => (
@@ -136,11 +138,12 @@ const AddFlightLeg = ({
 
             {/* Loại máy bay */}
             <Autocomplete
-              options={airplaneOptions.map((airplane) => (airplane.model))}
+              options={airplaneOptions}
+              getOptionLabel={(option) => option.model}
               value={leg.airplane}
               onChange={(event, newValue) => {
                 const updatedLegData = [...legData];
-                updatedLegData[index].airplane = newValue || "";
+                updatedLegData[index].airplane = newValue || null;
                 setLegData(updatedLegData);
               }}
               renderInput={(params) => (
