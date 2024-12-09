@@ -4,7 +4,10 @@ import FlightIcon from "@mui/icons-material/Flight";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 const FlightCard = ({ flightInfo, navToDetail}) => {
-  // console.log("This is flight card", flightInfo);
+  const departureName =
+  flightInfo?.flightLegs?.[0]?.departureAirport?.name || "N/A";
+const arrivalName =
+  flightInfo?.flightLegs?.[0]?.arrivalAirport?.name || "N/A";
   return (
     <div className="mt-2">
       <Paper elevation={6} className="mb-3 p-3">
@@ -19,7 +22,7 @@ const FlightCard = ({ flightInfo, navToDetail}) => {
             <Typography variant="caption" color="textSecondary">
               Khởi hành
             </Typography>
-            <Typography>{flightInfo.flightLegs[0].departureAirport.name}</Typography>
+            <Typography>{departureName}</Typography>
             <Typography>{flightInfo.flightLegs[0].departureTime}</Typography>
           </div>
           {/* mấy cái icons */}
@@ -36,7 +39,7 @@ const FlightCard = ({ flightInfo, navToDetail}) => {
             <Typography variant="caption" color="textSecondary">
               Điểm đến
             </Typography>
-            <Typography>{flightInfo.flightLegs[0].arrivalAirport.name}</Typography>
+            <Typography>{arrivalName}</Typography>
             <Typography>{flightInfo.flightLegs[0].arrivalTime}</Typography>
           </div>
         </div>

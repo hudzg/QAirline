@@ -16,13 +16,19 @@ const AddFlightTicket = ({
   handleInputChangeTicket,
   handleRefundChange,
 }) => {
-  // không cho nhập giá trị âm
-  const handleNonNegativeInputChange = (e, className) => {
+  const handleNonNegativeInputChange = (e, index) => {
     const { name, value } = e.target;
-    if (value >= 0) {
-      handleInputChangeTicket(e, className);
+  
+    const numericValue = name === "amount" || name === "price" || name === "checkedBaggage" || name === "carryOnBaggage" 
+      ? value === "" ? 0 : Number(value)  
+      : value;
+
+    if (numericValue >= 0 || (name === "refund" && (value === "Có" || value === "Không"))) {
+      handleInputChangeTicket(e, index);
     }
   };
+  
+  
 
   return (
     <div className="w-[50vw] justify-self-center mx-auto p-5 bg-indigo-100">
@@ -32,12 +38,12 @@ const AddFlightTicket = ({
         </Typography>
       </div>
       <Paper className="p-5">
-        {["FIRST_CLASS", "BUSINESS_CLASS", "ECONOMY_CLASS"].map((className) => (
-          <Box key={className} className="space-y-4 mb-8">
+        {ticketData.map((ticket, index) => (
+          <Box key={index} className="space-y-4 mb-8">
             <Typography variant="h6">
-              {className === "FIRST_CLASS"
+              {ticket.ticketClass === "FIRST_CLASS"
                 ? "Hạng nhất"
-                : className === "BUSINESS_CLASS"
+                : ticket.ticketClass === "BUSINESS_CLASS"
                 ? "Hạng thương gia"
                 : "Hạng phổ thông"}
             </Typography>
@@ -47,8 +53,8 @@ const AddFlightTicket = ({
               type="number"
               fullWidth
               name="amount"
-              value={ticketData[className].amount}
-              onChange={(e) => handleNonNegativeInputChange(e, className)}
+              value={ticket.amount}
+              onChange={(e) => handleNonNegativeInputChange(e, index)}
               sx={{
                 "& .MuiInputBase-root": {
                   height: 40,
@@ -61,8 +67,8 @@ const AddFlightTicket = ({
               type="number"
               fullWidth
               name="price"
-              value={ticketData[className].price}
-              onChange={(e) => handleNonNegativeInputChange(e, className)}
+              value={ticket.price}
+              onChange={(e) => handleNonNegativeInputChange(e, index)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">VNĐ</InputAdornment>
@@ -80,8 +86,8 @@ const AddFlightTicket = ({
               type="number"
               fullWidth
               name="checkedBaggage"
-              value={ticketData[className].checkedBaggage}
-              onChange={(e) => handleNonNegativeInputChange(e, className)}
+              value={ticket.checkedBaggage}
+              onChange={(e) => handleNonNegativeInputChange(e, index)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">KG</InputAdornment>
@@ -99,8 +105,8 @@ const AddFlightTicket = ({
               type="number"
               fullWidth
               name="carryOnBaggage"
-              value={ticketData[className].carryOnBaggage}
-              onChange={(e) => handleNonNegativeInputChange(e, className)}
+              value={ticket.carryOnBaggage}
+              onChange={(e) => handleNonNegativeInputChange(e, index)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">KG</InputAdornment>
@@ -117,8 +123,8 @@ const AddFlightTicket = ({
               label="Hoàn vé"
               select
               fullWidth
-              value={ticketData[className].refund ? "Có" : "Không"}
-              onChange={(e) => handleRefundChange(e, className)}
+              value={ticket.refund ? "Có" : "Không"}
+              onChange={(e) => handleRefundChange(e, index)}
               sx={{
                 "& .MuiInputBase-root": {
                   height: 40,

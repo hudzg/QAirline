@@ -4,6 +4,8 @@ import {
   Select,
   FormControl,
   InputLabel,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AddFlightTicket from "./AddFlightTicket";
@@ -12,6 +14,7 @@ import { getAllAirport } from "../../State/Airport/Action";
 import { getAllAirplane } from "../../State/Airplane/Action";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { createFlight } from "../../State/FlightAdmin/Action";
 
 const AddFlight = () => {
   const navigate = useNavigate();
@@ -23,15 +26,15 @@ const AddFlight = () => {
 
   const [weekdays, setWeekDays] = useState(0);
 
-  const [selectedDays, setSelectedDays] = useState(null);
+  const [selectedDays, setSelectedDays] = useState([]);
   const daysOfWeek = [
-    { label: "Thứ Hai", value: 1 },
-    { label: "Thứ Ba", value: 2 },
-    { label: "Thứ Tư", value: 3 },
-    { label: "Thứ Năm", value: 4 },
-    { label: "Thứ Sáu", value: 5 },
-    { label: "Thứ Bảy", value: 6 },
-    { label: "Chủ Nhật", value: 7 },
+    { label: "Thứ Hai", value: 0 },
+    { label: "Thứ Ba", value: 1 },
+    { label: "Thứ Tư", value: 2 },
+    { label: "Thứ Năm", value: 3 },
+    { label: "Thứ Sáu", value: 4 },
+    { label: "Thứ Bảy", value: 5 },
+    { label: "Chủ Nhật", value: 6 },
   ];
 
   useEffect(() => {
@@ -39,63 +42,61 @@ const AddFlight = () => {
     dispatch(getAllAirplane({ jwt }));
   }, []);
 
-  const [ticketData, setTicketData] = useState({
-    FIRST_CLASS: {
+  const [ticketData, setTicketData] = useState([
+    {
+      ticketClass: "FIRST_CLASS",
+      amount: 0,
+      price: 0,
+      refund: false,
+      checkedBaggage: 0,
+      carryOnBaggage: 0,
+    },
+    {
+      ticketClass: "BUSINESS_CLASS",
+      amount: 0,
+      price: 0,
+      refund: false,
+      checkedBaggage: 0,
+      carryOnBaggage: 0,
+    },
+    {
+      ticketClass: "ECONOMY_CLASS",
       amount: 0,
       price: 0,
       refund: false,
       checkedBaggage: 0.0,
       carryOnBaggage: 0.0,
     },
-    BUSINESS_CLASS: {
-      amount: 0,
-      price: 0,
-      refund: false,
-      checkedBaggage: 0.0,
-      carryOnBaggage: 0.0,
-    },
-    ECONOMY_CLASS: {
-      amount: 0,
-      price: 0,
-      refund: false,
-      checkedBaggage: 0.0,
-      carryOnBaggage: 0.0,
-    },
-  });
+  ]);
 
   //chuyển về flight
   const navToFlight = () => {
     navigate("/admin/flight");
   };
 
-  const handleDayChange = (event) => {
-    const selectedValue = event.target.value;
-
-    const newWeekdays = Math.pow(2, selectedValue);
-    setWeekDays(newWeekdays);
-    setSelectedDays(selectedValue);
-  };
-
-  const handleInputChangeTicket = (e, className) => {
+  //nhập ticket data
+  const handleInputChangeTicket = (e, index) => {
     const { name, value } = e.target;
-    setTicketData({
-      ...ticketData,
-      [className]: {
-        ...ticketData[className],
+    setTicketData((prevData) => {
+      const updatedData = [...prevData];
+      updatedData[index] = {
+        ...updatedData[index],
         [name]: value,
-      },
+      };
+      return updatedData;
     });
   };
 
-  const handleRefundChange = (e, className) => {
+  const handleRefundChange = (e, index) => {
     const { value } = e.target;
     const refundValue = value === "Có" ? true : false;
-    setTicketData({
-      ...ticketData,
-      [className]: {
-        ...ticketData[className],
+    setTicketData((prevData) => {
+      const updatedData = [...prevData];
+      updatedData[index] = {
+        ...updatedData[index],
         refund: refundValue,
-      },
+      };
+      return updatedData;
     });
   };
 
@@ -119,31 +120,93 @@ const AddFlight = () => {
     setLegData(updatedLegData);
   };
 
+  //chọn thú trong tuần
+  const handleDayChange = (valueDay) => {
+    let newWeekdays = weekdays;
+
+    if (!selectedDays.includes(valueDay)) {
+      newWeekdays += Math.pow(2, valueDay); // Thêm ngày mới vào `weekdays`
+      setSelectedDays((prev) => [...prev, valueDay]);
+    } else {
+      newWeekdays -= Math.pow(2, valueDay); // Loại bỏ ngày khỏi `weekdays`
+      setSelectedDays((prev) => prev.filter((day) => day !== valueDay));
+    }
+
+    setWeekDays(newWeekdays);
+  };
+
+  // chọn tất cả weekdays
+  const handleSelectAll = () => {
+    if (selectedDays.length === daysOfWeek.length) {
+      setSelectedDays([]);
+      setWeekDays(0);
+    } else {
+      const allDays = daysOfWeek.map((day) => day.value);
+      setSelectedDays(allDays);
+  
+      // Cập nhật `weekdays` bằng cách tổng hợp tất cả giá trị
+      const allWeekdays = allDays.reduce((acc, day) => acc | Math.pow(2, day), 0);
+      setWeekDays(allWeekdays);
+    }
+  };
+  
+
   const handleSubmit = () => {
-    console.log("weekdays: ", weekdays);
-    console.log("Thông tin các loại vé: ", ticketData);
-    console.log("Thông tin các chặng bay: ", legData);
+    // console.log("weekdays: ", weekdays);
+    // console.log("Thông tin các loại vé: ", ticketData);
+    // console.log("Thông tin các chặng bay: ", legData);
+    const newFlight = {
+      weekdays: weekdays,
+      flightLegs: legData,
+      tickets: ticketData,
+    };
+    // console.log("newFlight: ", newFlight);
+
+    dispatch(createFlight({ reqData: newFlight, jwt }));
   };
 
   return (
     <div className="w-[60vw] justify-self-center m-5">
-      {/* Chọn ngày trong tuần */}
-      <div className="mb-5">
-        <FormControl fullWidth>
-          <InputLabel id="select-days-label">Chọn ngày trong tuần</InputLabel>
-          <Select
-            labelId="select-days-label"
-            value={selectedDays || ""}
-            onChange={handleDayChange}
-            label="Chọn ngày trong tuần"
+      {/* Hàng chọn ngày trong tuần */}
+      <div className="mb-5 flex justify-center gap-2">
+        <Button
+          variant={
+            selectedDays.length === daysOfWeek.length ? "contained" : "outlined"
+          }
+          onClick={handleSelectAll}
+          sx={{
+            textTransform: "none",
+            backgroundColor:
+              selectedDays.length === daysOfWeek.length
+                ? "primary.main"
+                : "inherit",
+            color:
+              selectedDays.length === daysOfWeek.length ? "white" : "inherit",
+          }}
+        >
+          {selectedDays.length === daysOfWeek.length
+            ? "Bỏ chọn tất cả"
+            : "Chọn tất cả"}
+        </Button>
+
+        {daysOfWeek.map((day) => (
+          <Button
+            key={day.value}
+            variant={
+              selectedDays.includes(day.value) ? "contained" : "outlined"
+            }
+            onClick={() => handleDayChange(day.value)}
+            sx={{
+              textTransform: "none",
+              backgroundColor: selectedDays.includes(day.value)
+                ? "primary.main"
+                : "inherit",
+              color: selectedDays.includes(day.value) ? "white" : "inherit",
+            }}
           >
-            {daysOfWeek.map((day) => (
-              <MenuItem key={day.value} value={day.value}>
-                {day.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            {day.label}
+          </Button>
+        ))}
       </div>
 
       {/* bảng thêm chặng bay */}

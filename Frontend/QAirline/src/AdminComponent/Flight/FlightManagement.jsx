@@ -25,6 +25,7 @@ const FlightManagement = () => {
   useEffect(() => {
     dispatch(getAllFlight({ jwt }));
   }, []);
+  // console.log("this is all flight: ", flight.flights);
   return (
     <div className="w-[50vw] justify-self-center mx-auto m-4 p-5 bg-indigo-100">
       <div className="flex justify-between items-center">
@@ -36,7 +37,6 @@ const FlightManagement = () => {
           </Button>
         </div>
       </div>
-      {/* <FlightCard></FlightCard> */}
       {flight.flights.map((item) => (
         <FlightCard key={item.id} flightInfo={item} navToDetail={navToDetail} />
       ))}
