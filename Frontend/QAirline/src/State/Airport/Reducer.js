@@ -54,7 +54,7 @@ export const airportReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        airport: state.airports.filter((item) => item.id !== action.payload),
+        airports: state.airports.filter((item) => item.id !== action.payload),
       };
 
     case CREATE_AIRPORT_FAILURE:
