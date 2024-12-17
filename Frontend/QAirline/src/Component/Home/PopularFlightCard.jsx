@@ -1,27 +1,56 @@
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { addSelectedHighlightFlight } from "../../State/Flight/Action";
 
-const PopularFlightCard = ({ item }) => {
+const PopularFlightCard = ({ highlightedFlight, searchFlightRef }) => {
+  const dispatch = useDispatch();
   return (
-    <Card sx={{ width: "30%" }}>
-      <CardMedia
-        sx={{ height: 140 }}
-        image="https://images.pexels.com/photos/1437614/pexels-photo-1437614.jpeg?auto=compress&cs=tinysrgb&w=600"
-        title="green iguana"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Hà Nội đến
-        </Typography>
-        <Typography gutterBottom variant="h5" component="div">
-          TP. Hồ Chí Minh
-        </Typography>
-        <Typography>1.000.000 VND</Typography>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Một Chiều / Phổ thông
-        </Typography>
-      </CardContent>
-    </Card>
+    <>
+      <Card
+        onClick={() => {
+          console.log(searchFlightRef);
+          if (searchFlightRef.current) {
+            searchFlightRef.current.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+            // window.scrollBy(0, -100);
+            dispatch(
+              addSelectedHighlightFlight({
+                departureAirport:
+                  highlightedFlight.flight.flightLegs[0].departureAirport,
+                arrivalAirport:
+                  highlightedFlight.flight.flightLegs[0].arrivalAirport,
+                flightType: highlightedFlight.flightType,
+              })
+            );
+          }
+        }}
+        sx={{ width: "30%", cursor: "pointer" }}
+      >
+        <CardMedia
+          sx={{ height: 140 }}
+          image={highlightedFlight.image}
+          title={highlightedFlight.flight.flightLegs[0].departureAirport.city}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {highlightedFlight.flight.flightLegs[0].departureAirport.city} đến
+          </Typography>
+          <Typography gutterBottom variant="h5" component="div">
+            {highlightedFlight.flight.flightLegs.at(-1).arrivalAirport.city}
+          </Typography>
+          <Typography>{highlightedFlight.ticket.price} VND</Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            {highlightedFlight.flightType === "one-way"
+              ? "Một chiều"
+              : "Khứ hồi"}{" "}
+            / Phổ thông
+          </Typography>
+        </CardContent>
+      </Card>
+    </>
   );
 };
 

@@ -12,7 +12,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import {
   DatePicker,
@@ -30,8 +30,11 @@ import {
 } from "../../State/Flight/Action";
 import { useNavigate } from "react-router-dom";
 
-const SearchFlight = () => {
+const SearchFlight = forwardRef((props, ref) => {
   const airport = useSelector((store) => store.airport);
+  const selectedHightlightFlight = useSelector(
+    (store) => store.flight.selectedHightlightFlight
+  );
   const jwt = localStorage.getItem("jwt");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -72,6 +75,29 @@ const SearchFlight = () => {
     //   }))
     // );
   }, []);
+
+  useEffect(() => {
+    if (selectedHightlightFlight.departureAirport) {
+      console.log(
+        "selectedHightlightFlight",
+        selectedHightlightFlight.departureAirport
+      );
+      setFormData({
+        ...formData,
+        departureAirport: {
+          label: `${selectedHightlightFlight.departureAirport.name} (${selectedHightlightFlight.departureAirport.iata}), ${selectedHightlightFlight.departureAirport.country}`,
+          airport: selectedHightlightFlight.departureAirport,
+        },
+        arrivalAirport: {
+          label: `${selectedHightlightFlight.arrivalAirport.name} (${selectedHightlightFlight.arrivalAirport.iata}), ${selectedHightlightFlight.arrivalAirport.country}`,
+          airport: selectedHightlightFlight.arrivalAirport,
+        },
+        // departureAirportInput: selectedHightlightFlight.departureAirport.name,
+        // arrivalAirportInput: selectedHightlightFlight.arrivalAirport.name,
+        flightType: selectedHightlightFlight.flightType,
+      });
+    }
+  }, [selectedHightlightFlight]);
 
   const validate = () => {
     const newFormError = {
@@ -125,7 +151,7 @@ const SearchFlight = () => {
   };
   return (
     <Paper elevation={4} className="p-10 w-[60vw] m-auto mb-5">
-      <div className="text-2xl space-x-2 flex items-center">
+      <div ref={ref} className="text-2xl space-x-2 flex items-center">
         <FlightIcon fontSize="large" />
         <h1>Tìm kiếm chuyến bay</h1>
       </div>
@@ -325,6 +351,6 @@ const SearchFlight = () => {
       </form>
     </Paper>
   );
-};
+});
 
 export default SearchFlight;

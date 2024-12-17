@@ -1,6 +1,7 @@
 import {
   ADD_GET_FLIGHT_REQUEST,
   ADD_GET_INBOUND_FLIGHT_REQUEST,
+  ADD_SELECTED_HIGHLIGHT_FLIGHT,
   ADD_SELECTED_INBOUND_FLIGHT,
   ADD_SELECTED_OUTBOUND_FLIGHT,
   GET_INBOUND_FLIGHT_FAILURE,
@@ -34,6 +35,11 @@ const initialState = {
   },
   selectedOutboundFlight: null,
   selectedInboundFlight: null,
+  selectedHightlightFlight: {
+    departureAirport: null,
+    arrivalAirport: null,
+    flightType: "",
+  },
 };
 
 export const flightReducer = (state = initialState, action) => {
@@ -83,6 +89,11 @@ export const flightReducer = (state = initialState, action) => {
       return {
         ...state,
         selectedInboundFlight: action.payload,
+      };
+    case ADD_SELECTED_HIGHLIGHT_FLIGHT:
+      return {
+        ...state,
+        selectedHightlightFlight: action.payload,
       };
     default:
       return state;
