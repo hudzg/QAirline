@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import PopularFlight from "./PopularFlight";
 import SearchFlight from "./SearchFlight";
@@ -8,6 +8,7 @@ import "react-multi-carousel/lib/styles.css";
 import HeroBanner from "./HeroBanner";
 
 const Home = () => {
+  const searchFlightRef = useRef(null);
   return (
     <div className="px-5 lg:px-20">
       {/* <div className="w-full h-[80vh] my-5">
@@ -86,8 +87,8 @@ const Home = () => {
         alt=""
       /> */}
       <HeroBanner />
-      <SearchFlight />
-      <PopularFlight />
+      <SearchFlight ref={searchFlightRef} />
+      <PopularFlight searchFlightRef={searchFlightRef} />
     </div>
   );
 };
