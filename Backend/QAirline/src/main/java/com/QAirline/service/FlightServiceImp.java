@@ -89,14 +89,14 @@ public class FlightServiceImp implements FlightService {
         List<Flight> allFlight = getAllFlight();
         for (Flight flight : allFlight) {
             if (flight.getFlightLegs().get(0).getDepartureAirport().getId().equals(getFlightRequest.getDepartureAirport().getId())
-                    && flight.getFlightLegs().getLast().getArrivalAirport().getId().equals(getFlightRequest.getArrivalAirport().getId())
+                    && flight.getFlightLegs().get(flight.getFlightLegs().size() - 1).getArrivalAirport().getId().equals(getFlightRequest.getArrivalAirport().getId())
                     && ((flight.getWeekdays() >> (getFlightRequest.getDepartureTime().getDayOfWeek().getValue() - 1)) & 1) == 1) {
 
                 GetFlightResponse flightResponse = new GetFlightResponse();
 
                 flightResponse.setFlightId(flight.getId());
                 flightResponse.setDepartureTime(flight.getFlightLegs().get(0).getDepartureTime());
-                flightResponse.setArrivalTime(flight.getFlightLegs().getLast().getArrivalTime());
+                flightResponse.setArrivalTime(flight.getFlightLegs().get(flight.getFlightLegs().size() - 1).getArrivalTime());
                 flightResponse.setHourDuration((long) Duration.between(flightResponse.getDepartureTime(), flightResponse.getArrivalTime()).toHoursPart());
                 flightResponse.setMinuteDuration((long) Duration.between(flightResponse.getDepartureTime(), flightResponse.getArrivalTime()).toMinutesPart());
                 flightResponse.setTickets(flight.getTickets());
