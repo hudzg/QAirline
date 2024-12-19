@@ -97,7 +97,7 @@ public class SeatServiceImp implements SeatService {
     public GetSeatMapResponse getSeatMap(Long flightId, LocalDate date) throws Exception {
         GetSeatMapResponse response = new GetSeatMapResponse();
         Flight flight = flightService.findFlightById(flightId);
-        response.setAirplane(flight.getFlightLegs().getFirst().getAirplane());
+        response.setAirplane(flight.getFlightLegs().get(0).getAirplane());
         response.setSeats(new ArrayList<>());
         Optional<FlightInstance> optionalFlightInstance = flightInstanceRepository.findByDateAndFlightId(date, flightId);
         if (optionalFlightInstance.isPresent()) {

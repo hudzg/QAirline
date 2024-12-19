@@ -65,9 +65,9 @@ public class FlightInstanceServiceImp implements FlightInstanceService {
             GetFlightInstanceByUserResponse response = new GetFlightInstanceByUserResponse();
             response.setFlightInstance(flightInstance);
             response.setDepartureAirport(flightInstance.getFlight().getFlightLegs().get(0).getDepartureAirport());
-            response.setArrivalAirport(flightInstance.getFlight().getFlightLegs().getLast().getArrivalAirport());
+            response.setArrivalAirport(flightInstance.getFlight().getFlightLegs().get(flightInstance.getFlight().getFlightLegs().size() - 1).getArrivalAirport());
             response.setDepartureTime(flightInstance.getFlight().getFlightLegs().get(0).getDepartureTime());
-            response.setArrivalTime(flightInstance.getFlight().getFlightLegs().getLast().getArrivalTime());
+            response.setArrivalTime(flightInstance.getFlight().getFlightLegs().get(flightInstance.getFlight().getFlightLegs().size() - 1).getArrivalTime());
             response.setHourDuration((long) Duration.between(response.getDepartureTime(), response.getArrivalTime()).toHoursPart());
             response.setMinuteDuration((long) Duration.between(response.getDepartureTime(), response.getArrivalTime()).toMinutesPart());
             responseList.add(response);
