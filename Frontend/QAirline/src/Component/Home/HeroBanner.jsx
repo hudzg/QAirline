@@ -4,16 +4,23 @@ import { useNavigate } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { getAllHeroBanner } from "../../State/HeroBanner/Action";
+import { getAllPost } from "../../State/Post/Action";
 
 const HeroBanner = () => {
   const heroBanner = useSelector((store) => store.heroBanner);
+  const post = useSelector((store) => store.post);
   const jwt = localStorage.getItem("jwt");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllHeroBanner());
+    dispatch(getAllPost());
   }, []);
+
+  const handleClick = (id) => {
+    navigate(`/post/${id}`);
+  };
 
   return (
     <div className="w-full h-[80vh] my-5">
@@ -84,13 +91,14 @@ const HeroBanner = () => {
             draggable={false}
           />
         </div> */}
-        {heroBanner.heroBanners.map((item) => (
+        {post.posts.map((item) => (
           <div key={item.id}>
             <img
-              className="w-full h-[80vh] py-5 block"
+              className="w-full h-[80vh] py-5 block cursor-pointer"
               src={item.image}
               alt=""
               draggable={false}
+              onClick={() => handleClick(item.id)}
             />
           </div>
         ))}
