@@ -12,10 +12,10 @@ import AddPost from "../AdminComponent/Post/AddPost";
 const AdminRoute = () => {
   return (
     <div className="flex">
-      <div className="w-[20%]">
+      <div className="w-[16%]">
         <AdminSidebar />
       </div>
-      <div className="w-[80%]">
+      <div className="w-[84%]">
         <Routes>
           <Route path="/" element={<Dashboard />}></Route>
           <Route path="/airport" element={<Airports />}></Route>
