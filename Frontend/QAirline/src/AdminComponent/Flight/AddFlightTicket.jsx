@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   Typography,
   Paper,
@@ -15,7 +15,8 @@ const AddFlightTicket = ({
   ticketData,
   handleInputChangeTicket,
   handleRefundChange,
-  airplane
+  airplane,
+  setTicketData
 }) => {
   const handleNonNegativeInputChange = (e, index) => {
     const { name, value } = e.target;
@@ -28,6 +29,31 @@ const AddFlightTicket = ({
       handleInputChangeTicket(e, index);
     }
   };
+
+  const getNumOfSeats = (ticketClass) => {
+    if(airplane === null) {
+      return 0;
+    }
+    switch (ticketClass) {
+      case "FIRST_CLASS":
+        return airplane.firstClassCapacity || 0;
+      case "BUSINESS_CLASS":
+        return airplane.businessCapacity || 0;
+      case "ECONOMY_CLASS":
+        return airplane.economyCapacity || 0;
+      default:
+        return 0;
+    }
+  };
+
+  useEffect(() => {
+    const updatedTicketData = ticketData.map((ticket) => ({
+      ...ticket,
+      amount: getNumOfSeats(ticket.ticketClass),  
+    }));
+    setTicketData(updatedTicketData);
+  }, [ airplane ]);
+
   
   
 
@@ -56,13 +82,7 @@ const AddFlightTicket = ({
               name="amount"
               disabled
               value={
-                airplane === null
-                  ? 0
-                  : ticket.ticketClass === "FIRST_CLASS"
-                  ? airplane.firstClassCapacity || 0
-                  : ticket.ticketClass === "BUSINESS_CLASS"
-                  ? airplane.businessCapacity || 0
-                  : airplane.economyCapacity || 0
+                ticket.amount
               }
               sx={{
                 "& .MuiInputBase-root": {

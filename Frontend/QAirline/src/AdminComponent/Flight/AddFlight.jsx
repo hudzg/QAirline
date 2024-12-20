@@ -266,6 +266,7 @@ const AddFlight = () => {
           handleInputChangeTicket={handleInputChangeTicket}
           handleRefundChange={handleRefundChange}
           airplane={legData[0].airplane}
+          setTicketData = {setTicketData}
         />
       </div>
 
