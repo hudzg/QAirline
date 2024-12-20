@@ -6,6 +6,7 @@ import Airports from "../AdminComponent/Airport/AirportEdit";
 import FlightManagement from "../AdminComponent/Flight/FlightManagement";
 import Airplane from "../AdminComponent/Airplane/AirplaneEdit";
 import AddFlight from "../AdminComponent/Flight/AddFlight";
+import FlightInstance from "../AdminComponent/FlightInstance/FlightInstance";
 import Post from "../AdminComponent/Post/Post";
 import AddPost from "../AdminComponent/Post/AddPost";
 
@@ -22,7 +23,7 @@ const AdminRoute = () => {
           <Route path="/flight" element={<FlightManagement />}></Route>
           <Route path="/flight-add" element={<AddFlight />}></Route>
           <Route path="/airplane" element={<Airplane />}></Route>
-          <Route path="/flight-status"></Route>
+          <Route path="/flight-status" element={<FlightInstance />}></Route>
           <Route path="/passenger"></Route>
           <Route path="/feedback"></Route>
           <Route path="/post" element={<Post />} />

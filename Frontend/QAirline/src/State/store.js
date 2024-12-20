@@ -9,6 +9,7 @@ import { flightAdminReducer } from "./FlightAdmin/Reducer";
 import { airplaneReducer } from "./Airplane/Reducer";
 import { heroBannerReducer } from "./HeroBanner/Reducer";
 import { highlightedFlightReducer } from "./HighlightedFlight/Reducer";
+import { flightInstanceAdminReducer } from "./FlightInstanceAdmin/Reducer";
 import { postReducer } from "./Post/Reducer";
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   flightAdmin: flightAdminReducer,
   seat: seatReducer,
   flightInstance: flightInstanceReducer,
+  flightInstanceAdmin: flightInstanceAdminReducer,
   airplane: airplaneReducer,
   heroBanner: heroBannerReducer,
   highlightedFlight: highlightedFlightReducer,

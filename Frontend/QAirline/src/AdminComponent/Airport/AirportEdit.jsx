@@ -12,6 +12,8 @@ import {
   TextField,
   Typography,
   Modal,
+  Snackbar,
+  Alert
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -34,11 +36,14 @@ const Airports = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [updatingAirport, setUpdatingAirport] = useState(null);
 
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     city: "",
     country: "",
     IATA: "",
+    email: "",
   });
 
   // mở modal để cập nhật airport
@@ -50,6 +55,7 @@ const Airports = () => {
       city: airport.city,
       country: airport.country,
       IATA: airport.IATA,
+      email: airport.email,
     });
     setOpen(true);
   };
@@ -62,6 +68,7 @@ const Airports = () => {
       city: "",
       country: "",
       IATA: "",
+      email: "",
     });
     setOpen(true);
   };
@@ -102,7 +109,12 @@ const Airports = () => {
     }
 
     handleClose();
+    setOpenSnackbar(true);
   };
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
   useEffect(() => {
     dispatch(getAllAirport({ jwt }));
   }, []);
@@ -186,7 +198,7 @@ const Airports = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: "25%",
-            height: "60%",
+            height: "68%",
           }}
         >
           <div className="mb-2 mt-2">
@@ -195,15 +207,6 @@ const Airports = () => {
             </Typography>
           </div>
           <div className="mb-10 space-y-4">
-            <TextField
-              label="Mã Sân Bay"
-              variant="outlined"
-              fullWidth
-              value={formData.IATA}
-              name="IATA"
-              onChange={handleInputChange}
-              className="mb-4"
-            />
             <TextField
               label="Tên Sân Bay"
               variant="outlined"
@@ -231,6 +234,15 @@ const Airports = () => {
               onChange={handleInputChange}
               className="mb-4"
             />
+            <TextField
+              label="Email"
+              variant="outlined"
+              fullWidth
+              value={formData.email}
+              name="email"
+              onChange={handleInputChange}
+              className="mb-4"
+            />
           </div>
           <div className="flex justify-between ml-8 mr-8">
             <Button onClick={handleClose}>Hủy</Button>
@@ -247,6 +259,24 @@ const Airports = () => {
           </div>
         </Box>
       </Modal>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          sx={{
+            width: "100%",
+            backgroundColor: "rgb(212, 255, 218)",
+            color: "rgb(120, 120, 120)",
+            fontWeight: "bold",
+          }}
+        >
+          {isEditMode ? "Chỉnh sửa thông tin sân bay thành công" : "Thêm sân bay thành công"}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

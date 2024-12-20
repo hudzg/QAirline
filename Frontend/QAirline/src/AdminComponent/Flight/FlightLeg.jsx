@@ -2,7 +2,6 @@ import { Divider, Paper, Typography } from "@mui/material";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 
 const FlightLeg = ({ legsInfo }) => {
-  console.log("this is leg info ", legsInfo);
   return (
     <div className="relative">
       {legsInfo.map((leg, index) => (
@@ -23,7 +22,7 @@ const FlightLeg = ({ legsInfo }) => {
               <Typography>{leg.departureTime}</Typography>
             </div>
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <DoubleArrowIcon />
+              <DoubleArrowIcon sx={{ color: "#B993D6" }}/>
             </div>
             {/* thông tin điểm đến */}
             <div className="text-right">

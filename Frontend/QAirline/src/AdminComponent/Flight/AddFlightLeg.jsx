@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Paper,
@@ -15,7 +15,19 @@ const AddFlightLeg = ({
   airportOptions,
   airplaneOptions,
 }) => {
-  //thêm chặng bay
+  const [sharedAirplane, setSharedAirplane] = useState(null);
+
+  useEffect(() => {
+    if (sharedAirplane) {
+      const updatedLegData = legData.map((leg) => ({
+        ...leg,
+        airplane: sharedAirplane, 
+      }));
+      setLegData(updatedLegData);
+    }
+  }, [sharedAirplane, legData, setLegData]);
+
+  // Thêm chặng bay
   const handleAddFlightLeg = () => {
     setLegData([
       ...legData,
@@ -24,7 +36,7 @@ const AddFlightLeg = ({
         arrivalAirport: null,
         departureTime: null,
         arrivalTime: null,
-        airplane: null,
+        airplane: sharedAirplane,
       },
     ]);
   };
@@ -45,6 +57,8 @@ const AddFlightLeg = ({
         </Typography>
       </div>
       <Paper className="p-5">
+        
+
         {/* Render từng chặng bay */}
         {legData.map((leg, index) => (
           <Box key={index} className="space-y-4 mb-8">
@@ -52,8 +66,8 @@ const AddFlightLeg = ({
 
             {/* Sân bay khởi hành */}
             <Autocomplete
-              options={airportOptions} 
-              getOptionLabel={(option) => option.name} 
+              options={airportOptions}
+              getOptionLabel={(option) => option.name}
               value={leg.departureAirport}
               onChange={(event, newValue) => {
                 const updatedLegData = [...legData];
@@ -136,21 +150,18 @@ const AddFlightLeg = ({
               }}
             />
 
-            {/* Loại máy bay */}
+            {/* Loại máy bay  */}
             <Autocomplete
               options={airplaneOptions}
               getOptionLabel={(option) => option.model}
-              value={leg.airplane}
-              onChange={(event, newValue) => {
-                const updatedLegData = [...legData];
-                updatedLegData[index].airplane = newValue || null;
-                setLegData(updatedLegData);
-              }}
+              value={sharedAirplane}
+              onChange={(event, newValue) => setSharedAirplane(newValue)}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  placeholder="Nhập hoặc chọn loại máy bay"
+                  placeholder="Loại máy bay cho tất cả chặng bay"
                   fullWidth
+                  disabled
                 />
               )}
               sx={{
