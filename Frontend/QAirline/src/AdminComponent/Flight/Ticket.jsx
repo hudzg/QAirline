@@ -3,7 +3,6 @@ import { Typography, Paper, Button, Divider } from "@mui/material";
 
 
 const Ticket = ({ ticketsInfo }) => {
-  console.log("this is ticket info",ticketsInfo)
   const flightClass = {
   ECONOMY_CLASS: { label: "Hạng phổ thông", color: "#B993D6" },
   BUSINESS_CLASS: { label: "Hạng thương gia", color: "#A2A6DB" },

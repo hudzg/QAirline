@@ -29,9 +29,7 @@ const FlightCard = ({ flightInfo }) => {
   return (
     <div className="mt-2">
       <Accordion elevation={6}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Paper elevation={0} className="p-3 w-full">
             <div className="">
               <Typography>Mã chuyến bay: {flightInfo.id}</Typography>
@@ -50,10 +48,12 @@ const FlightCard = ({ flightInfo }) => {
               <div className="col-span-2 flex justify-between items-center">
                 <FlightIcon
                   fontSize="large"
-                  sx={{ transform: "rotate(90deg)" }}
+                  sx={{ transform: "rotate(90deg)", color: "#B993D6" }}
                 />
                 <div className="flex-grow border-t border-dashed border-black" />
-                <FiberManualRecordIcon fontSize="small" />
+                <FiberManualRecordIcon 
+                  fontSize="small" 
+                  sx={{ color: "#8CA6DB" }}/>
               </div>
               {/* Thông tin điểm đến */}
               <div className="col-span-1 text-right">
@@ -68,9 +68,13 @@ const FlightCard = ({ flightInfo }) => {
         </AccordionSummary>
         {/* hiển thị chi tiết */}
         <AccordionDetails>
-          <Typography variant="h5" align="center" gutterBottom>chặng bay</Typography>
+          <Typography variant="h5" align="center" gutterBottom>
+            chặng bay
+          </Typography>
           <FlightLeg legsInfo={flightInfo.flightLegs} />
-          <Typography variant="h5" align="center" gutterBottom>vé</Typography>
+          <Typography variant="h5" align="center" gutterBottom>
+            vé
+          </Typography>
           <Ticket ticketsInfo={flightInfo.tickets} />
         </AccordionDetails>
       </Accordion>

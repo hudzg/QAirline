@@ -1,16 +1,23 @@
 import { Typography, Card, Button } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import FlightIcon from "@mui/icons-material/Flight";
 import { useDispatch, useSelector } from "react-redux";
 import { createSeat } from "../../State/Seat/Action";
 import { useNavigate } from "react-router-dom";
+import { getAllFlight } from "../../State/FlightAdmin/Action";
+import { createFlightInstanceByAdmin } from "../../State/FlightInstanceAdmin/Action";
 
 const Preview = () => {
   const dispatch = useDispatch();
   const flight = useSelector((store) => store.flight);
+  const flightAdmin = useSelector((store) => store.flightAdmin);
   const seat = useSelector((store) => store.seat);
   const jwt = localStorage.getItem("jwt");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getAllFlight({ jwt }));
+  }, []);
 
   const sendRequestsSequentially = async () => {
     for (const customer of seat.customers) {
@@ -61,6 +68,38 @@ const Preview = () => {
     }
   };
 
+  let flightOutboundInstance = null;
+  let flightInboundInstance = null;
+
+  if (
+    flight.selectedOutboundFlight &&
+    flight.selectedOutboundFlight.flightInstance &&
+    flight.selectedOutboundFlight.flightInstance.flightId
+  ) {
+    let flightOutboundSelected = flightAdmin.flights.find(
+      (item) =>
+        item.id === flight.selectedOutboundFlight.flightInstance.flightId
+    );
+    flightOutboundInstance = {
+      flight: flightOutboundSelected,
+      date: flight.selectedOutboundFlight.flight.departureTime,
+    };
+  }
+
+  if (
+    flight.selectedInboundFlight &&
+    flight.selectedInboundFlight.flightInstance &&
+    flight.selectedInboundFlight.flightInstance.flightId
+  ) {
+    let flightInboundSelected = flightAdmin.flights.find(
+      (item) => item.id === flight.selectedInboundFlight.flightInstance.flightId
+    );
+    flightInboundInstance = {
+      flight: flightInboundSelected,
+      date: flight.selectedInboundFlight.flight.departureTime,
+    };
+  }
+
   const handleSubmit = async () => {
     // dispatch
     console.log(
@@ -68,6 +107,18 @@ const Preview = () => {
       flight.selectedInboundFlight,
       seat.customers
     );
+
+    if (flightOutboundInstance != null) {
+      dispatch(
+        createFlightInstanceByAdmin({ reqData: flightOutboundInstance, jwt })
+      );
+    }
+    if (flightInboundInstance != null) {
+      dispatch(
+        createFlightInstanceByAdmin({ reqData: flightInboundInstance, jwt })
+      );
+    }
+
     // for (const customer of seat.customers) {
     //   await dispatch(
     //     createSeat({

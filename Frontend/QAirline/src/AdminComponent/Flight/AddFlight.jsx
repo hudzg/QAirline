@@ -1,11 +1,7 @@
 import {
   Button,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  FormControlLabel,
-  Checkbox,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AddFlightTicket from "./AddFlightTicket";
@@ -42,6 +38,16 @@ const AddFlight = () => {
     dispatch(getAllAirplane({ jwt }));
   }, []);
 
+  const [legData, setLegData] = useState([
+    {
+      departureAirport: null,
+      arrivalAirport: null,
+      departureTime: null,
+      arrivalTime: null,
+      airplane: null,
+    },
+  ]);
+
   const [ticketData, setTicketData] = useState([
     {
       ticketClass: "FIRST_CLASS",
@@ -68,6 +74,8 @@ const AddFlight = () => {
       carryOnBaggage: 0.0,
     },
   ]);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   //chuyển về flight
   const navToFlight = () => {
@@ -99,16 +107,6 @@ const AddFlight = () => {
       return updatedData;
     });
   };
-
-  const [legData, setLegData] = useState([
-    {
-      departureAirport: null,
-      arrivalAirport: null,
-      departureTime: null,
-      arrivalTime: null,
-      airplane: null,
-    },
-  ]);
 
   const handleInputChangeLeg = (e, index) => {
     const { name, value } = e.target;
@@ -143,13 +141,15 @@ const AddFlight = () => {
     } else {
       const allDays = daysOfWeek.map((day) => day.value);
       setSelectedDays(allDays);
-  
+
       // Cập nhật `weekdays` bằng cách tổng hợp tất cả giá trị
-      const allWeekdays = allDays.reduce((acc, day) => acc | Math.pow(2, day), 0);
+      const allWeekdays = allDays.reduce(
+        (acc, day) => acc | Math.pow(2, day),
+        0
+      );
       setWeekDays(allWeekdays);
     }
   };
-  
 
   const handleSubmit = () => {
     // console.log("weekdays: ", weekdays);
@@ -163,6 +163,46 @@ const AddFlight = () => {
     // console.log("newFlight: ", newFlight);
 
     dispatch(createFlight({ reqData: newFlight, jwt }));
+    setLegData([
+      {
+        departureAirport: null,
+        arrivalAirport: null,
+        departureTime: null,
+        arrivalTime: null,
+        airplane: null,
+      },
+    ]);
+
+    setTicketData([
+      {
+        ticketClass: "FIRST_CLASS",
+        amount: 0,
+        price: 0,
+        refund: false,
+        checkedBaggage: 0,
+        carryOnBaggage: 0,
+      },
+      {
+        ticketClass: "BUSINESS_CLASS",
+        amount: 0,
+        price: 0,
+        refund: false,
+        checkedBaggage: 0,
+        carryOnBaggage: 0,
+      },
+      {
+        ticketClass: "ECONOMY_CLASS",
+        amount: 0,
+        price: 0,
+        refund: false,
+        checkedBaggage: 0.0,
+        carryOnBaggage: 0.0,
+      },
+    ]);
+    setOpenSnackbar(true);
+  };
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -225,10 +265,11 @@ const AddFlight = () => {
           ticketData={ticketData}
           handleInputChangeTicket={handleInputChangeTicket}
           handleRefundChange={handleRefundChange}
+          airplane={legData[0].airplane}
         />
       </div>
 
-      <div className="flex justify-between mt-5">
+      <div className="flex justify-between mt-5 pr-60 pl-60">
         <Button variant="outlined" onClick={navToFlight}>
           Hủy
         </Button>
@@ -243,6 +284,24 @@ const AddFlight = () => {
           Lưu
         </Button>
       </div>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          sx={{
+            width: "100%",
+            backgroundColor: "rgb(212, 255, 218)",
+            color: "rgb(120, 120, 120)",
+            fontWeight: "bold",
+          }}
+        >
+          Thêm chuyến bay thành công!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

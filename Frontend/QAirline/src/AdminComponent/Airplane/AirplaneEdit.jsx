@@ -12,6 +12,9 @@ import {
   TextField,
   Typography,
   Modal,
+  Grid,
+  Snackbar,
+  Alert
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -34,11 +37,18 @@ const Airplane = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [updatingAirplane, setUpdatingAirplane] = useState(null);
 
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [formData, setFormData] = useState({
     model: "",
     firstClassCapacity: 0,
     businessCapacity: 0,
     economyCapacity: 0,
+    firstClassRow: 0,
+    firstClassCol: 0,
+    businessRow: 0,
+    businessCol: 0,
+    economyRow: 0,
+    economyCol: 0,
   });
 
   // mở modal để cập nhật airplane
@@ -50,6 +60,12 @@ const Airplane = () => {
       firstClassCapacity: airplane.firstClassCapacity,
       businessCapacity: airplane.businessCapacity,
       economyCapacity: airplane.economyCapacity,
+      firstClassRow: airplane.firstClassRow,
+      firstClassCol: airplane.firstClassCol,
+      businessRow: airplane.businessRow,
+      businessCol: airplane.businessCol,
+      economyRow: airplane.economyRow,
+      economyCol: airplane.economyCol,
     });
     setOpen(true);
   };
@@ -62,6 +78,12 @@ const Airplane = () => {
       firstClassCapacity: 0,
       businessCapacity: 0,
       economyCapacity: 0,
+      firstClassRow: 0,
+      firstClassCol: 0,
+      businessRow: 0,
+      businessCol: 0,
+      economyRow: 0,
+      economyCol: 0,
     });
     setOpen(true);
   };
@@ -73,9 +95,49 @@ const Airplane = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+
+    setFormData((prev) => {
+      const updatedForm = { ...prev, [name]: value };
+
+      const calculateCapacity = (row, col) => {
+        if (row > 0 && col > 0) {
+          return row * col;
+        }
+        return 0;
+      };
+
+      if (name.startsWith("firstClass")) {
+        const capacity = calculateCapacity(
+          parseInt(updatedForm.firstClassRow || 0),
+          parseInt(updatedForm.firstClassCol || 0)
+        );
+        return {
+          ...updatedForm,
+          firstClassCapacity: capacity,
+        };
+      }
+      if (name.startsWith("business")) {
+        const capacity = calculateCapacity(
+          parseInt(updatedForm.businessRow || 0),
+          parseInt(updatedForm.businessCol || 0)
+        );
+        return {
+          ...updatedForm,
+          businessCapacity: capacity,
+        };
+      }
+      if (name.startsWith("economy")) {
+        const capacity = calculateCapacity(
+          parseInt(updatedForm.economyRow || 0),
+          parseInt(updatedForm.economyCol || 0)
+        );
+        return {
+          ...updatedForm,
+          economyCapacity: capacity,
+        };
+      }
+
+      return updatedForm;
     });
   };
 
@@ -87,7 +149,6 @@ const Airplane = () => {
   //submit trong modal
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
 
     if (isEditMode && updatingAirplane) {
       dispatch(
@@ -100,8 +161,12 @@ const Airplane = () => {
     } else {
       dispatch(createAirplane({ reqData: formData, jwt }));
     }
-
     handleClose();
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
   useEffect(() => {
     dispatch(getAllAirplane({ jwt }));
@@ -187,68 +252,171 @@ const Airplane = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: "25%",
-            height: "60%",
+            width: "40%",
+            height: "90%",
+            outline: "none",
+            border: "none",
+            boxShadow: 24,
           }}
         >
-          <div className="mb-2 mt-2">
-            <Typography variant="h6" component="h2">
-              {isEditMode ? "Chỉnh sửa thông tin máy bay" : "Thêm máy bay"}
-            </Typography>
-          </div>
-          <div className="mb-10 space-y-4">
-            <TextField
-              label="Loại máy bay"
-              variant="outlined"
-              fullWidth
-              value={formData.model}
-              name="model"
-              onChange={handleInputChange}
-              className="mb-4"
-            />
-            <TextField
-              label="Vé hạng nhất"
-              variant="outlined"
-              fullWidth
-              value={formData.firstClassCapacity}
-              name="firstClassCapacity"
-              onChange={handleInputChange}
-              className="mb-4"
-            />
-            <TextField
-              label="Vé thương gia"
-              variant="outlined"
-              fullWidth
-              value={formData.businessCapacity}
-              name="businessCapacity"
-              onChange={handleInputChange}
-              className="mb-4"
-            />
-            <TextField
-              label="Vé phổ thông"
-              variant="outlined"
-              fullWidth
-              value={formData.economyCapacity}
-              name="economyCapacity"
-              onChange={handleInputChange}
-              className="mb-4"
-            />
-          </div>
-          <div className="flex justify-between ml-8 mr-8">
-            <Button onClick={handleClose}>Hủy</Button>
-            <Button
-              variant="contained"
-              type="submit"
-              onClick={handleSubmit}
-              sx={{
-                background: "linear-gradient(to right, #B993D6, #8CA6DB)",
-              }}
-            >
-              {isEditMode ? "Lưu" : "Thêm"}
-            </Button>
-          </div>
+          <Typography variant="h6" component="h2" gutterBottom>
+            {isEditMode ? "Chỉnh sửa thông tin máy bay" : "Thêm máy bay"}
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <div className="space-y-4">
+              {/* Loại máy bay */}
+              <TextField
+                label="Loại máy bay"
+                variant="outlined"
+                fullWidth
+                value={formData.model}
+                name="model"
+                onChange={handleInputChange}
+                className="mb-4"
+              />
+
+              {/* Vé hạng nhất */}
+              <Typography variant="subtitle1">Vé hạng nhất</Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Số ghế"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.firstClassCapacity}
+                    name="firstClassCapacity"
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Hàng ngang"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.firstClassRow}
+                    name="firstClassRow"
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Hàng dọc"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.firstClassCol}
+                    name="firstClassCol"
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+              </Grid>
+
+              {/* Vé thương gia */}
+              <Typography variant="subtitle1">Vé thương gia</Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Số ghế"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.businessCapacity}
+                    name="businessCapacity"
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Hàng ngang"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.businessRow}
+                    name="businessRow"
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Hàng dọc"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.businessCol}
+                    name="businessCol"
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+              </Grid>
+
+              {/* Vé phổ thông */}
+              <Typography variant="subtitle1">Vé phổ thông</Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Số ghế"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.economyCapacity}
+                    name="economyCapacity"
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Hàng ngang"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.economyRow}
+                    name="economyRow"
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Hàng dọc"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.economyCol}
+                    name="economyCol"
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+              </Grid>
+            </div>
+
+            {/* Nút hành động */}
+            <div className="flex justify-between mt-4">
+              <Button onClick={handleClose} variant="outlined">
+                Hủy
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{
+                  background: "linear-gradient(to right, #B993D6, #8CA6DB)",
+                }}
+              >
+                {isEditMode ? "Lưu" : "Thêm"}
+              </Button>
+            </div>
+          </form>
         </Box>
       </Modal>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          sx={{
+            width: "100%",
+            backgroundColor: "rgb(212, 255, 218)",
+            color: "rgb(120, 120, 120)",
+            fontWeight: "bold",
+          }}
+        >
+          {isEditMode ? "Sửa thông tin máy bay thành công" : "Thêm máy bay thành công"}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

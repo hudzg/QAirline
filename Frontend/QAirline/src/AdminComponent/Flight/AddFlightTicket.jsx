@@ -15,6 +15,7 @@ const AddFlightTicket = ({
   ticketData,
   handleInputChangeTicket,
   handleRefundChange,
+  airplane
 }) => {
   const handleNonNegativeInputChange = (e, index) => {
     const { name, value } = e.target;
@@ -53,8 +54,16 @@ const AddFlightTicket = ({
               type="number"
               fullWidth
               name="amount"
-              value={ticket.amount}
-              onChange={(e) => handleNonNegativeInputChange(e, index)}
+              disabled
+              value={
+                airplane === null
+                  ? 0
+                  : ticket.ticketClass === "FIRST_CLASS"
+                  ? airplane.firstClassCapacity || 0
+                  : ticket.ticketClass === "BUSINESS_CLASS"
+                  ? airplane.businessCapacity || 0
+                  : airplane.economyCapacity || 0
+              }
               sx={{
                 "& .MuiInputBase-root": {
                   height: 40,
