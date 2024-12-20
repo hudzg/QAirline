@@ -1,6 +1,15 @@
-import { Typography, Card, Button } from "@mui/material";
 import React, { useEffect } from "react";
+import {
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Paper,
+  Divider, Button, Card
+} from "@mui/material";
 import FlightIcon from "@mui/icons-material/Flight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import { useDispatch, useSelector } from "react-redux";
 import { createSeat } from "../../State/Seat/Action";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +23,10 @@ const Preview = () => {
   const seat = useSelector((store) => store.seat);
   const jwt = localStorage.getItem("jwt");
   const navigate = useNavigate();
+  // const [expanded, setExpanded] = useState(false);
+  // const handleAccordionToggle = () => {
+  //   setExpanded(!expanded);
+  // };
 
   useEffect(() => {
     dispatch(getAllFlight({ jwt }));
@@ -162,45 +175,143 @@ const Preview = () => {
   };
 
   return (
-    <div className="w-[50vw] mx-auto m-4 p-5 bg-indigo-100">
+    <div className="w-[50vw] mx-auto m-4 p-5 bg-indigo-100 space-y-4">
       <div className=" justify-items-center">
         <Typography variant="h4">Preview</Typography>
       </div>
-      <Card className="grid grid-cols-3 items-center justify-items-center h-36 mb-6">
-        <div>
-          <Typography variant="h4">HAN</Typography>
-          <Typography variant="body1">Khởi hành</Typography>
-          <Typography variant="h5">17:00</Typography>
-          <Typography variant="body1">24/03/2024</Typography>
-        </div>
-        <div className="flex-col flex items-center">
-          <FlightIcon fontSize="large" sx={{ transform: "rotate(90deg)" }} />
-          <Typography
-            align="center"
-            variant="body2"
-            sx={{ color: "text.secondary" }}
-          >
-            20 giờ 20 phút
-          </Typography>
-        </div>
-        <div>
-          <Typography variant="h4">SGN</Typography>
-          <Typography variant="body1">Đến nơi</Typography>
-          <Typography variant="h5">17:00</Typography>
-          <Typography variant="body1">24/03/2024</Typography>
-        </div>
-      </Card>
-      <Card className="grid grid-cols-2 items-center justify-items-center mx-auto w-3/4 h-28 mb-6">
-        <div>
-          <Typography>Tổng hành khách: 2</Typography>
-        </div>
-        <div>
-          <Typography>Giá mỗi hành khách: 5.000.000 VND</Typography>
-        </div>
-        <div className="col-span-2 justify-center">
-          <Typography>Thanh toán: 10.000.000 VND</Typography>
-        </div>
-      </Card>
+      <div>
+        <Accordion elevation={6}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+
+            <Paper elevation={0} className="grid grid-cols-3 items-center justify-items-center h-28 mb-6 w-full">
+              <div>
+                <Typography variant="h4">HAN</Typography>
+                <Typography variant="body1">Khởi hành</Typography>
+                <Typography variant="h5">17:00</Typography>
+                <Typography variant="body1">24/03/2024</Typography>
+              </div>
+              <div className="flex-col flex items-center">
+                <FlightIcon fontSize="large" sx={{ transform: "rotate(90deg)" }} />
+                <Typography align="center" variant="body2" sx={{ color: "text.secondary" }}>
+                  20 giờ 20 phút
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="h4">SGN</Typography>
+                <Typography variant="body1">Điểm đến</Typography>
+                <Typography variant="h5">17:00</Typography>
+                <Typography variant="body1">24/03/2024</Typography>
+              </div>
+            </Paper>
+          </AccordionSummary>
+
+          {/* AccordionDetails chứa thông tin chi tiết */}
+          <AccordionDetails>
+            <div>
+              <Typography variant="h5" align="center">Chi tiết lượt đi</Typography>
+            </div>
+            <Paper className="grid grid-cols-2 justify-between mx-auto w-3/4 h-36 mb-6 px-12 p-2">
+              <div>
+                <Typography>Tổng hành khách: 2</Typography>
+              </div>
+              <div>
+                <Typography>Vé thương gia: 5.000.000 VND</Typography>
+              </div>
+              <div>
+                <Typography>Hoàn vé: Được phép</Typography>
+              </div>
+              <div>
+                <Typography>Hành lý ký gửi: 15.5 kg</Typography>
+              </div>
+              <div>
+                <Typography>Ghế đã chọn: E5, E6</Typography>
+              </div>
+              <div>
+                <Typography>Hành lý xách tay: 5kg</Typography>
+              </div>
+            </Paper>
+          </AccordionDetails>
+        </Accordion>
+      </div>
+      <div>
+        <Accordion elevation={6}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+
+            <Paper elevation={0} className="grid grid-cols-3 items-center justify-items-center h-28 mb-6 w-full">
+              <div>
+                <Typography variant="h4">HAN</Typography>
+                <Typography variant="body1">Khởi hành</Typography>
+                <Typography variant="h5">17:00</Typography>
+                <Typography variant="body1">24/03/2024</Typography>
+              </div>
+              <div className="flex-col flex items-center">
+                <FlightIcon fontSize="large" sx={{ transform: "rotate(90deg)" }} />
+                <Typography align="center" variant="body2" sx={{ color: "text.secondary" }}>
+                  20 giờ 20 phút
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="h4">SGN</Typography>
+                <Typography variant="body1">Điểm đến</Typography>
+                <Typography variant="h5">17:00</Typography>
+                <Typography variant="body1">24/03/2024</Typography>
+              </div>
+            </Paper>
+          </AccordionSummary>
+
+          {/* AccordionDetails chứa thông tin chi tiết */}
+          <AccordionDetails>
+            <div>
+              <Typography variant="h5" align="center">Chi tiết lượt về</Typography>
+            </div>
+            <Paper className="grid grid-cols-2 justify-between mx-auto w-3/4 h-36 mb-6 px-12 p-2">
+              <div>
+                <Typography>Tổng hành khách: 2</Typography>
+              </div>
+              <div>
+                <Typography>Vé thương gia: 5.000.000 VND</Typography>
+              </div>
+              <div>
+                <Typography>Hoàn vé: Được phép</Typography>
+              </div>
+              <div>
+                <Typography>Hành lý ký gửi: 15.5 kg</Typography>
+              </div>
+              <div>
+                <Typography>Ghế đã chọn: E5, E6</Typography>
+              </div>
+              <div>
+                <Typography>Hành lý xách tay: 5kg</Typography>
+              </div>
+            </Paper>
+          </AccordionDetails>
+        </Accordion>
+      </div>
+      <div>
+      <Paper className="grid grid-cols-2 justify-between mx-auto w-3/4 h-36 mb-6 px-12 p-2">
+              <div>
+                <Typography>Tổng hành khách: 2</Typography>
+              </div>
+              <div>
+                <Typography>Vé thương gia: 5.000.000 VND</Typography>
+              </div>
+              <div>
+                <Typography>Hoàn vé: Được phép</Typography>
+              </div>
+              <div>
+                <Typography>Hành lý ký gửi: 15.5 kg</Typography>
+              </div>
+              <div>
+                <Typography>Ghế đã chọn: E5, E6</Typography>
+              </div>
+              <div>
+                <Typography>Hành lý xách tay: 5kg</Typography>
+              </div>
+              <div className="col-span-2 justify-items-center mt-3">
+                <Typography variant="h5">Thanh toán: 10.000.000 VND</Typography>
+              </div>
+            </Paper>
+      </div>
       <div className="grid grid-cols-2">
         <div className="flex justify-end mr-5">
           <Button

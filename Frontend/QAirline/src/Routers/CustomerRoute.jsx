@@ -13,7 +13,7 @@ import MyFlight from "../Component/MyFlight/MyFlight";
 import Profile from "../Component/Profile/Profile";
 import BookingInbound from "../Component/Booking/BookingInbound";
 import Seat from "../Component/Seat/Seat";
-
+import Post from "../Component/Post/Post";
 
 const CustomerRoute = () => {
   return (
@@ -30,6 +30,7 @@ const CustomerRoute = () => {
         <Route path="/preview" element={<Preview />}></Route>
         <Route path="/myflight" element={<MyFlight />}></Route>
         <Route path="/my-profile" element={<Profile />} />
+        <Route path="/post/:id" element={<Post />} />
       </Routes>
       <Auth />
       <Footer />

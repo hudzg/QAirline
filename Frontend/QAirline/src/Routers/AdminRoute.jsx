@@ -7,14 +7,16 @@ import FlightManagement from "../AdminComponent/Flight/FlightManagement";
 import Airplane from "../AdminComponent/Airplane/AirplaneEdit";
 import AddFlight from "../AdminComponent/Flight/AddFlight";
 import FlightInstance from "../AdminComponent/FlightInstance/FlightInstance";
+import Post from "../AdminComponent/Post/Post";
+import AddPost from "../AdminComponent/Post/AddPost";
 
 const AdminRoute = () => {
   return (
     <div className="flex">
-      <div className="w-[20%]">
+      <div className="w-[16%]">
         <AdminSidebar />
       </div>
-      <div className="w-[80%]">
+      <div className="w-[84%]">
         <Routes>
           <Route path="/" element={<Dashboard />}></Route>
           <Route path="/airport" element={<Airports />}></Route>
@@ -24,6 +26,8 @@ const AdminRoute = () => {
           <Route path="/flight-status" element={<FlightInstance />}></Route>
           <Route path="/passenger"></Route>
           <Route path="/feedback"></Route>
+          <Route path="/post" element={<Post />} />
+          <Route path="/add-post" element={<AddPost />} />
         </Routes>
       </div>
     </div>

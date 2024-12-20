@@ -10,6 +10,7 @@ import { airplaneReducer } from "./Airplane/Reducer";
 import { heroBannerReducer } from "./HeroBanner/Reducer";
 import { highlightedFlightReducer } from "./HighlightedFlight/Reducer";
 import { flightInstanceAdminReducer } from "./FlightInstanceAdmin/Reducer";
+import { postReducer } from "./Post/Reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   airplane: airplaneReducer,
   heroBanner: heroBannerReducer,
   highlightedFlight: highlightedFlightReducer,
+  post: postReducer,
 });
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));
