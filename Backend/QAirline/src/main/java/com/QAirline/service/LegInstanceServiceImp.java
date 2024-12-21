@@ -34,14 +34,15 @@ public class LegInstanceServiceImp implements LegInstanceService{
     @Override
     public LegInstance updateLegInstance(Long id, LegInstance updatedLegInstance) throws Exception {
         LegInstance legInstance = findLegInstanceById(id);
-        legInstance.setDate(updatedLegInstance.getDate());
-        legInstance.setDepartureAirport(updatedLegInstance.getDepartureAirport());
-        legInstance.setArrivalAirport(updatedLegInstance.getArrivalAirport());
+//        legInstance.setDate(updatedLegInstance.getDate());
+//        legInstance.setDepartureAirport(updatedLegInstance.getDepartureAirport());
+//        legInstance.setArrivalAirport(updatedLegInstance.getArrivalAirport());
         legInstance.setDepartureTime(updatedLegInstance.getDepartureTime());
         legInstance.setArrivalTime(updatedLegInstance.getArrivalTime());
-        legInstance.setFlightLeg(updatedLegInstance.getFlightLeg());
-        legInstance.setAirplane(updatedLegInstance.getAirplane());
-        legInstance.setFlightInstance(updatedLegInstance.getFlightInstance());
+//        legInstance.setFlightLeg(updatedLegInstance.getFlightLeg());
+//        legInstance.setAirplane(updatedLegInstance.getAirplane());
+//        legInstance.setFlightInstance(updatedLegInstance.getFlightInstance());
+        legInstance.setStatus(updatedLegInstance.getStatus());
         return legInstanceRepository.save(legInstance);
     }
 

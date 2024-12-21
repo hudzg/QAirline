@@ -33,4 +33,6 @@ public class FlightInstance {
     @JsonIgnore
     @OneToMany(mappedBy = "flightInstance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seat> seats = new ArrayList<>();
+
+    private String status;
 }

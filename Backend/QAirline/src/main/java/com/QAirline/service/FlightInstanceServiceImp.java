@@ -43,10 +43,12 @@ public class FlightInstanceServiceImp implements FlightInstanceService {
         return flightInstanceRepository.findAll();
     }
 
-//    @Override
-//    public FlightInstance updateFlightInstance(Long id, FlightInstance flightInstance) {
-//        return null;
-//    }
+    @Override
+    public FlightInstance updateFlightInstance(Long id, FlightInstance flightInstance) throws Exception {
+        FlightInstance updatedFlightInstance = findFLightInstanceById(id);
+        updatedFlightInstance.setStatus(flightInstance.getStatus());
+        return flightInstanceRepository.save(updatedFlightInstance);
+    }
 
     @Override
     public FlightInstance findFLightInstanceById(Long id) throws Exception {

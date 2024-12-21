@@ -41,4 +41,5 @@ public class LegInstance {
     @JsonIgnore
     private FlightInstance flightInstance;
 
+    private String status;
 }
