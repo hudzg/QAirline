@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Typography,
   Accordion,
@@ -13,8 +13,15 @@ import FlightIcon from "@mui/icons-material/Flight";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import FlightLeg from "./FlightLeg";
 import Ticket from "./Ticket";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteFlight } from "../../State/FlightAdmin/Action";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const FlightCard = ({ flightInfo }) => {
+  const flight = useSelector((store) => store.flightAdmin);
+  const jwt = localStorage.getItem("jwt");
+  const dispatch = useDispatch();
+
   const departureName =
     flightInfo?.flightLegs?.[0]?.departureAirport?.name || "N/A";
   const arrivalName =
@@ -31,8 +38,14 @@ const FlightCard = ({ flightInfo }) => {
       <Accordion elevation={6}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Paper elevation={0} className="p-3 w-full">
-            <div className="">
+            <div className="flex justify-between">
               <Typography>Mã chuyến bay: {flightInfo.id}</Typography>
+              <DeleteIcon
+                onClick={() => {
+                  dispatch(deleteFlight({flightId: flightInfo.id, jwt})); 
+                }}
+                sx={{ color: "gray  " }}
+              />
             </div>
             <Divider />
             <div className="grid grid-cols-4 justify-between items-center mt-2">
@@ -51,9 +64,10 @@ const FlightCard = ({ flightInfo }) => {
                   sx={{ transform: "rotate(90deg)", color: "#B993D6" }}
                 />
                 <div className="flex-grow border-t border-dashed border-black" />
-                <FiberManualRecordIcon 
-                  fontSize="small" 
-                  sx={{ color: "#8CA6DB" }}/>
+                <FiberManualRecordIcon
+                  fontSize="small"
+                  sx={{ color: "#8CA6DB" }}
+                />
               </div>
               {/* Thông tin điểm đến */}
               <div className="col-span-1 text-right">

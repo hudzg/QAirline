@@ -54,7 +54,7 @@ export const flightAdminReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        FLIGHT: state.flights.filter((item) => item.id !== action.payload),
+        flights: state.flights.filter((item) => item.id !== action.payload),
       };
 
     case CREATE_FLIGHT_FAILURE:

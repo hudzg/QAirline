@@ -26,7 +26,7 @@ public class FlightInstance {
     @JsonIgnore
     private Flight flight;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "flightInstance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LegInstance> legInstances = new ArrayList<>();
 

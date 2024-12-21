@@ -4,8 +4,9 @@ import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
 import FlightCard from "./FlightCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllFlight } from "../../State/FlightAdmin/Action";
+import { getAllFlight, deleteFlight } from "../../State/FlightAdmin/Action";
 import { useNavigate } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const FlightManagement = () => {
   const navigate = useNavigate();

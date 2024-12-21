@@ -42,8 +42,8 @@ const Airports = () => {
     name: "",
     city: "",
     country: "",
-    IATA: "",
     email: "",
+    iata: "",
   });
 
   // mở modal để cập nhật airport
@@ -54,8 +54,8 @@ const Airports = () => {
       name: airport.name,
       city: airport.city,
       country: airport.country,
-      IATA: airport.IATA,
       email: airport.email,
+      iata: airport.iata,
     });
     setOpen(true);
   };
@@ -67,8 +67,8 @@ const Airports = () => {
       name: "",
       city: "",
       country: "",
-      IATA: "",
       email: "",
+      iata: "",
     });
     setOpen(true);
   };
@@ -198,7 +198,7 @@ const Airports = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: "25%",
-            height: "68%",
+            height: "78%",
           }}
         >
           <div className="mb-2 mt-2">
@@ -240,6 +240,15 @@ const Airports = () => {
               fullWidth
               value={formData.email}
               name="email"
+              onChange={handleInputChange}
+              className="mb-4"
+            />
+            <TextField
+              label="IATA"
+              variant="outlined"
+              fullWidth
+              value={formData.iata}
+              name="iata"
               onChange={handleInputChange}
               className="mb-4"
             />
