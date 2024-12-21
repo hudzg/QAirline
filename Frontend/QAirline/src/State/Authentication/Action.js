@@ -1,5 +1,8 @@
 import { API_URL } from "../../config/api";
 import {
+  CHANGE_PASSWORD_FAILURE,
+  CHANGE_PASSWORD_REQUEST,
+  CHANGE_PASSWORD_SUCCESS,
   GET_USER_FAILURE,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
@@ -10,6 +13,9 @@ import {
   REGISTER_FAILURE,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  UPDATE_IMAGE_FAILURE,
+  UPDATE_IMAGE_REQUEST,
+  UPDATE_IMAGE_SUCCESS,
 } from "./ActionType";
 import axios from "axios";
 import { api } from "../../config/api";
@@ -70,6 +76,47 @@ export const getUser = (jwt) => async (dispatch) => {
     console.log("error", error);
   }
 };
+
+export const changePassword =
+  ({ userData }) =>
+  async (dispatch) => {
+    dispatch({ type: CHANGE_PASSWORD_REQUEST });
+    try {
+      const { data } = await axios.post(
+        `${API_URL}/auth/change-password`,
+        userData
+      );
+
+      dispatch({ type: CHANGE_PASSWORD_SUCCESS, payload: data.jwt });
+      console.log("changePassword success", data);
+    } catch (error) {
+      dispatch({ type: CHANGE_PASSWORD_FAILURE, payload: error });
+      console.log("error", error);
+    }
+  };
+
+export const updateImage =
+  ({ image, jwt }) =>
+  async (dispatch) => {
+    dispatch({ type: UPDATE_IMAGE_REQUEST });
+    try {
+      const { data } = await api.put(
+        `/api/user/image`,
+        { image },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+
+      dispatch({ type: UPDATE_IMAGE_SUCCESS, payload: data });
+      console.log("updateImage success", data);
+    } catch (error) {
+      dispatch({ type: UPDATE_IMAGE_FAILURE, payload: error });
+      console.log("error", error);
+    }
+  };
 
 export const logout = () => async (dispatch) => {
   try {

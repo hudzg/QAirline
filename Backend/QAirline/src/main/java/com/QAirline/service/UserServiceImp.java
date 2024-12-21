@@ -32,4 +32,10 @@ public class UserServiceImp implements UserService{
     public Long countUsers() {
         return userRepository.count();
     }
+
+    @Override
+    public User updateImage(User user, String imageLink) {
+        user.setAvatarImage(imageLink);
+        return userRepository.save(user);
+    }
 }
