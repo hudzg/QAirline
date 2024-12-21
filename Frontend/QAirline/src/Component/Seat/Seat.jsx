@@ -191,7 +191,7 @@ const Seat = () => {
 
   return (
     <div className="m-auto mb-5 mt-5 p-5 place-items-center relative bg-indigo-50">
-      <Typography variant="h3" textAlign={"center"} gutterBottom>
+      <Typography variant="h4" textAlign={"center"} gutterBottom>
         Chọn chỗ ngồi{" "}
         {status === "outbound" ? "chuyến bay đi" : "chuyến bay về"}
       </Typography>
@@ -463,7 +463,7 @@ const Seat = () => {
       </div>
 
       <div className="m-5 flex">
-        <strong>Ghế đã chọn (hạng {seatState.userClassVIE}): </strong>
+        <strong>Ghế đang chọn (hạng {seatState.userClassVIE}): </strong>
         <p>{userChoices.length === 0 ? "Chưa chọn" : userChoices.join(", ")}</p>
       </div>
 
@@ -498,7 +498,7 @@ const Seat = () => {
           >
             A
           </Button>
-          <label> Ghế bạn chọn</label>
+          <label> Đang chọn</label>
         </div>
 
         <div>
@@ -518,7 +518,7 @@ const Seat = () => {
           >
             B
           </Button>
-          <label> Đã có người chọn</label>
+          <label> Đã chọn</label>
         </div>
 
         <div>

@@ -27,7 +27,10 @@ const PopularFlightCard = ({ highlightedFlight, searchFlightRef }) => {
             );
           }
         }}
-        sx={{ width: "30%", cursor: "pointer" }}
+        sx={{
+          cursor: "pointer",
+          width: "100%", // Chiếm toàn bộ chiều rộng của phần tử chứa (container)
+        }}
       >
         <CardMedia
           sx={{ height: 140 }}

@@ -150,7 +150,7 @@ const SearchFlight = forwardRef((props, ref) => {
     navigate("/booking");
   };
   return (
-    <Paper elevation={4} className="p-10 w-[60vw] m-auto mb-5">
+    <Paper elevation={4} className="p-10 w-[90vw] lg:w-[60vw] m-auto mb-5">
       <div ref={ref} className="text-2xl space-x-2 flex items-center">
         <FlightIcon fontSize="large" />
         <h1>Tìm kiếm chuyến bay</h1>

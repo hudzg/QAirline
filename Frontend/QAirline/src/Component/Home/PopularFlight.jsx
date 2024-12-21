@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllHighlightedFlight } from "../../State/HighlightedFlight/Action";
 import PopularFlightCard from "./PopularFlightCard";
+import Grid from "@mui/material/Grid2";
 
 const PopularFlight = ({ searchFlightRef }) => {
   const highlightedFlight = useSelector((store) => store.highlightedFlight);
@@ -13,7 +14,7 @@ const PopularFlight = ({ searchFlightRef }) => {
     dispatch(getAllHighlightedFlight());
   }, []);
   return (
-    <div className="p-5 w-[60vw] m-auto mb-5">
+    <div className="p-5 w-[90vw] lg:w-[60vw] m-auto mb-5">
       <h1
         // onClick={() => {
         //   console.log(searchFlightRef);
@@ -30,20 +31,23 @@ const PopularFlight = ({ searchFlightRef }) => {
         Các chuyến bay nổi bật của chúng tôi
       </h1>
       <div
-        className="flex flex-wrap gap-5 justify-around items-center mt-5"
+        className="mt-5"
         // onClick={() => {
         //   if (searchFlightRef.current) {
         //     searchFlightRef.current.scrollIntoView({ behavior: "smooth" });
         //   }
         // }}
       >
+        <Grid container spacing={2}>
         {highlightedFlight.highlightedFlights.map((highlightedFlight) => (
-          <PopularFlightCard
-            searchFlightRef={searchFlightRef}
-            highlightedFlight={highlightedFlight}
-            key={highlightedFlight.id}
-          />
+          <Grid size={{ xs: 12, lg: 4}}  key={highlightedFlight.id}>
+            <PopularFlightCard
+              searchFlightRef={searchFlightRef}
+              highlightedFlight={highlightedFlight}
+            />
+          </Grid>
         ))}
+      </Grid>
       </div>
     </div>
   );

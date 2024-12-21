@@ -2,7 +2,7 @@ import React from "react";
 import { Rating, Typography, Button } from "@mui/material";
 const Feedback = () => {
   return (
-    <div className="mx-auto flex flex-col justify-center items-center w-[50vw] h-[70vh] space-y-4">
+    <div className="mx-auto flex flex-col justify-center items-center w-[90vw] lg:w-[40vw] h-[70vw] space-y-4 m-8">
       <Typography variant="h6" align="center">
         Phản hồi của khách hàng về dịch vụ của chuyến bay
       </Typography>

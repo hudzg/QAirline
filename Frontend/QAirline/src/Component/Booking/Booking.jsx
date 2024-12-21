@@ -35,7 +35,7 @@ const Booking = () => {
   }, [flight.getFlightReq]);
 
   return (
-    <div className="w-[60vw] m-auto min-h-[70vh]">
+    <div className="w-[90vw] lg:w-[70vw] m-auto">
       <div className="mt-5">
         <Typography variant="h3" textAlign={"center"} gutterBottom>
           Chọn chuyến bay
