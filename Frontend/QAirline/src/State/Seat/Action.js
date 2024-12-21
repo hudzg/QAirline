@@ -4,6 +4,9 @@ import {
   CREATE_SEAT_FAILURE,
   CREATE_SEAT_REQUEST,
   CREATE_SEAT_SUCCESS,
+  DELETE_SEAT_BY_USER_AND_FLIGHT_INSTANCE_FAILURE,
+  DELETE_SEAT_BY_USER_AND_FLIGHT_INSTANCE_REQUEST,
+  DELETE_SEAT_BY_USER_AND_FLIGHT_INSTANCE_SUCCESS,
   GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_FAILURE,
   GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_REQUEST,
   GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_SUCCESS,
@@ -56,6 +59,30 @@ export const getSeatsByUserAndFlightInstance =
     } catch (error) {
       dispatch({
         type: GET_SEAT_BY_USER_AND_FLIGHT_INSTANCE_FAILURE,
+        payload: error,
+      });
+      console.log("error", error);
+    }
+  };
+
+export const deleteSeatByUserAndFlightInstance =
+  ({ seatId, jwt }) =>
+  async (dispatch) => {
+    dispatch({ type: DELETE_SEAT_BY_USER_AND_FLIGHT_INSTANCE_REQUEST });
+    try {
+      const { data } = await api.delete(`/api/seat/${seatId}`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      dispatch({
+        type: DELETE_SEAT_BY_USER_AND_FLIGHT_INSTANCE_SUCCESS,
+        payload: data,
+      });
+      console.log("deleteSeatsByUserAndFlightInstance success", data);
+    } catch (error) {
+      dispatch({
+        type: DELETE_SEAT_BY_USER_AND_FLIGHT_INSTANCE_FAILURE,
         payload: error,
       });
       console.log("error", error);
