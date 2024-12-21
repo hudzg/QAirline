@@ -14,4 +14,5 @@ public interface FlightInstanceService {
     public FlightInstance findFLightInstanceById(Long id) throws Exception;
 
     public List<GetFlightInstanceByUserResponse> getFlightInstanceByUser(User user);
+    public List<Long> getFlightCountsByMonth();
 }

@@ -13,4 +13,5 @@ public interface SeatService {
     public Seat createSeat(CreateSeatRequest createSeatRequest, User user) throws Exception;
     public List<GetSeatsByUserAndFlightInstanceResponse> getSeatsByUserAndFlightInstance(Long userId, Long flightInstanceId);
     public GetSeatMapResponse getSeatMap(Long flightId, LocalDate date) throws Exception;
+    public List<Long> getSeatCountsByMonth();
 }

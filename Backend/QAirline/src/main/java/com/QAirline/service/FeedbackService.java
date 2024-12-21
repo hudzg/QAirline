@@ -13,4 +13,5 @@ public interface FeedbackService {
     public void deleteFeedback(Long feedbackId) throws Exception;
     public Feedback findFeedbackById(Long id) throws Exception;
     public List<Feedback> getFeedbackByUser(User user);
+    public List<Long> getFeedbackCountsByNumStar();
 }

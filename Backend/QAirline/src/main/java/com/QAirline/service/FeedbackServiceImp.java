@@ -6,6 +6,8 @@ import com.QAirline.repository.FeedbackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,5 +59,23 @@ public class FeedbackServiceImp implements FeedbackService{
     @Override
     public List<Feedback> getFeedbackByUser(User user) {
         return feedbackRepository.findByUserId(user.getId());
+    }
+
+    @Override
+    public List<Long> getFeedbackCountsByNumStar() {
+        List<Long> counts = new ArrayList<>(Arrays.asList(0L, 0L, 0L, 0L, 0L));
+
+        List<Object[]> results = feedbackRepository.countFeedbacksByNumStar();
+
+        for (Object[] result : results) {
+            Integer numStar = ((Number) result[0]).intValue();
+            Long count = (Long) result[1];
+
+            if (numStar >= 1 && numStar <= 5) {
+                counts.set(numStar - 1, count);
+            }
+        }
+
+        return counts;
     }
 }

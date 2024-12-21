@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SeatServiceImp implements SeatService {
@@ -105,5 +103,23 @@ public class SeatServiceImp implements SeatService {
             response.setSeats(flightInstance.getSeats());
         }
         return response;
+    }
+
+    // lấy số lượng seat theo tháng
+    public List<Long> getSeatCountsByMonth() {
+        int currentYear = LocalDate.now().getYear();
+
+        List<Object[]> results = seatRepository.countSeatsByMonth(currentYear);
+
+        List<Long> monthlyCounts = new ArrayList<>(Arrays.asList(new Long[12]));
+        Collections.fill(monthlyCounts, 0L);
+
+        for (Object[] result : results) {
+            Integer month = ((Number) result[0]).intValue();
+            Long count = (Long) result[1];
+            monthlyCounts.set(month - 1, count);
+        }
+
+        return monthlyCounts;
     }
 }
