@@ -77,9 +77,9 @@ export const deleteSeatByUserAndFlightInstance =
       });
       dispatch({
         type: DELETE_SEAT_BY_USER_AND_FLIGHT_INSTANCE_SUCCESS,
-        payload: data,
+        payload: seatId,
       });
-      console.log("deleteSeatsByUserAndFlightInstance success", data);
+      console.log("deleteSeatsByUserAndFlightInstance success", seatId);
     } catch (error) {
       dispatch({
         type: DELETE_SEAT_BY_USER_AND_FLIGHT_INSTANCE_FAILURE,
