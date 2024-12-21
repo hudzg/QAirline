@@ -68,16 +68,6 @@ const FlightCard = ({ flightInstance }) => {
         >
           Xem
         </Button>
-        <Button
-          sx={{
-            background: "linear-gradient(to right, #B993D6, #8CA6DB)",
-          }}
-          variant="contained"
-          // startIcon={<CancelIcon />}
-          className="w-[100%]"
-        >
-          Hủy
-        </Button>
       </div>
     </div>
   );

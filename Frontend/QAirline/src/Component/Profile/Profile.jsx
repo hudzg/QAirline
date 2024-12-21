@@ -5,20 +5,30 @@ import {
   Button,
   Paper,
   Typography,
+  CircularProgress,
   TextField,
   Card,
   IconButton,
   Box,
   Modal,
+  Avatar,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../State/Authentication/Action";
+import {
+  changePassword,
+  logout,
+  updateImage,
+} from "../../State/Authentication/Action";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { uploadImageToCloudinary } from "../../utils/UploadToCloudinary";
 
 const Profile = () => {
   const [open, setOpen] = React.useState(false);
+  const jwt = localStorage.getItem("jwt");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [uploadImage, setUploadImage] = useState(false);
   const navigate = useNavigate();
   const auth = useSelector((store) => store.auth);
   const dispatch = useDispatch();
@@ -36,6 +46,28 @@ const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    if (formData.newPassword !== formData.reNewPassword) {
+      console.log("nhaap lai sai");
+      return;
+    }
+    dispatch(
+      changePassword({
+        userData: {
+          email: auth.user.email,
+          password: formData.password,
+          newPassword: formData.newPassword,
+        },
+      })
+    );
+  };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    setUploadImage(true);
+    const image = await uploadImageToCloudinary(file);
+    // setFormData({ ...formData, image });
+    setUploadImage(false);
+    dispatch(updateImage({ image, jwt }));
   };
 
   return (
@@ -58,18 +90,49 @@ const Profile = () => {
               Thông tin cá nhân
             </Typography>
             <div className="flex flex-col items-center">
-              <AccountCircleIcon sx={{ fontSize: "6rem", color: "#8CA6DB" }} />
+              <div className="flex">
+                {auth.user?.avatarImage ? (
+                  <Avatar
+                    sx={{ width: 56, height: 56 }}
+                    src={auth.user.avatarImage}
+                  ></Avatar>
+                ) : (
+                  <Avatar
+                    component="button"
+                    sx={{ bgcolor: "primary.main", width: 56, height: 56 }}
+                  >
+                    {auth.user?.firstName[0]}
+                  </Avatar>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="fileInput"
+                  onChange={handleImageChange}
+                  style={{ display: "none" }}
+                />
+                <label htmlFor="fileInput" className="relative">
+                  <span className="w-4 h-4 cursor-pointer flex items-center justify-center p-3 rounded-md">
+                    <AddPhotoAlternateIcon />
+                  </span>
+                  {uploadImage && (
+                    <div className="absolute left-0 right-0 top-0 bottom-0 w-4 h-4 flex justify-center items-center">
+                      <CircularProgress />
+                    </div>
+                  )}
+                </label>
+              </div>
               <Typography
                 variant="h6"
                 sx={{ marginTop: "1rem", fontWeight: "bold" }}
               >
-                {auth.user.firstName} {auth.user.lastName}
+                {auth.user?.firstName} {auth.user?.lastName}
               </Typography>
               <Typography
                 variant="body1"
                 sx={{ marginTop: "0.5rem", color: "gray" }}
               >
-                {auth.user.email}
+                {auth.user?.email}
               </Typography>
               <div className="mt-10">
                 <Button onClick={handleOpen}>Đổi mật khẩu</Button>
@@ -87,7 +150,7 @@ const Profile = () => {
                   </div>
                   <div>
                     <Typography variant="body2" sx={{ color: "gray" }}>
-                      {auth.user.lastName || "N/A"}
+                      {auth.user?.lastName || "N/A"}
                     </Typography>
                   </div>
                 </div>
@@ -101,7 +164,7 @@ const Profile = () => {
                   </div>
                   <div>
                     <Typography variant="body2" sx={{ color: "gray" }}>
-                      {auth.user.firstName || "N/A"}
+                      {auth.user?.firstName || "N/A"}
                     </Typography>
                   </div>
                 </div>
@@ -117,7 +180,7 @@ const Profile = () => {
                   </div>
                   <div>
                     <Typography variant="body2" sx={{ color: "gray" }}>
-                      {auth.user.email || "N/A"}
+                      {auth.user?.email || "N/A"}
                     </Typography>
                   </div>
                 </div>

@@ -5,7 +5,9 @@ import {
   AccordionSummary,
   AccordionDetails,
   Paper,
-  Divider, Button, Card
+  Divider,
+  Button,
+  Card,
 } from "@mui/material";
 import FlightIcon from "@mui/icons-material/Flight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -15,6 +17,13 @@ import { createSeat } from "../../State/Seat/Action";
 import { useNavigate } from "react-router-dom";
 import { getAllFlight } from "../../State/FlightAdmin/Action";
 import { createFlightInstanceByAdmin } from "../../State/FlightInstanceAdmin/Action";
+import FlightPreview from "./FlightPreview";
+
+const flightClass = {
+  ECONOMY_CLASS: { label: "Phổ thông", color: "#B993D6" },
+  BUSINESS_CLASS: { label: "Thương gia", color: "#A2A6DB" },
+  FIRST_CLASS: { label: "Hạng nhất", color: "#8CA6DB" },
+};
 
 const Preview = () => {
   const dispatch = useDispatch();
@@ -179,138 +188,29 @@ const Preview = () => {
       <div className=" justify-items-center">
         <Typography variant="h4">Xem lại</Typography>
       </div>
+      <FlightPreview
+        flight={flight.selectedOutboundFlight}
+        seat={seat.customers.map((customer) => customer.seatNumber.outbound)}
+      />
+      {flight.selectedOutboundFlight.flight.flightType === "round-trip" && (
+        <FlightPreview
+          flight={flight.selectedInboundFlight}
+          seat={seat.customers.map((customer) => customer.seatNumber.inbound)}
+        />
+      )}
       <div>
-        <Accordion elevation={6} className="rounded-s-2xl">
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-
-            <Paper elevation={0} className="grid grid-cols-3 items-center justify-items-center h-28 mb-6 w-full">
-              <div>
-                <Typography variant="h4">HAN</Typography>
-                <Typography variant="body1">Khởi hành</Typography>
-                <Typography variant="h5">17:00</Typography>
-                <Typography variant="body1">24/03/2024</Typography>
-              </div>
-              <div className="flex-col flex items-center">
-                <FlightIcon fontSize="large" sx={{ transform: "rotate(90deg)" }} />
-                <Typography align="center" variant="body2" sx={{ color: "text.secondary" }}>
-                  20 giờ 20 phút
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="h4">SGN</Typography>
-                <Typography variant="body1">Điểm đến</Typography>
-                <Typography variant="h5">17:00</Typography>
-                <Typography variant="body1">24/03/2024</Typography>
-              </div>
-            </Paper>
-          </AccordionSummary>
-
-          {/* AccordionDetails chứa thông tin chi tiết */}
-          <AccordionDetails>
-            <div>
-              <Typography variant="h5" align="center">Chi tiết lượt đi</Typography>
-            </div>
-            <Paper className="grid grid-cols-2 justify-between mx-auto w-4/5  mb-6 px-12 p-2">
-              <div>
-                <Typography>Tổng hành khách: 2</Typography>
-              </div>
-              <div>
-                <Typography>Vé thương gia: 5.000.000 VND</Typography>
-              </div>
-              <div>
-                <Typography>Hoàn vé: Được phép</Typography>
-              </div>
-              <div>
-                <Typography>Hành lý ký gửi: 15.5 kg</Typography>
-              </div>
-              <div>
-                <Typography>Ghế đã chọn: E5, E6</Typography>
-              </div>
-              <div>
-                <Typography>Hành lý xách tay: 5kg</Typography>
-              </div>
-            </Paper>
-          </AccordionDetails>
-        </Accordion>
-      </div>
-      <div>
-        <Accordion elevation={6}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-
-            <Paper elevation={0} className="grid grid-cols-3 items-center justify-items-center h-28 mb-6 w-full">
-              <div>
-                <Typography variant="h4">HAN</Typography>
-                <Typography variant="body1">Khởi hành</Typography>
-                <Typography variant="h5">17:00</Typography>
-                <Typography variant="body1">24/03/2024</Typography>
-              </div>
-              <div className="flex-col flex items-center">
-                <FlightIcon fontSize="large" sx={{ transform: "rotate(90deg)" }} />
-                <Typography align="center" variant="body2" sx={{ color: "text.secondary" }}>
-                  20 giờ 20 phút
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="h4">SGN</Typography>
-                <Typography variant="body1">Điểm đến</Typography>
-                <Typography variant="h5">17:00</Typography>
-                <Typography variant="body1">24/03/2024</Typography>
-              </div>
-            </Paper>
-          </AccordionSummary>
-
-          {/* AccordionDetails chứa thông tin chi tiết */}
-          <AccordionDetails>
-            <div>
-              <Typography variant="h5" align="center">Chi tiết lượt về</Typography>
-            </div>
-            <Paper className="grid grid-cols-2 justify-between mx-auto w-4/5 mb-6 px-12 p-2">
-              <div>
-                <Typography>Tổng hành khách: 2</Typography>
-              </div>
-              <div>
-                <Typography>Vé thương gia: 5.000.000 VND</Typography>
-              </div>
-              <div>
-                <Typography>Hoàn vé: Được phép</Typography>
-              </div>
-              <div>
-                <Typography>Hành lý ký gửi: 15.5 kg</Typography>
-              </div>
-              <div>
-                <Typography>Ghế đã chọn: E5, E6</Typography>
-              </div>
-              <div>
-                <Typography>Hành lý xách tay: 5kg</Typography>
-              </div>
-            </Paper>
-          </AccordionDetails>
-        </Accordion>
-      </div>
-      <div>
-      <Paper elevation={3} className="grid grid-cols-2 justify-between mx-auto w-3/4 mb-6 px-8 p-2 gap-x-4">
-              <div>
-                <Typography>Tổng hành khách: 2</Typography>
-              </div>
-              <div>
-                <Typography>Vé thương gia: 5.000.000 VND</Typography>
-              </div>
-              <div>
-                <Typography>Hoàn vé: Được phép</Typography>
-              </div>
-              <div>
-                <Typography>Hành lý ký gửi: 15.5 kg</Typography>
-              </div>
-              <div>
-                <Typography>Ghế đã chọn: E5, E6</Typography>
-              </div>
-              <div>
-                <Typography>Hành lý xách tay: 5kg</Typography>
-              </div>
-              <div className="col-span-2 justify-items-center mt-3">
-                <Typography variant="h5">Thanh toán: 10.000.000 VND</Typography>
-              </div>
-            </Paper>
+        <Paper className="grid grid-cols-2 justify-between mx-auto w-3/4 mb-6 px-8 p-2 gap-x-4">
+          <div className="col-span-2 justify-items-center mt-3">
+            <Typography variant="h5">
+              Thanh toán:{" "}
+              {flight.selectedOutboundFlight.ticket.price *
+                flight.selectedOutboundFlight.flight.numPassenger +
+                flight.selectedInboundFlight.ticket.price *
+                  flight.selectedInboundFlight.flight.numPassenger}{" "}
+              VND
+            </Typography>
+          </div>
+        </Paper>
       </div>
       <div className="grid grid-cols-2">
         <div className="flex justify-end mr-5">

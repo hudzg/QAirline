@@ -6,4 +6,5 @@ public interface UserService {
     public User findUserByJwtToken(String jwt) throws Exception;
     public User findUserByEmail(String email) throws Exception;
     public Long countUsers();
+    public User updateImage(User user, String imageLink);
 }

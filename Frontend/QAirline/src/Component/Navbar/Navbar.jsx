@@ -6,7 +6,6 @@ import { AiOutlineHome } from "react-icons/ai";
 import { PiAirplaneTakeoffLight } from "react-icons/pi";
 import { VscFeedback } from "react-icons/vsc";
 
-
 const Navbar = () => {
   const navigate = useNavigate();
   const auth = useSelector((store) => store.auth);
@@ -129,13 +128,21 @@ const Navbar = () => {
             </div>
 
             <div>
-              <Avatar
-                component="button"
-                onClick={() => navigate("/my-profile")}
-                sx={{ bgcolor: "primary.main" }}
-              >
-                {auth.user.firstName[0]}
-              </Avatar>
+              {auth.user?.avatarImage ? (
+                <Avatar
+                  component="button"
+                  onClick={() => navigate("/my-profile")}
+                  src={auth.user.avatarImage}
+                ></Avatar>
+              ) : (
+                <Avatar
+                  component="button"
+                  onClick={() => navigate("/my-profile")}
+                  sx={{ bgcolor: "primary.main" }}
+                >
+                  {auth.user?.firstName[0]}
+                </Avatar>
+              )}
             </div>
           </>
         )}
