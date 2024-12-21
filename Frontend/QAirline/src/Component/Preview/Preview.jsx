@@ -184,9 +184,9 @@ const Preview = () => {
   };
 
   return (
-    <div className="w-[90vw] lg:w-[50vw] mx-auto m-4 p-5 bg-indigo-100 space-y-4">
+    <div className="w-[90vw] lg:w-[50vw] mx-auto m-4 p-5 space-y-4">
       <div className=" justify-items-center">
-        <Typography variant="h4">Preview</Typography>
+        <Typography variant="h4">Xem lại</Typography>
       </div>
       <FlightPreview
         flight={flight.selectedOutboundFlight}

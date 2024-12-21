@@ -1,4 +1,4 @@
-import { Avatar, Button, Divider } from "@mui/material";
+import { Avatar, Button, Divider, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,11 +14,29 @@ const Navbar = () => {
       <div className="py-5 px-5 lg:px-20 flex justify-between">
         {!auth.user ? (
           <>
-            <div
-              onClick={() => navigate("/")}
-              className="cursor-pointer font-semibold text-2xl"
-            >
-              QAirline
+            <div className="flex items-end justify-start">
+              {/* Div chứa ảnh */}
+              <div >
+                <img
+                  src="https://scontent.fhan14-2.fna.fbcdn.net/v/t1.15752-9/462552585_1964677780681993_1519442838786906789_n.jpg?stp=dst-jpg_s2048x2048_tt6&_nc_cat=100&ccb=1-7&_nc_sid=9f807c&_nc_ohc=XajbBzJrFA4Q7kNvgG9JbLw&_nc_oc=Adhd13oBHH-LmgmyllkYA_M8RU9d0OPPxBZkhvJyaaeju-xCG0LdPDzHI2KwgMlt3WUO0cNCKflzyMwbR7FpWgyN&_nc_zt=23&_nc_ht=scontent.fhan14-2.fna&oh=03_Q7cD1gFIXC8Cc_O6GJwfU_5j0pYczIrjIrl8XB94J4Wc-DAFgw&oe=678E32B1"
+                  alt="Background"
+                  className="w-11 h-11 object-cover"
+                />
+              </div>
+
+              {/* Div chứa chữ */}
+              <div>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    color: "#B9D6F3",
+                    fontWeight: "bold",
+                    fontFamily: "Poppins"
+                  }}
+                >
+                  Airline
+                </Typography>
+              </div>
             </div>
             <div className="space-x-4">
               <Button onClick={() => navigate("/account/login")}>
@@ -39,12 +57,33 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <div
-              onClick={() => navigate("/")}
-              className="cursor-pointer font-semibold text-2xl"
-            >
-              QAirline
+            <div className="flex items-end justify-start">
+              {/* Div chứa ảnh */}
+              <div >
+                <img
+                  src="https://scontent.fhan14-2.fna.fbcdn.net/v/t1.15752-9/462552585_1964677780681993_1519442838786906789_n.jpg?stp=dst-jpg_s2048x2048_tt6&_nc_cat=100&ccb=1-7&_nc_sid=9f807c&_nc_ohc=XajbBzJrFA4Q7kNvgG9JbLw&_nc_oc=Adhd13oBHH-LmgmyllkYA_M8RU9d0OPPxBZkhvJyaaeju-xCG0LdPDzHI2KwgMlt3WUO0cNCKflzyMwbR7FpWgyN&_nc_zt=23&_nc_ht=scontent.fhan14-2.fna&oh=03_Q7cD1gFIXC8Cc_O6GJwfU_5j0pYczIrjIrl8XB94J4Wc-DAFgw&oe=678E32B1"
+                  alt="Background"
+                  className="w-11 h-11 object-cover"
+                />
+              </div>
+
+              {/* Div chứa chữ */}
+              <div>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    color: "#B9D6F3",
+                    fontWeight: "bold",
+                    fontFamily: "Poppins"
+                  }}
+                >
+                  Airline
+                </Typography>
+              </div>
             </div>
+
+
+
             <div className="flex justify-between w-[40%] items-center">
               {/* Trang chủ: Hiển thị chữ trên màn hình lớn và icon Home trên mobile */}
               <div
