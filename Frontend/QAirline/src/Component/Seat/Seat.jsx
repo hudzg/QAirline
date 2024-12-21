@@ -190,7 +190,7 @@ const Seat = () => {
   };
 
   return (
-    <div className="m-auto mb-5 mt-5 p-5 place-items-center relative bg-indigo-50">
+    <div className="m-auto mb-5 mt-5 p-5 place-items-center relative">
       <Typography variant="h4" textAlign={"center"} gutterBottom>
         Chọn chỗ ngồi{" "}
         {status === "outbound" ? "chuyến bay đi" : "chuyến bay về"}

@@ -29,7 +29,7 @@ const menu = [
     icon: <LocalAirportIcon />,
     path: "/flight-status",
   },
-  { title: "Hành khách", icon: <PersonIcon />, path: "/passenger" },
+  // { title: "Hành khách", icon: <PersonIcon />, path: "/passenger" },
   { title: "Phản hồi", icon: <FeedbackIcon />, path: "/feedback" },
   { title: "Đăng bài", icon: <PostAddIcon />, path: "/post" },
 ];

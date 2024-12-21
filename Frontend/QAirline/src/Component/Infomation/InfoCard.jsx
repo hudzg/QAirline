@@ -22,7 +22,10 @@ const InfoCard = ({ infor, updateInfor }) => {
 
   return (
     <div>
-      <Paper className="mt-5 mb-5 p-5">
+      <Paper
+      elevation={6}  
+      className="mt-5 mb-5 p-5"
+      >
         <div>
           <Typography variant="h5" align="center">
             Hành khách {infor.id}

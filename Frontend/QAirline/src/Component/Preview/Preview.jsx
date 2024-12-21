@@ -175,14 +175,12 @@ const Preview = () => {
   };
 
   return (
-    <div className="w-[90vw] lg:w-[50vw] mx-auto m-4 p-5 bg-indigo-100 space-y-4">
+    <div className="w-[90vw] lg:w-[50vw] mx-auto m-4 p-5 space-y-4">
       <div className=" justify-items-center">
-        <Typography variant="h4">Preview</Typography>
+        <Typography variant="h4">Xem lại</Typography>
       </div>
       <div>
-        <Accordion elevation={6} 
-        sx={{
-        }}>
+        <Accordion elevation={6} className="rounded-s-2xl">
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
 
             <Paper elevation={0} className="grid grid-cols-3 items-center justify-items-center h-28 mb-6 w-full">
@@ -290,7 +288,7 @@ const Preview = () => {
         </Accordion>
       </div>
       <div>
-      <Paper className="grid grid-cols-2 justify-between mx-auto w-3/4 mb-6 px-8 p-2 gap-x-4">
+      <Paper elevation={3} className="grid grid-cols-2 justify-between mx-auto w-3/4 mb-6 px-8 p-2 gap-x-4">
               <div>
                 <Typography>Tổng hành khách: 2</Typography>
               </div>

@@ -16,7 +16,7 @@ const Feedback = () => {
     dispatch(createFeedback({ reqData: formData, jwt }));
   };
   return (
-    <div className="mx-auto flex flex-col justify-center items-center w-[90vw] lg:w-[40vw] h-[70vw] space-y-4 m-8">
+    <div className="mx-auto flex flex-col justify-center items-center w-[90vw] lg:w-[40vw] h-[40vh] lg:h-[40vw] space-y-4">
       <Typography variant="h6" align="center">
         Phản hồi của khách hàng về dịch vụ của chuyến bay
       </Typography>
