@@ -50,3 +50,21 @@ export const getAllFlight =
       console.log("error", error);
     }
   };
+
+export const deleteFlight =
+  ({ flightId, jwt }) =>
+  async (dispatch) => {
+    dispatch({ type: DELETE_FLIGHT_REQUEST });
+    try {
+      const { data } = await api.delete(`/api/admin/flight/${flightId}`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      dispatch({ type: DELETE_FLIGHT_SUCCESS, payload: flightId });
+      console.log("deleteFlight success", data);
+    } catch (error) {
+      dispatch({ type: DELETE_FLIGHT_FAILURE, payload: error });
+      console.log("error", error);
+    }
+  };

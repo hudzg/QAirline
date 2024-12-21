@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   getFlightInstanceByAdmin,
 } from "../../State/FlightInstanceAdmin/Action";
+import InstanceCard from "./InstanceCard";
 
 const FlightInstance = () => {
   const navigate = useNavigate();
@@ -15,12 +16,14 @@ const FlightInstance = () => {
   useEffect(() => {
     dispatch(getFlightInstanceByAdmin({jwt}));
   }, []);
-  console.log("this is flight instance: ",flightInstanceAdmin.flightInstances)
   return (
     <div className="w-[50vw] justify-self-center mx-auto m-4 p-5 bg-indigo-100">
-      <div className="flex justify-between items-center">
+      <div className="">
         <Typography variant="h4">Quản lý trạng thái chuyến bay</Typography>
-        <div className="flex">
+        <div className="">
+          {flightInstanceAdmin.flightInstances.map((item) => (
+            <InstanceCard instanceInfo={item}/>
+          ))}
         </div>
       </div>
     </div>
