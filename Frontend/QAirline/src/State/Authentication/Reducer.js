@@ -1,4 +1,7 @@
 import {
+  CHANGE_PASSWORD_FAILURE,
+  CHANGE_PASSWORD_REQUEST,
+  CHANGE_PASSWORD_SUCCESS,
   GET_USER_FAILURE,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
@@ -9,6 +12,9 @@ import {
   REGISTER_FAILURE,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  UPDATE_IMAGE_FAILURE,
+  UPDATE_IMAGE_REQUEST,
+  UPDATE_IMAGE_SUCCESS,
 } from "./ActionType";
 
 const initialState = {
@@ -24,10 +30,13 @@ export const authReducer = (state = initialState, action) => {
     case REGISTER_REQUEST:
     case LOGIN_REQUEST:
     case GET_USER_REQUEST:
+    case CHANGE_PASSWORD_REQUEST:
+    case UPDATE_IMAGE_REQUEST:
       return { ...state, isLoading: true, error: null, success: null };
 
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
+    case CHANGE_PASSWORD_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -35,6 +44,7 @@ export const authReducer = (state = initialState, action) => {
         success: "Register Success",
       };
     case GET_USER_SUCCESS:
+    case UPDATE_IMAGE_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -45,6 +55,8 @@ export const authReducer = (state = initialState, action) => {
     case REGISTER_FAILURE:
     case LOGIN_FAILURE:
     case GET_USER_FAILURE:
+    case CHANGE_PASSWORD_FAILURE:
+    case UPDATE_IMAGE_FAILURE:
       return {
         ...state,
         isLoading: false,

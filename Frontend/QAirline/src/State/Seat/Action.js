@@ -32,6 +32,7 @@ export const createSeat =
 
 export const addCustomer = (reqData) => async (dispatch) => {
   dispatch({ type: ADD_CUSTOMER, payload: reqData });
+  console.log("addCustomer", reqData);
 };
 
 export const getSeatsByUserAndFlightInstance =

@@ -6,7 +6,6 @@ import { AiOutlineHome } from "react-icons/ai";
 import { PiAirplaneTakeoffLight } from "react-icons/pi";
 import { VscFeedback } from "react-icons/vsc";
 
-
 const Navbar = () => {
   const navigate = useNavigate();
   const auth = useSelector((store) => store.auth);
@@ -54,7 +53,7 @@ const Navbar = () => {
               >
                 {/* Hiển thị icon Home trên mobile */}
                 <div className="lg:hidden flex items-center">
-                  <AiOutlineHome size="2rem"/> {/* Icon Home */}
+                  <AiOutlineHome size="2rem" /> {/* Icon Home */}
                 </div>
                 {/* Hiển thị chữ "Trang chủ" trên màn hình lớn */}
                 <div className="hidden lg:block">
@@ -67,7 +66,7 @@ const Navbar = () => {
                 className="cursor-pointer font-semibold text-xl"
               >
                 <div className="lg:hidden flex items-center">
-                  <PiAirplaneTakeoffLight size="2rem"/> {/* Icon Home */}
+                  <PiAirplaneTakeoffLight size="2rem" /> {/* Icon Home */}
                 </div>
                 {/* Hiển thị chữ "Trang chủ" trên màn hình lớn */}
                 <div className="hidden lg:block">
@@ -80,7 +79,7 @@ const Navbar = () => {
                 className="cursor-pointer font-semibold text-xl"
               >
                 <div className="lg:hidden flex items-center">
-                  <VscFeedback size="2rem"/> {/* Icon Home */}
+                  <VscFeedback size="2rem" /> {/* Icon Home */}
                 </div>
                 {/* Hiển thị chữ "Trang chủ" trên màn hình lớn */}
                 <div className="hidden lg:block">
@@ -90,13 +89,21 @@ const Navbar = () => {
             </div>
 
             <div>
-              <Avatar
-                component="button"
-                onClick={() => navigate("/my-profile")}
-                sx={{ bgcolor: "primary.main" }}
-              >
-                {auth.user.firstName[0]}
-              </Avatar>
+              {auth.user?.avatarImage ? (
+                <Avatar
+                  component="button"
+                  onClick={() => navigate("/my-profile")}
+                  src={auth.user.avatarImage}
+                ></Avatar>
+              ) : (
+                <Avatar
+                  component="button"
+                  onClick={() => navigate("/my-profile")}
+                  sx={{ bgcolor: "primary.main" }}
+                >
+                  {auth.user?.firstName[0]}
+                </Avatar>
+              )}
             </div>
           </>
         )}
