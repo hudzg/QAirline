@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class FlightInstanceServiceImp implements FlightInstanceService {
@@ -75,5 +74,26 @@ public class FlightInstanceServiceImp implements FlightInstanceService {
             responseList.add(response);
         }
         return responseList;
+    }
+
+    @Override
+    public List<Long> getFlightCountsByMonth() {
+        int currentYear = LocalDate.now().getYear();
+
+
+        List<Object[]> results = flightInstanceRepository.countFlightsByMonth(currentYear);
+
+
+        List<Long> monthlyCounts = new ArrayList<>(Arrays.asList(new Long[12]));
+        Collections.fill(monthlyCounts, 0L);
+
+
+        for (Object[] result : results) {
+            Integer month = ((Number) result[0]).intValue();
+            Long count = (Long) result[1];
+            monthlyCounts.set(month - 1, count);
+        }
+
+        return monthlyCounts;
     }
 }

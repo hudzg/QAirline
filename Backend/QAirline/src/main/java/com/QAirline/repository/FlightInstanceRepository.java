@@ -15,4 +15,11 @@ public interface FlightInstanceRepository extends JpaRepository<FlightInstance, 
 
     @Query("SELECT DISTINCT fi FROM Seat s JOIN s.flightInstance fi WHERE s.user.id = :userId")
     List<FlightInstance> findFlightInstancesByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT FUNCTION('MONTH', fi.date) AS month, COUNT(fi) " +
+            "FROM FlightInstance fi " +
+            "WHERE FUNCTION('YEAR', fi.date) = :year " +
+            "GROUP BY FUNCTION('MONTH', fi.date) " +
+            "ORDER BY month")
+    List<Object[]> countFlightsByMonth(@Param("year") int year);
 }
