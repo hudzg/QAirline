@@ -17,7 +17,7 @@ const MyFlight = () => {
   }, []);
 
   return (
-    <div className="w-[60vw] m-auto mb-5 mt-5 p-5 bg-indigo-50">
+    <div className="w-[90vw] lg:w-[60vw] m-auto mb-5 mt-5 p-5 bg-indigo-50">
       {flightInstances.map((flightInstance) => (
         <FlightCard
           flightInstance={flightInstance}

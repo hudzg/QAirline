@@ -175,12 +175,14 @@ const Preview = () => {
   };
 
   return (
-    <div className="w-[50vw] mx-auto m-4 p-5 bg-indigo-100 space-y-4">
+    <div className="w-[90vw] lg:w-[50vw] mx-auto m-4 p-5 bg-indigo-100 space-y-4">
       <div className=" justify-items-center">
         <Typography variant="h4">Preview</Typography>
       </div>
       <div>
-        <Accordion elevation={6}>
+        <Accordion elevation={6} 
+        sx={{
+        }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
 
             <Paper elevation={0} className="grid grid-cols-3 items-center justify-items-center h-28 mb-6 w-full">
@@ -210,7 +212,7 @@ const Preview = () => {
             <div>
               <Typography variant="h5" align="center">Chi tiết lượt đi</Typography>
             </div>
-            <Paper className="grid grid-cols-2 justify-between mx-auto w-3/4 h-36 mb-6 px-12 p-2">
+            <Paper className="grid grid-cols-2 justify-between mx-auto w-4/5  mb-6 px-12 p-2">
               <div>
                 <Typography>Tổng hành khách: 2</Typography>
               </div>
@@ -264,7 +266,7 @@ const Preview = () => {
             <div>
               <Typography variant="h5" align="center">Chi tiết lượt về</Typography>
             </div>
-            <Paper className="grid grid-cols-2 justify-between mx-auto w-3/4 h-36 mb-6 px-12 p-2">
+            <Paper className="grid grid-cols-2 justify-between mx-auto w-4/5 mb-6 px-12 p-2">
               <div>
                 <Typography>Tổng hành khách: 2</Typography>
               </div>
@@ -288,7 +290,7 @@ const Preview = () => {
         </Accordion>
       </div>
       <div>
-      <Paper className="grid grid-cols-2 justify-between mx-auto w-3/4 h-36 mb-6 px-12 p-2">
+      <Paper className="grid grid-cols-2 justify-between mx-auto w-3/4 mb-6 px-8 p-2 gap-x-4">
               <div>
                 <Typography>Tổng hành khách: 2</Typography>
               </div>

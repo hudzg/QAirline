@@ -7,6 +7,7 @@ import {
   getInboundFlight,
 } from "../../State/Flight/Action";
 import BookingCardInbound from "./BookingCardInbound";
+import Grid from "@mui/material/Grid2";
 
 const BookingInbound = () => {
   const flight = useSelector((store) => store.flight);
@@ -35,25 +36,26 @@ const BookingInbound = () => {
   }, [flight.getInboundFlightReq]);
 
   return (
-    <div className="w-[60vw] m-auto">
-      <div className="mt-5">
-        <Typography variant="h3" textAlign={"center"} gutterBottom>
-          Chọn chuyến bay
-        </Typography>
-        <Typography variant="h5" textAlign={"center"} gutterBottom>
-          {`${flight.getInboundFlightReq.departureAirport?.name} (${flight.getInboundFlightReq.departureAirport?.iata})`}{" "}
-          đến{" "}
-          {`${flight.getInboundFlightReq.arrivalAirport?.name} (${flight.getInboundFlightReq.arrivalAirport?.iata})`}
-        </Typography>
-        <Typography variant="body1" textAlign={"center"}>
-          {flight.getInboundFlightReq.departureTime}
-        </Typography>
-      </div>
-      <div>
-        {flight.inboundFlights.map((item) => (
-          <BookingCardInbound item={item} key={item.flightId} />
-        ))}
-      </div>
+    <div className="w-[90vw] lg:w-[70vw] m-auto">
+          <div className="mt-5">
+            <Typography variant="h3" textAlign={"center"} gutterBottom>
+              Chọn chuyến bay
+            </Typography>
+            <Typography variant="h5" textAlign={"center"} gutterBottom>
+              {`${flight.getInboundFlightReq.departureAirport?.name} (${flight.getInboundFlightReq.departureAirport?.iata})`}{" "}
+              đến{" "}
+              {`${flight.getInboundFlightReq.arrivalAirport?.name} (${flight.getInboundFlightReq.arrivalAirport?.iata})`}
+            </Typography>
+            <Typography variant="body1" textAlign={"center"}>
+              {flight.getInboundFlightReq.departureTime}
+            </Typography>
+          </div>
+          <div>
+            {flight.inboundFlights.map((item) => (
+              <BookingCardInbound item={item} key={item.flightId} />
+            ))}
+          </div>
+
     </div>
   );
 };

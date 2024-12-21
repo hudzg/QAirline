@@ -23,7 +23,7 @@ const HeroBanner = () => {
   };
 
   return (
-    <div className="w-full h-[80vh] my-5">
+    <div className="w-full h-[40vh] lg:h-[80vh] my-5">
       <Carousel
         additionalTransfrom={0}
         arrows={false}
@@ -94,7 +94,7 @@ const HeroBanner = () => {
         {post.posts.map((item) => (
           <div key={item.id}>
             <img
-              className="w-full h-[80vh] py-5 block cursor-pointer"
+              className="w-full h-[40vh] lg:h-[80vh] py-5 block cursor-pointer"
               src={item.image}
               alt=""
               draggable={false}
