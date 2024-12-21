@@ -122,4 +122,9 @@ public class SeatServiceImp implements SeatService {
 
         return monthlyCounts;
     }
+
+    @Override
+    public void deleteSeat(Long id) {
+        seatRepository.deleteById(id);
+    }
 }

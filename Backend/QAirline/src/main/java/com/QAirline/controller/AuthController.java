@@ -4,6 +4,7 @@ import com.QAirline.config.JwtProvider;
 import com.QAirline.model.USER_ROLE;
 import com.QAirline.model.User;
 import com.QAirline.repository.UserRepository;
+import com.QAirline.request.ChangePasswordRequest;
 import com.QAirline.request.LoginRequest;
 import com.QAirline.response.AuthResponse;
 import com.QAirline.service.CustomerUserDetailsService;
@@ -81,6 +82,29 @@ public class AuthController {
         authResponse.setJwt(jwt);
         authResponse.setMessage("Signin success");
         authResponse.setRole(USER_ROLE.valueOf(role));
+
+        return new ResponseEntity<>(authResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<AuthResponse> changePassword(@RequestBody ChangePasswordRequest request){
+        String username = request.getEmail();
+        String password = request.getPassword();
+        Authentication authentication = authenticate(username, password);
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        String role = authorities.isEmpty() ? null : authorities.iterator().next().getAuthority();
+
+        String jwt = jwtProvider.generateToken(authentication);
+
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setJwt(jwt);
+        authResponse.setMessage("changePassword success");
+        authResponse.setRole(USER_ROLE.valueOf(role));
+
+        User user = userRepository.findByEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
 
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }

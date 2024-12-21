@@ -9,6 +9,7 @@ import AddFlight from "../AdminComponent/Flight/AddFlight";
 import FlightInstance from "../AdminComponent/FlightInstance/FlightInstance";
 import Post from "../AdminComponent/Post/Post";
 import AddPost from "../AdminComponent/Post/AddPost";
+import Feedback from "../AdminComponent/Feedback/Feedback";
 
 const AdminRoute = () => {
   return (
@@ -25,7 +26,7 @@ const AdminRoute = () => {
           <Route path="/airplane" element={<Airplane />}></Route>
           <Route path="/flight-status" element={<FlightInstance />}></Route>
           <Route path="/passenger"></Route>
-          <Route path="/feedback"></Route>
+          <Route path="/feedback" element={<Feedback />}></Route>
           <Route path="/post" element={<Post />} />
           <Route path="/add-post" element={<AddPost />} />
         </Routes>
