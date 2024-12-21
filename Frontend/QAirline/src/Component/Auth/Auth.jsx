@@ -10,12 +10,17 @@ export const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "90%",
+  maxWidth: 900,
+  height: "auto",
+  maxHeight: "90vh",
+  overflow: "auto", // Cho phép cuộn
   bgcolor: "background.paper",
   outline: "none",
   boxShadow: 24,
-  p: 4,
+  borderRadius: "8px",
 };
+
 
 const Auth = () => {
   const location = useLocation();

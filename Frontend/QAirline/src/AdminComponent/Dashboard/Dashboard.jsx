@@ -14,7 +14,7 @@ const Dashboard = () => {
     <div className="space-y-4">
       <div className="pl-8 pr-8">
         <Typography variant="h4">
-          Xin chào quay trở lại
+          Chào mừng quay trở lại
         </Typography>
       </div>
       <div className="flex justify-between pl-8 pr-8">
