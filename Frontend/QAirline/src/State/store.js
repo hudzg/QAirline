@@ -12,6 +12,7 @@ import { highlightedFlightReducer } from "./HighlightedFlight/Reducer";
 import { flightInstanceAdminReducer } from "./FlightInstanceAdmin/Reducer";
 import { postReducer } from "./Post/Reducer";
 import { dashboardReducer } from "./Dashboard/Reducer";
+import { feedbackReducer } from "./Feedback/Reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   highlightedFlight: highlightedFlightReducer,
   post: postReducer,
   dashboard: dashboardReducer,
+  feedback: feedbackReducer,
 });
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));

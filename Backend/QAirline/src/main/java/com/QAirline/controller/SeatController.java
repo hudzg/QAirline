@@ -5,6 +5,7 @@ import com.QAirline.model.User;
 import com.QAirline.request.CreateSeatRequest;
 import com.QAirline.response.GetSeatMapResponse;
 import com.QAirline.response.GetSeatsByUserAndFlightInstanceResponse;
+import com.QAirline.response.MessageResponse;
 import com.QAirline.service.SeatService;
 import com.QAirline.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,20 @@ public class SeatController {
     ) throws Exception {
         User user = userService.findUserByJwtToken(jwt);
         GetSeatMapResponse response = seatService.getSeatMap(flightId, LocalDate.parse(date));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MessageResponse> deleteSeat(
+            @RequestHeader("Authorization") String jwt,
+            @PathVariable Long id
+    ) throws Exception {
+        User user = userService.findUserByJwtToken(jwt);
+        seatService.deleteSeat(id);
+
+        MessageResponse response = new MessageResponse();
+        response.setMessage("Seat deleted successfully");
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
